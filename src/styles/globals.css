@@ -1,0 +1,105 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+	font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+html {
+	overflow-x: hidden;
+	height: 100%;
+}
+
+:root {
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	text-size-adjust: none;
+	text-wrap: pretty;
+	text-decoration-skip-ink: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100dvh;
+	min-height: 100dvh;
+	font-size: 0.86rem;
+	overflow: hidden;
+	position: relative;
+}
+
+.wrapper {
+	height: 100dvh;
+	min-height: 100dvh;
+	margin: 0 auto;
+	overflow: auto;
+}
+
+.wrapper :is(a, .icon, button) {
+	cursor: pointer;
+}
+
+.wrapper .icon {
+	display: grid;
+	place-items: center;
+	will-change: filter;
+	transition: filter 300ms;
+}
+
+.wrapper :is(a:hover, svg:hover) {
+	transition: color, border-color, text-decoration-color, fill, stroke;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+}
+
+.wrapper :where(button) {
+	transition: border-color 0.25s;
+	outline: none;
+}
+
+.wrapper :where(a) {
+	text-decoration: none;
+}
+
+.wrapper :where(img) {
+	border-radius: inherit;
+}
+
+.wrapper :where(ul li) {
+	list-style-type: none;
+}
+
+/* for input number type */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+}
+
+input:-internal-autofill-selected {
+	appearance: menulist-button;
+	background-image: none !important;
+	background: none !important;
+	color: fieldtext !important;
+}
+
+.wrapper ::-webkit-scrollbar {
+	width: 3px;
+	height: 100%;
+}
+
+.wrapper ::-webkit-scrollbar-track {
+	background: var(--scroll-track);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--scroll-thumb);
+	border-radius: 999px;
+}

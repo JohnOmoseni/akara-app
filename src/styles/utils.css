@@ -1,0 +1,123 @@
+/* POPOVERS */
+[data-radix-popper-content-wrapper] {
+	left: -0.3rem;
+}
+
+[data-radix-popper-content-wrapper]:has(.modal-popover-content) {
+	left: -3.5rem !important;
+}
+[data-radix-popper-content-wrapper]:has(.header-popover-content) {
+	top: 0.8rem !important;
+}
+.select-trigger > span:first-of-type {
+	width: 100% !important;
+	text-align: left;
+}
+
+.nodownload-image {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
+	-o-user-drag: none;
+}
+
+/* Remove scrollbar */
+/* Universal selector to hide scrollbar */
+.remove-scrollbar {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+}
+
+.remove-scrollbar::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+	display: none; /* Safari and Chrome */
+}
+
+.remove-scrollbar::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.remove-scrollbar::-webkit-scrollbar-thumb {
+	background: transparent;
+	border-radius: 0px;
+}
+
+/* SCROLLBAR */
+.scrollbar-thin {
+	scrollbar-color: initial initial;
+	scrollbar-color: var(--scrollbar-thumb, initial)
+		var(--scrollbar-track, initial);
+	scrollbar-width: thin;
+}
+
+/* SVGS */
+.stroke-variant * {
+	stroke: var(--secondary) !important;
+}
+
+/* TABLE OVERRIDE */
+.shad-table-row-header th:has(.select-field) {
+	padding-left: 0 !important;
+}
+
+/* =====  REACT PHONE NUMBER INPUT OVERRIDES */
+.input-phone {
+	margin-top: 0 !important;
+	padding-right: 0 !important;
+	height: 2.35rem;
+	width: 100%;
+}
+
+.PhoneInputCountry {
+	padding-inline: 0.7rem 0.4rem !important;
+}
+
+.PhoneInputCountryIconImg {
+	/* display: none !important; */
+}
+
+.PhoneInputCountrySelectArrow {
+	margin-left: 0.5rem !important;
+}
+
+.input-phone input {
+	padding-left: 0.4rem;
+	position: relative;
+}
+
+.PhoneInputCountry::before {
+	content: "";
+	position: absolute;
+	bottom: 4px;
+	inset: 12px -6px 12px auto;
+	width: 1px;
+	background: var(--placeholder);
+}
+
+.PhoneInputInput {
+	outline: none;
+	background: inherit;
+	font-size: 14px;
+	color: var(--grey);
+	font-weight: 300;
+	height: 100%;
+	width: 100% !important;
+	padding-left: 0.5em;
+	text-overflow: ellipsis;
+}
+
+.PhoneInputInput::placeholder {
+	color: var(--grey);
+}
+
+.scroll-to-top {
+	@apply scroll-smooth;
+	scroll-behavior: smooth;
+	scroll-to-top: auto;
+}
