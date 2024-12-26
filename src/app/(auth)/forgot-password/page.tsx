@@ -1,6 +1,5 @@
 import * as yup from "yup";
 import { Envelope } from "@/constants/icons";
-import { cn } from "@/lib/utils";
 import { useFormik } from "formik";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
