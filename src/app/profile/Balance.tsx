@@ -12,7 +12,7 @@ function Balance({}: Props) {
     <>
       <div className="flex-column gap-8 sm:gap-10">
         <div className="relative py-8 sm:py-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[min(350px,_40vh)] rounded-lg shadow-sm overflow-hidden">
-          <div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] min-[500px]:w-[70%]">
+          <div className="flex-column gap-3 text-foreground-variant-foreground h-full w-[90%] min-[500px]:w-[70%]">
             <h3 className="font-semibold text-base">Available Balance</h3>
 
             <h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none">
@@ -24,12 +24,12 @@ function Balance({}: Props) {
               <Button
                 title="Fund"
                 onClick={() => setOpenModal("fund")}
-                className="bg-white text-secondary min-w-[100px] md:min-w-[130px]"
+                className="bg-white text-foreground-variant min-w-[100px] md:min-w-[130px]"
               />
               <Button
                 title="Withdraw"
                 onClick={() => setOpenModal("withdraw")}
-                className="bg-white text-secondary min-w-[100px] md:min-w-[130px]"
+                className="bg-white text-foreground-variant min-w-[100px] md:min-w-[130px]"
               />
             </div>
           </div>
@@ -99,7 +99,7 @@ const Transactions = () => {
       <Button
         title="Download transaction history"
         variant="outline"
-        className="text-secondary border-none sm:mt-4 ml-4 w-max"
+        className="text-foreground-variant border-none sm:mt-4 ml-4 w-max"
       />
     </div>
   );

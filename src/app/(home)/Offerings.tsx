@@ -227,7 +227,7 @@ const Aside = ({ info }: { info: any }) => {
         <Button
           title="Download details"
           onClick={() => {}}
-          className="w-full text-secondary"
+          className="w-full text-foreground-variant"
           variant={"outline"}
         />
 

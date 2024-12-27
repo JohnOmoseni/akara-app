@@ -98,9 +98,9 @@ const RenderInput = ({ props }: { props: CustomProps }) => {
           {field?.type === "password" && (
             <span className="icon absolute right-3 z-10" onClick={changePasswordVisibility}>
               {showPassword ? (
-                <Eye size={20} className="text-secondary" />
+                <Eye size={20} className="text-foreground-variant" />
               ) : (
-                <EyeOff size={20} className="text-secondary" />
+                <EyeOff size={20} className="text-foreground-variant" />
               )}
             </span>
           )}

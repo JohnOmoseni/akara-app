@@ -28,7 +28,7 @@ export default function AuthLayout() {
           &copy; {new Date().getFullYear()} Akara. All rights reserved.
         </p>
 
-        <div className="row-flex gap-3 text-secondary max-sm:text-xs">
+        <div className="row-flex gap-3 text-foreground-variant max-sm:text-xs">
           <Link to="/policy">Privacy Policy</Link>
           <Link to="/terms">Terms of Service</Link>
         </div>

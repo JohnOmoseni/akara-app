@@ -67,7 +67,7 @@ function Main() {
                 <FallbackLoader loading={isLoading} />
               </div>
             ) : (
-              <></>
+              <Offerings />
             )}
           </div>
         </TabsContent>

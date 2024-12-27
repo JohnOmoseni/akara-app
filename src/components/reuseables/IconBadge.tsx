@@ -5,7 +5,7 @@ const backgroundVariants = cva("", {
     variant: {
       default: "",
       outline: "",
-      secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+      secondary: "bg-secondary text-foreground-variant-foreground shadow-sm hover:bg-secondary/80",
     },
     size: {
       default: "",
@@ -24,7 +24,7 @@ const iconVariants = cva("", {
   variants: {
     variant: {
       default: "",
-      secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+      secondary: "bg-secondary text-foreground-variant-foreground shadow-sm hover:bg-secondary/80",
     },
     size: {
       default: "size-8",

@@ -62,7 +62,7 @@ export const BtnLoader = ({ color, isLoading }: { color?: string; isLoading: boo
       cssOverride={override}
       aria-label="Loading"
       data-testid="loader"
-      className="row-flex mr-1.5 text-secondary"
+      className="row-flex mr-1.5 text-foreground-variant"
     />
   );
 };

@@ -85,7 +85,7 @@ function VerifyOTP() {
         <h3 className="text-2xl">Verify your email</h3>
         <p className="leading-5 tracking-wide text-foreground-100">
           Enter the 6-digit OTP code sent to{" "}
-          <span className="text-secondary inline-block font-medium">
+          <span className="text-foreground-variant inline-block font-medium">
             {user?.email || <span className="font-medium tracking-wide">---</span>}
           </span>{" "}
           to verify your email
@@ -124,13 +124,13 @@ function VerifyOTP() {
           Didn't receive the code?{" "}
           <span className="">
             {!otpState.isCountdownActive ? (
-              <span className="text-secondary cursor-pointer" onClick={handleResend}>
+              <span className="text-foreground-variant cursor-pointer" onClick={handleResend}>
                 {otpState.isResending ? "Resending..." : "Resend code"}
               </span>
             ) : (
               <span className="leading-5 text-foreground-100 tracking-wide">
                 Resend code in:{" "}
-                <span className="text-secondary inline-flex">
+                <span className="text-foreground-variant inline-flex">
                   {Math.floor(otpState.countdown / 60)
                     .toString()
                     .padStart(2, "0")}

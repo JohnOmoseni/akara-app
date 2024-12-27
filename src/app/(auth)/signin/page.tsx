@@ -80,7 +80,10 @@ function SignIn() {
         <h2 className="text-2xl md:text-3xl">Welcome back!</h2>
         <p className="sm:whitespace-nowrap leading-5 tracking-wide mt-0.5 text-foreground-100">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-secondary font-semibold hover:underline transition">
+          <Link
+            to="/signup"
+            className="text-foreground-variant font-semibold hover:underline transition"
+          >
             Sign up
           </Link>
         </p>
@@ -149,7 +152,7 @@ function SignIn() {
 
           <p className="tracking-wide text-end leading-4 text-foreground-100">
             Forgot Password?{" "}
-            <Link to="/recover-password" className="text-secondary font-semibold">
+            <Link to="/recover-password" className="text-foreground-variant font-semibold">
               Recover
             </Link>
           </p>
@@ -159,7 +162,7 @@ function SignIn() {
 
         <p className="leading-4 text-xs text-center mt-3 tracking-wide text-foreground-100">
           By continuing you agree to the{" "}
-          <Link to="/policy" className="text-secondary font-semibold">
+          <Link to="/policy" className="text-foreground-variant font-semibold">
             Policy and Rules
           </Link>
         </p>

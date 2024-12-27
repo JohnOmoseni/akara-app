@@ -7,9 +7,9 @@ import { setSelectedTab } from "@/redux/features/appSlice";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const selectedTab = pathname.split("/")[1];
 
@@ -46,40 +46,45 @@ const Footer = () => {
       )}
     >
       <div className="flex flex-row justify-around gap-4 px-4 pt-0.5 max-sm:max-h-[60px] min-h-14">
-        {footerTabs.map(({ icon: Icon, label, href, value }, index) => (
-          <div
-            className={cn(
-              "relative px-4 py-2 sm:py-3.5 flex-column items-center",
-              selectedTab === value
-                ? "text-secondary bg-yellow-100"
-                : "cursor-pointer -mt-2 sm:-mt-4 justify-center"
-            )}
-            onClick={() => {
-              dispatch(setSelectedTab(value));
-              navigate(href);
-            }}
-            key={index}
-          >
-            {Icon && (
-              <Icon
-                className={cn(
-                  "size-5 sm:size-6 text-grey mx-auto",
-                  selectedTab === value && "size-5 text-secondary"
-                )}
-              />
-            )}
+        {footerTabs.map(({ icon: Icon, label, href, value }, index) => {
+          const isHome = pathname === "/" && value === "home";
+          const isActive = isHome || selectedTab.includes(value);
 
-            {selectedTab.includes(value) && (
-              <p className="font-semibold capitalize text-xs text-secondary-variant mt-1">
-                {label}
-              </p>
-            )}
+          return (
+            <div
+              className={cn(
+                "relative px-5 py-2 sm:py-3.5 flex-column items-center",
+                isActive
+                  ? "text-foreground-variant bg-yellow-100"
+                  : "cursor-pointer -mt-2 sm:-mt-4 justify-center"
+              )}
+              onClick={() => {
+                dispatch(setSelectedTab(value));
+                navigate(href);
+              }}
+              key={index}
+            >
+              {Icon && (
+                <Icon
+                  className={cn(
+                    "size-5 sm:size-6 text-grey mx-auto",
+                    isActive && "size-5 text-foreground-variant"
+                  )}
+                />
+              )}
 
-            {selectedTab.includes(value) && (
-              <div className="absolute inset-0 bottom-auto w-full mx-auto h-[3px] rounded-full bg-secondary" />
-            )}
-          </div>
-        ))}
+              {isActive && (
+                <p className="font-semibold capitalize text-xs text-foreground-variant-variant mt-1">
+                  {label}
+                </p>
+              )}
+
+              {isActive && (
+                <div className="absolute inset-0 bottom-auto w-full mx-auto h-[3px] rounded-full bg-secondary" />
+              )}
+            </div>
+          );
+        })}
       </div>
     </footer>
   );

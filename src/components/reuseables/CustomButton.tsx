@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border-border-variant w-max bg-secondary text-secondary-foreground  disabled:opacity-50 disabled:brightness-90",
+          "border-border-variant w-max bg-secondary text-foreground-variant-foreground  disabled:opacity-50 disabled:brightness-90",
         outline: "border-border-100 text-foreground",
       },
       size: {
@@ -62,7 +62,7 @@ const Button: FC<ButtonProps> = ({
           size={20}
           aria-label="Loading"
           data-testid="loader"
-          className="row-flex mr-1.5 text-secondary"
+          className="row-flex mr-1.5 text-foreground-variant"
         />
       ) : (
         <>

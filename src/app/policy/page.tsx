@@ -5,7 +5,7 @@ function PrivacyPolicy() {
   return (
     <>
       <Header />
-      <div className="bg-gradient-hero min-h-[35vh] max-h-[300px] grid place-items-center px-6 py-6 sm:py-4 text-secondary-foreground">
+      <div className="bg-gradient-hero min-h-[35vh] max-h-[300px] grid place-items-center px-6 py-6 sm:py-4 text-foreground-variant-foreground">
         <h1 className="text-white text-center max-w-[30ch]">Privacy Policy</h1>
       </div>
 

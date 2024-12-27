@@ -43,7 +43,7 @@ function SignUp() {
         <h2 className="text-2xl md:text-3xl text-center">Sign Up For Free</h2>
         <p className="whitespace-normal mx-auto text-center tracking-wide text-foreground-100 min-[500px]:w-max">
           Already have an account?{" "}
-          <Link to="/signin" className="text-secondary font-semibold">
+          <Link to="/signin" className="text-foreground-variant font-semibold">
             Sign in
           </Link>
         </p>
@@ -234,7 +234,7 @@ function SignUp() {
 
         <p className="leading-4 text-xs text-center mt-3 tracking-wide text-foreground-100">
           By continuing you agree to the{" "}
-          <Link to="/policy" className="text-secondary font-semibold">
+          <Link to="/policy" className="text-foreground-variant font-semibold">
             Policy and Rules
           </Link>
         </p>
