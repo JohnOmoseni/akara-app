@@ -78,8 +78,9 @@
       rgba(37, 37, 148, 1) 35%,
       rgba(62, 62, 250, 1) 100%
     ); */
-    background: rgb(62, 62, 250);
-    background: radial-gradient(circle, rgba(62, 62, 250, 1) 35%, rgba(37, 37, 148, 1) 100%);
+    background: rgb(231, 191, 2);
+  /* TOAST STYLES */
+    background: radial-gradient(circle, rgb(246, 223, 106) 35%, rgb(231, 191, 2) 100%);
   }
 
   /* TOAST STYLES */

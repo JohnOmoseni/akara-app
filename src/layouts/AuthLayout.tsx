@@ -30,7 +30,7 @@ export default function AuthLayout() {
 
         <div className="row-flex gap-3 text-foreground-variant max-sm:text-xs">
           <Link to="/policy">Privacy Policy</Link>
-          <Link to="/terms">Terms of Service</Link>
+          <Link to="/policy">Terms of Service</Link>
         </div>
       </footer>
     </div>
