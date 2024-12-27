@@ -94,3 +94,37 @@ export const privacyPolicy = [
     body: "If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact us at: skymeasure@gmail.com",
   },
 ];
+
+export const sidebarLinks = [
+  {
+    icon: "",
+    label: "Help",
+    href: "/help",
+    tag: "help",
+  },
+  {
+    icon: "",
+    label: "Resources",
+    href: "/resources",
+    tag: "resources",
+  },
+
+  {
+    icon: "",
+    label: "Refer & Earn",
+    href: "/refer-and-earn",
+    tag: "refer-and-earn",
+  },
+  {
+    icon: "",
+    label: "Settings",
+    href: "/settings",
+    tag: "settings",
+  },
+  {
+    icon: "",
+    label: "Logout",
+    href: "/logout",
+    tag: "logout",
+  },
+];

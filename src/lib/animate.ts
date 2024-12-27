@@ -56,7 +56,7 @@ export const slideupVariant = {
 };
 
 export const slideinVariant = {
-  initial: { opacity: 0, x: "100vw" },
+  initial: { opacity: 0, x: "-100vw" },
   enter: {
     opacity: 1,
     x: 0,
@@ -72,7 +72,7 @@ export const slideinVariant = {
     },
   },
   exit: {
-    x: "100vw",
+    x: "-100vw",
     opacity: 0,
     transition: {
       duration: 1,
@@ -117,4 +117,3 @@ export const revealMenu = {
     },
   },
 };
-
