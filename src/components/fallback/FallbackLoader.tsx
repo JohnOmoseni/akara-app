@@ -29,14 +29,14 @@ const FallbackLoader = ({
         "pointer-events-auto absolute inset-0 grid w-full select-none place-items-center",
         containerStyles
       )}
-      style={{ zIndex: 99 }}
+      style={{ zIndex: 999 }}
     >
       <div className="row-flex-start gap-2">
         {spinner ? (
           spinner
         ) : (
           <ClipLoader
-            color={"#398dfa"}
+            color={"#e7bf02"}
             loading={loading}
             cssOverride={override}
             size={30}
