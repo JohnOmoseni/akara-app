@@ -1,41 +1,15 @@
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/types";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { footerTabs } from "@/constants";
 import { setSelectedTab } from "@/redux/features/appSlice";
 
-const Footer = () => {
+const Footer = ({ isVisible }: { isVisible: boolean }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+
   const { pathname } = useLocation();
   const selectedTab = pathname.split("/")[1];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY === 0) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        // Scrolling down
-        setIsVisible(false);
-      } else {
-        // Scrolling up
-        setIsVisible(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
 
   return (
     <footer

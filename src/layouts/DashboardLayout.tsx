@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { useAppSelector } from "@/types";
 import { Outlet } from "react-router-dom";
-import { Suspense, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
@@ -10,7 +10,41 @@ import Sidebar from "./Sidebar";
 
 export default function DashboardLayout() {
   const { openMenu } = useAppSelector((state) => state.appState);
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        const currentScrollY = scrollRef.current.scrollTop;
+
+        if (currentScrollY === 0) {
+          setIsVisible(true);
+        } else if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          setIsVisible(false);
+        } else {
+          // Scrolling up
+          setIsVisible(true);
+        }
+
+        setLastScrollY(currentScrollY);
+      }
+    };
+
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+    }
+
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [isVisible, lastScrollY, scrollRef]);
 
   return (
     <>
@@ -28,7 +62,7 @@ export default function DashboardLayout() {
           </Suspense>
         </div>
 
-        <Footer />
+        <Footer isVisible={isVisible} />
       </div>
     </>
   );

@@ -15,7 +15,7 @@ const SectionWrapper = ({ children, mainContainerStyles, customHeaderComponent }
 
       <main
         className={cn(
-          "w-full py-4 px-3 sm:py-6 min-h-dvh mb-[4rem] sm:mb-[4rem]",
+          "w-full py-4 px-2.5 sm:py-6 min-h-dvh mb-[2rem] sm:mb-[4.8rem]",
           mainContainerStyles
         )}
       >

@@ -62,7 +62,7 @@ function NavLinks({ label, href, icon: Icon, idx, tag }: NavLinkProps) {
   return (
     <li className="relative w-full">
       <Link
-        to={href}
+        to={"/"}
         {...animateFn(linksAni, idx)}
         onClick={() => handleClick()}
         className={cn(

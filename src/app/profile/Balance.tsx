@@ -11,7 +11,7 @@ function Balance({}: Props) {
   return (
     <>
       <div className="flex-column gap-8 sm:gap-10">
-        <div className="relative py-8 sm:py-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[min(350px,_40vh)] rounded-lg shadow-sm overflow-hidden">
+        <div className="relative pt-9 sm:pt-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[max(240px,_38vh)] rounded-lg shadow-sm overflow-hidden">
           <div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] min-[500px]:w-[70%]">
             <h3 className="font-semibold text-base">Available Balance</h3>
 
@@ -71,10 +71,10 @@ export default Balance;
 
 const Transactions = () => {
   return (
-    <div className="flex-column gap-2">
+    <div className="flex-column gap-3">
       <h3 className="font-semibold">Transaction History</h3>
 
-      <ul className="flex-column gap-5 card">
+      <ul className="flex-column gap-5">
         {Array.from({ length: 4 }).map((_, idx) => {
           return (
             <li key={idx} className="grid grid-cols-[max-content_1fr] gap-2">

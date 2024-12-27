@@ -13,7 +13,7 @@ function Header({ customHeaderComponent }: HeaderProps) {
 
   return (
     <div className="sticky top-0 bg-background drop-shadow-[0_1px_8px_rgb(0_0_0_/_0.04)] z-[100] w-full">
-      <div className="row-flex-btwn gap-6 py-2 px-4 mx-auto md:w-[95%]">
+      <div className="row-flex-btwn gap-6 py-1 sm:py-2 px-4 mx-auto md:w-[95%]">
         <Menu className="w-fit h-6 sm:hidden" onClick={() => dispatch(setOpenMenu(true))} />
 
         <h3 className="font-semibold capitalize">

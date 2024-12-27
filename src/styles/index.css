@@ -101,7 +101,7 @@
     @apply grid size-6 sm:size-7 cursor-pointer place-items-center rounded-full border border-border-100 bg-background-100 p-1 clip-circle;
   }
   .card {
-    @apply bg-background p-4 rounded-lg;
+    @apply bg-background p-2 sm:p-2.5 rounded-lg;
   }
   .loader-container {
     @apply w-full h-[250px] grid place-items-center relative;
