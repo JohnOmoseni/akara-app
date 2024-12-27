@@ -64,6 +64,13 @@ export { default as NoSearch } from "@/assets/svgs/no-search.svg?react";
 export { default as WalletIcon } from "@/assets/svgs/wallet.svg?react";
 export { default as UserAvatar } from "@/assets/svgs/user-avatar.svg?react";
 
+export { default as Info } from "@/assets/svgs/info.svg?react";
+export { default as Resources } from "@/assets/svgs/resources.svg?react";
+export { default as Terms } from "@/assets/svgs/terms.svg?react";
+export { default as Refer } from "@/assets/svgs/refer.svg?react";
+export { default as Settings } from "@/assets/svgs/settings.svg?react";
+export { default as Logout } from "@/assets/svgs/log-out.svg?react";
+
 import profile_pic from "/images/profile-pic.jpeg";
 
 export {

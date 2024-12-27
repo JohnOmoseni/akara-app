@@ -12,7 +12,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import AuthProtectedRoute from "./AuthProtectedRoute";
 import ErrorBoundary from "./components/fallback/Error";
 import NotFound from "./layouts/NotFound";
-import ScrollToTop from "./layouts/ScrollToTop";
 
 import PrivacyPolicy from "./app/policy/page";
 import Home from "./app/(home)/page";
@@ -23,7 +22,6 @@ const AppRouter = () => {
   return (
     <>
       <ErrorBoundary>
-        <ScrollToTop />
         <Routes>
           <Route element={<LayoutProvider />}>
             <Route path="*" element={<NotFound />} />

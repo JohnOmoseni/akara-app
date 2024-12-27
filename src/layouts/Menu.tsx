@@ -20,7 +20,7 @@ function Menu() {
     >
       <motion.div
         {...animateFn(slideinVariant)}
-        className="menu remove-scrollbar flex-column absolute left-0 top-0 isolate h-full w-[85%] max-w-[500px] overflow-hidden bg-background px-1.5 pr-2 pb-6 pt-[16%] backdrop-blur-sm"
+        className="menu remove-scrollbar flex-column absolute left-0 top-0 isolate h-full w-[85%] max-w-[500px] overflow-hidden bg-background px-1.5 pr-2 pb-6 pt-[max(4.5rem,_12vh)] backdrop-blur-sm"
         onClick={(e) => e.stopPropagation()}
       >
         <span
@@ -28,7 +28,7 @@ function Menu() {
           onClick={() => dispatch(setOpenMenu(false))}
           title="close-menu"
         >
-          <Close size="22" className="z-100 cursor-pointer text-foreground" />
+          <Close className="z-[50] cursor-pointer text-foreground size-7" />
         </span>
 
         <ul className="flex-column size-full gap-6 text-base">
@@ -66,16 +66,16 @@ function NavLinks({ label, href, icon: Icon, idx, tag }: NavLinkProps) {
         {...animateFn(linksAni, idx)}
         onClick={() => handleClick()}
         className={cn(
-          "row-flex-start gap-3 py-3 px-8 transition-all rounded",
+          "row-flex-start gap-3 py-3.5 px-5 transition-all rounded",
           isLogOut && "bg-red-200"
         )}
       >
-        {Icon && <Icon className={cn("size-5", isActive && "size-5")} />}
+        {Icon && <Icon className={cn("size-5", isActive && "")} />}
 
         <motion.span
           className={cn(
-            "capitalize",
-            isActive && "font-semibold text-foreground-variant",
+            "capitalize leading-4 mt-px",
+            isActive && "font-medium text-foreground-variant",
             isLogOut && "text-red-600"
           )}
         >

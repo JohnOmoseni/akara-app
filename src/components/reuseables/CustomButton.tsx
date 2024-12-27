@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border-border-variant w-max bg-secondary text-foreground-variant-foreground  disabled:opacity-50 disabled:brightness-90",
+          "border-border-variant w-max bg-secondary text-secondary-foreground disabled:cursor-not-allowed  disabled:opacity-50 disabled:brightness-90",
         outline: "border-border-100 text-foreground",
       },
       size: {

@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Whatsapp } from "./icons";
+import { Info, Instagram, Logout, Refer, Resources, Settings, Twitter, Whatsapp } from "./icons";
 import { Bell, Home, User } from "lucide-react";
 
 export const routes = {
@@ -97,32 +97,32 @@ export const privacyPolicy = [
 
 export const sidebarLinks = [
   {
-    icon: "",
+    icon: Info,
     label: "Help",
     href: "/help",
     tag: "help",
   },
   {
-    icon: "",
+    icon: Resources,
     label: "Resources",
     href: "/resources",
     tag: "resources",
   },
 
   {
-    icon: "",
+    icon: Refer,
     label: "Refer & Earn",
     href: "/refer-and-earn",
     tag: "refer-and-earn",
   },
   {
-    icon: "",
+    icon: Settings,
     label: "Settings",
     href: "/settings",
     tag: "settings",
   },
   {
-    icon: "",
+    icon: Logout,
     label: "Logout",
     href: "/logout",
     tag: "logout",

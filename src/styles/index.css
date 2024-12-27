@@ -19,7 +19,7 @@
 
     --border: #c8d2df;
     --border-100: #e1e6ed;
-    --border-variant: #e7bf02;
+    --border-variant: #e7c102ae;
 
     --grey: #8c9db1;
     --grey-100: #b8b8b8;
@@ -28,7 +28,7 @@
     --placeholder: #6e7b8b;
     --ring: #e7bf02;
 
-    --muted: #f3f5f6; /* #e1e6ed */
+    --muted: #f3f5f6;
     --muted-foreground: #aab7c6;
 
     --skeleton: #e0e0e0;
