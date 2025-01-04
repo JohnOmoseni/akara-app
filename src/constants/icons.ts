@@ -56,6 +56,8 @@ import { LiaWhatsapp as Whatsapp } from "react-icons/lia";
 import { Heart, Car } from "lucide-react";
 import { LogOut as LogoutIcon } from "lucide-react";
 
+import { ChevronDown as ArrowDownAlt, ChevronUp as ArrowUpAlt } from "lucide-react";
+
 export { default as Logo } from "@/assets/svgs/logo.svg?react";
 export { default as LogoMobile } from "@/assets/svgs/logo-mobile.svg?react";
 export { default as SuccessIcon } from "@/assets/svgs/success-icon.svg?react";
@@ -108,6 +110,8 @@ export {
   CheckCircle,
   LogoutIcon,
   VerticalDots,
+  ArrowUpAlt,
+  ArrowDownAlt,
   Envelope,
   Eye,
   Bell,

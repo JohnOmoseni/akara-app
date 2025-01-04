@@ -8,21 +8,30 @@ import { useFormik } from "formik";
 import { InferType } from "yup";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function SignUp() {
   const { handleRegister, isLoadingAuth } = useAuth();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const onSubmit = async (values: InferType<typeof SignUpSchema>) => {
-    console.log("Form submitted:", values);
-
     const data = {
       name: values.fullname,
       email: values.email,
       password: values.password,
-      password_confirmation: values.confirm_password,
+      recaptcha: captchaValue,
+      // password_confirmation: values.confirm_password,
     };
 
     await handleRegister(data);
+  };
+
+  const handleCaptchaChange = (token: string | null) => {
+    console.log("Captcha changed", token);
+    setCaptchaValue(token);
   };
 
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
@@ -229,6 +238,10 @@ function SignUp() {
             isLoading={isLoadingAuth}
           />
         </form>
+
+        <div className="">
+          <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaKey} onChange={handleCaptchaChange} />
+        </div>
 
         <GoogleAuth />
 

@@ -5,11 +5,11 @@ function PrivacyPolicy() {
   return (
     <>
       <Header />
-      <div className="bg-gradient-hero min-h-[35vh] max-h-[300px] grid place-items-center px-6 py-6 sm:py-4 text-foreground-variant">
+      <div className="bg-gradient-hero min-h-[35vh] max-h-[250px]  grid place-items-center px-6 py-6 sm:py-4 text-foreground-variant">
         <h1 className="text-white text-center max-w-[30ch]">Privacy Policy</h1>
       </div>
 
-      <main className="w-full py-7 px-4 sm:pt-12 sm:px-[5%]">
+      <main className="w-full py-7 px-4 sm:pt-12 sm:px-[5%] pb-[2rem] sm:pb-[6rem]">
         <div className="flex-column gap-6 md:gap-10">
           <p className="pr-1">
             {privacyPolicy[0]?.introduction &&

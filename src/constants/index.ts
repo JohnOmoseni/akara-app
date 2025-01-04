@@ -8,7 +8,6 @@ export const routes = {
   VERIFY_OTP: "/verify-otp",
   UNAUTH: "/unauthorized",
   DASHBOARD: "/dashboard",
-  ADMIN_ROUTES: [""],
 };
 
 export const socials = [

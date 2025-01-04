@@ -9,10 +9,10 @@ function GoogleAuth() {
   };
 
   return (
-    <div className="w-11/12 mx-auto mt-10">
+    <div className="w-11/12 mx-auto mt-9">
       <div
         onClick={handleClick}
-        className="p-3 cursor-pointer row-flex gap-3 border border-border rounded-lg shadow-sm leading-4"
+        className="p-3 cursor-pointer text-sm row-flex gap-3 border border-border rounded-lg shadow-sm leading-4"
       >
         <Google className="size-4" />
         Continue with Google

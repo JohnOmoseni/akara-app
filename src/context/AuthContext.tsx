@@ -1,6 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { routes } from "@/constants";
 import { authApi } from "@/server/actions/auth";
 import { APP_ROLES, User } from "@/types";
 import { NavigateFunction } from "react-router-dom";
@@ -13,7 +12,12 @@ type AuthContextType = {
   user?: User | null;
   token?: string | null;
   role?: (typeof APP_ROLES)[keyof typeof APP_ROLES] | string | null;
-  handleLogin: (email: string, password: string, returnTo?: string) => Promise<void>;
+  handleLogin: (
+    email: string,
+    password: string,
+    remember?: boolean,
+    returnTo?: string
+  ) => Promise<void>;
   handleRegister: (data: RegisterUserParams) => Promise<void>;
   handleVerifyOtp: (otp: number, email: string) => Promise<void>;
   handleResendOtp: (email: string) => Promise<void>;
@@ -147,14 +151,20 @@ export default function AuthProvider({ children, navigate, ...props }: AuthProvi
     [setToken, setUser, setRole]
   );
 
-  const handleLogin = async (email: string, password: string, returnTo?: string) => {
+  const handleLogin = async (
+    email: string,
+    password: string,
+    remember?: boolean,
+    returnTo?: string
+  ) => {
     if (!email || !password) return;
     setIsLoadingAuth(true);
 
     try {
-      const res = await authApi.login({ email, password });
+      const res = await authApi.login({ email, password, remember });
 
       if (!res?.status) throw new Error(res?.message || "Error Signing in");
+
       const authToken = res?.data?.token;
       const user = res?.data?.user;
 
@@ -257,7 +267,7 @@ export default function AuthProvider({ children, navigate, ...props }: AuthProvi
     if (!email) return;
 
     try {
-      const res = await authApi.resendOtp();
+      const res = await authApi.resendOtp({ email });
 
       if (!res?.status) throw new Error(res?.message || "Failed to resend OTP");
       toast.success("OTP resent successfully");
@@ -319,7 +329,7 @@ export default function AuthProvider({ children, navigate, ...props }: AuthProvi
       sessionStorage.removeItem("skymeasures-token");
 
       toast.success("Logged out successfully");
-      navigate(routes.LOGIN);
+      navigate("/signin");
     } catch {
       toast.error(
         <div className="row-flex-start gap-2">

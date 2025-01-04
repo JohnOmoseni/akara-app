@@ -4,8 +4,7 @@ import { cn } from "@/lib/utils";
 
 import Button from "@/components/reuseables/CustomButton";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
-import { Chatbox } from "@/constants/icons";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowDownAlt, ArrowUpAlt, Chatbox } from "@/constants/icons";
 import { useAppSelector } from "@/types";
 
 function Offerings() {
@@ -212,11 +211,11 @@ const Aside = ({ info }: { info: any }) => {
           >
             {expanded ? (
               <>
-                View Less <ChevronUp className="inline size-4" />
+                View Less <ArrowUpAlt className="inline size-4" />
               </>
             ) : (
               <>
-                Expand <ChevronDown className="inline size-4" />
+                Expand <ArrowDownAlt className="inline size-4" />
               </>
             )}
           </li>

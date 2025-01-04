@@ -1,13 +1,20 @@
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/lib/index";
 import axiosInstance, { axiosBaseUrl } from "../axios";
+import { RegisterUserParams } from "@/types/api.types";
 
 const login = async (params: {
   email: string;
   password: string;
+  remember?: boolean;
 }): Promise<AxiosResponse["data"]> => {
+  const { email, password, remember } = params || {};
+
   try {
-    const response = await axiosBaseUrl.post("/login", params);
+    const response = await axiosBaseUrl.post(
+      `/auth/login?email=${email}&password=${password}&remember=${remember}`,
+      params
+    );
     console.log("LOGIN RESPONSE", response);
 
     return response.data;
@@ -27,14 +34,14 @@ const loginWithGoogle = async (): Promise<AxiosResponse["data"]> => {
   }
 };
 
-const register = async (params: {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-}): Promise<AxiosResponse["data"]> => {
+const register = async (params: RegisterUserParams): Promise<AxiosResponse["data"]> => {
+  const { name, email, password, recaptcha } = params || {};
+
   try {
-    const response = await axiosBaseUrl.post("/register", params);
+    const response = await axiosBaseUrl.post(
+      `/auth/register?name=${name}&email=${email}&password=${password}&g-recaptcha-response=${recaptcha}`,
+      params
+    );
     console.log("REGISTER RESPONSE", response);
 
     return response.data;
@@ -57,13 +64,18 @@ const verifyOtp = async (params: {
   otp: number;
   email: string;
 }): Promise<AxiosResponse["data"]> => {
+  const { email, otp } = params || {};
+
   const payload = {
     token: String(params.otp),
     email: params.email,
   };
 
   try {
-    const response = await axiosInstance.post("/verify-token", payload);
+    const response = await axiosInstance.post(
+      `/auth/verify-pin?email=${email}&pin=${String(otp)}`,
+      payload
+    );
     console.log("VERIFY OTP RESPONSE", response);
 
     return response.data;
@@ -72,9 +84,9 @@ const verifyOtp = async (params: {
   }
 };
 
-const resendOtp = async (): Promise<AxiosResponse["data"]> => {
+const resendOtp = async (params: { email: string }): Promise<AxiosResponse["data"]> => {
   try {
-    const response = await axiosInstance.get("/resend-otp");
+    const response = await axiosInstance.get(`/auth/resend-pin?email=${params.email}`);
     console.log("RESEND OTP RESPONSE", response);
 
     return response.data;
@@ -85,7 +97,7 @@ const resendOtp = async (): Promise<AxiosResponse["data"]> => {
 
 const forgotPassword = async (params: { email: string }): Promise<AxiosResponse["data"]> => {
   try {
-    const response = await axiosInstance.post("/passwords/request", params);
+    const response = await axiosInstance.post("/password-request", params);
     console.log("FORGOT PASSWORD RESPONSE", response);
 
     return response.data;
@@ -100,7 +112,7 @@ const resetPassword = async (params: {
   otp: string;
 }): Promise<AxiosResponse["data"]> => {
   try {
-    const response = await axiosInstance.post("/passwords/reset", params);
+    const response = await axiosInstance.post(`/auth/password-reset`, params);
     console.log("RESET PASSWORD RESPONSE", response);
 
     return response.data;
@@ -111,7 +123,7 @@ const resetPassword = async (params: {
 
 const logout = async (): Promise<AxiosResponse["data"]> => {
   try {
-    const response = await axiosInstance.post("/logout");
+    const response = await axiosInstance.post(`/auth/logout`);
     console.log("LOGOUT RESPONSE", response);
 
     return response.data;

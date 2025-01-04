@@ -7,18 +7,16 @@ export default function AuthLayout() {
     <div className="relative flex flex-col bg-background size-full overflow-x-hidden overflow-y-auto">
       <div
         className={cn(
-          "relative grid place-items-center grid-rows-[auto_1fr] gap-4 py-4 px-4 sm:gap-6"
+          "relative grid place-items-center flex-column gap-4 py-4 px-4 sm:py-8 sm:gap-6"
         )}
       >
         <div className="">
           <Logo className="h-fit w-fit object-contain" />
         </div>
 
-        <div className="row-flex w-full">
-          <div className="min-w-[280px] relative w-full max-w-[420px] min-[450px]:w-full">
-            <div className="flex-column gap-4">
-              <Outlet />
-            </div>
+        <div className="min-w-[280px] grid place-items-center size-full relative max-w-[420px] min-[450px]:w-full">
+          <div className="flex-column gap-4 w-full">
+            <Outlet />
           </div>
         </div>
       </div>
