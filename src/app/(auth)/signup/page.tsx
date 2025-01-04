@@ -239,9 +239,12 @@ function SignUp() {
           />
         </form>
 
-        <div className="">
-          <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaKey} onChange={handleCaptchaChange} />
-        </div>
+        {recaptchaKey && (
+          <div className="">
+            <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaKey} onChange={handleCaptchaChange} />
+          </div>
+        )}
+
 
         <GoogleAuth />
 
