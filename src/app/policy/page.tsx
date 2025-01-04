@@ -9,7 +9,7 @@ function PrivacyPolicy() {
         <h1 className="text-white text-center max-w-[30ch]">Privacy Policy</h1>
       </div>
 
-      <main className="w-full py-7 px-4 sm:pt-12 sm:px-[5%] pb-[2rem] sm:pb-[6rem]">
+      <main className="w-full py-7 px-4 sm:pt-12 sm:px-[5%] pb-[2rem]">
         <div className="flex-column gap-6 md:gap-10">
           <p className="pr-1">
             {privacyPolicy[0]?.introduction &&

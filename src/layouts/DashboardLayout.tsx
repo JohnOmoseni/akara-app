@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useAppSelector } from "@/types";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Suspense, useEffect, useRef, useState } from "react";
 import Footer from "./Footer";
 import Menu from "./Menu";
@@ -14,6 +14,10 @@ export default function DashboardLayout() {
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+ 
+  const { pathname } = useLocation();
+  const isPolicyPage = pathname === "/policy";
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,7 +66,11 @@ export default function DashboardLayout() {
           </Suspense>
         </div>
 
+        {!isPolicyPage &&
+        
         <Footer isVisible={isVisible} />
+        }
+
       </div>
     </>
   );
