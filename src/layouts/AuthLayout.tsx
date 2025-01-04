@@ -7,7 +7,7 @@ export default function AuthLayout() {
     <div className="relative flex flex-col bg-background size-full overflow-x-hidden overflow-y-auto">
       <div
         className={cn(
-          "relative grid place-items-center flex-column gap-4 py-4 px-4 sm:py-8 sm:gap-6"
+          "relative flex-1 grid place-items-center flex-column gap-4 py-4 px-4 sm:py-8 sm:gap-6"
         )}
       >
         <div className="">
