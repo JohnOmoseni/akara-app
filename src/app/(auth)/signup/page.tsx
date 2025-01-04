@@ -14,7 +14,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 function SignUp() {
   const { handleRegister, isLoadingAuth } = useAuth();
   const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const onSubmit = async (values: InferType<typeof SignUpSchema>) => {
