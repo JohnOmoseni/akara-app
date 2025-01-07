@@ -55,6 +55,7 @@ const config = {
       },
       fontFamily: {
         inter: ["Inter", "Arial", "sans-serif"],
+        kumbh: ["Kumbh Sans", "Arial", "sans-serif"],
       },
       fontSize: {
         sm: "0.8rem",

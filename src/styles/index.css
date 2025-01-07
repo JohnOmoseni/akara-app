@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Kumbh+Sans:wght@100..900&display=swap');
+
+
+@font-face {
+	font-family: "Inter";
+	src: url("/fonts/Inter-Regular.ttf");
+}
 
 @tailwind base;
 @tailwind components;
@@ -46,10 +52,10 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply text-primaryFont font-bold;
+    @apply text-primaryFont font-extrabold font-kumbh;
   }
   h2 {
-    @apply text-secondaryFont font-bold;
+    @apply text-secondaryFont font-bold font-kumbh;
   }
   h3 {
     @apply text-subtitle font-semibold;

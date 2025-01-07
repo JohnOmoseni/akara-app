@@ -9,6 +9,7 @@ import { InferType } from "yup";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
 
 function SignUp() {
@@ -18,6 +19,10 @@ function SignUp() {
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const onSubmit = async (values: InferType<typeof SignUpSchema>) => {
+    if (!captchaValue) {
+      return toast.info("Please complete the reCAPTCHA to proceed.");
+    }
+
     const data = {
       name: values.fullname,
       email: values.email,
@@ -32,6 +37,12 @@ function SignUp() {
   const handleCaptchaChange = (token: string | null) => {
     console.log("Captcha changed", token);
     setCaptchaValue(token);
+
+      if (token) {
+      toast.success("reCAPTCHA verified successfully!");
+    } else {
+      toast.error("Failed to verify reCAPTCHA. Please try again.");
+    }
   };
 
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
@@ -234,13 +245,13 @@ function SignUp() {
             type="submit"
             title={isSubmitting ? "Signing up..." : "Sign up"}
             className={cn("!mt-auto !w-full")}
-            disabled={isLoadingAuth}
+            disabled={isLoadingAuth || !captchaValue}
             isLoading={isLoadingAuth}
           />
         </form>
 
         {recaptchaKey && (
-          <div className="">
+          <div className="recaptcha-container mt-4 w-full">
             <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaKey} onChange={handleCaptchaChange} />
           </div>
         )}

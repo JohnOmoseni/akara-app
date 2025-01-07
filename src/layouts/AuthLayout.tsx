@@ -21,7 +21,7 @@ export default function AuthLayout() {
         </div>
       </div>
 
-      <footer className="flex-column z-50 sm:row-flex-btwn mt-auto sticky bottom-0 w-full text-sm gap-x-4 gap-y-1 p-3 bg-background-100 border-t border-border-100 shadow-sm">
+      <footer className="flex-column z-50 sm:row-flex-btwn mt-auto -mb-2 sticky bottom-0 w-full text-sm gap-x-4 gap-y-1 p-3 bg-background-100 border-t border-border-100 md:shadow-t-sm">
         <p className="text-center text-sm text-grey">
           &copy; {new Date().getFullYear()} Akara. All rights reserved.
         </p>

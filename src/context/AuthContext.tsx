@@ -222,13 +222,13 @@ export default function AuthProvider({ children, navigate, ...props }: AuthProvi
 
       if (!res?.status) throw new Error(res?.message || "User Registration failed");
 
-      toast.success("User Registration Successfully...");
+      toast.success("Registration successful! Welcome aboard.");
 
       navigate("/signin");
     } catch (error: any) {
       const errorMessage = error?.response?.data?.message;
-      toast.error(errorMessage || "Failed to register user. Please try again.");
-      throw new Error(errorMessage || "Failed to register user.");
+      toast.error(errorMessage || "Registration failed. Please try again.");
+      throw new Error(errorMessage || "Registration failed.");
     } finally {
       setIsLoadingAuth(false);
     }
