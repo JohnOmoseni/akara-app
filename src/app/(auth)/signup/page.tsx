@@ -16,6 +16,7 @@ function SignUp() {
   const { handleRegister, isLoadingAuth } = useAuth();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const onSubmit = async (values: InferType<typeof SignUpSchema>) => {
+    console.log("RUNNING")
     try {
        if (!executeRecaptcha) {
          toast.info('reCAPTCHA is not ready. Please try again.')
