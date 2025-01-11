@@ -8,41 +8,36 @@ import { useFormik } from "formik";
 import { InferType } from "yup";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
 import { toast } from "sonner";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 
 function SignUp() {
   const { handleRegister, isLoadingAuth } = useAuth();
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
-  const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "";
-  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
-
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const onSubmit = async (values: InferType<typeof SignUpSchema>) => {
-    if (!captchaValue) {
-      return toast.info("Please complete the reCAPTCHA to proceed.");
+    try {
+       if (!executeRecaptcha) {
+         toast.info('reCAPTCHA is not ready. Please try again.')
+        return;
+      }
+
+      // Trigger reCAPTCHA
+      const recaptchaToken = await executeRecaptcha('signup');
+      
+      const data = {
+        name: values.fullname,
+        email: values.email,
+        password: values.password,
+        recaptcha: recaptchaToken,
+      };
+      
+      console.log('reCAPTCHA Token:', recaptchaToken, data);
+      await handleRegister(data);
+    } catch {
+      // toast.info('Something went wrong.')
     }
 
-    const data = {
-      name: values.fullname,
-      email: values.email,
-      password: values.password,
-      recaptcha: captchaValue,
-      // password_confirmation: values.confirm_password,
-    };
-
-    await handleRegister(data);
-  };
-
-  const handleCaptchaChange = (token: string | null) => {
-    console.log("Captcha changed", token);
-    setCaptchaValue(token);
-
-      if (token) {
-      toast.success("reCAPTCHA verified successfully!");
-    } else {
-      toast.error("Failed to verify reCAPTCHA. Please try again.");
-    }
   };
 
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
@@ -58,6 +53,7 @@ function SignUp() {
     });
 
   return (
+    
     <>
       <div className="flex-column items-center gap-0.5">
         <h2 className="text-2xl md:text-3xl text-center">Sign Up For Free</h2>
@@ -245,16 +241,17 @@ function SignUp() {
             type="submit"
             title={isSubmitting ? "Signing up..." : "Sign up"}
             className={cn("!mt-auto !w-full")}
-            disabled={isLoadingAuth || !captchaValue}
+            // disabled={isLoadingAuth || !captchaValue}
+            disabled={isLoadingAuth}
             isLoading={isLoadingAuth}
           />
         </form>
 
-        {recaptchaKey && (
+        {/* {recaptchaKey && (
           <div className="recaptcha-container mt-4 w-full">
             <ReCAPTCHA ref={recaptchaRef} sitekey={recaptchaKey} onChange={handleCaptchaChange} />
           </div>
-        )}
+        )} */}
 
 
         <GoogleAuth />
@@ -271,3 +268,4 @@ function SignUp() {
 }
 
 export default SignUp;
+

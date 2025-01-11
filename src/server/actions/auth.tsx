@@ -8,11 +8,10 @@ const login = async (params: {
   password: string;
   remember?: boolean;
 }): Promise<AxiosResponse["data"]> => {
-  const { email, password, remember } = params || {};
 
   try {
     const response = await axiosBaseUrl.post(
-      `/auth/login?email=${email}&password=${password}&remember=${remember}`,
+      `/auth/login`,
       params
     );
     console.log("LOGIN RESPONSE", response);
@@ -35,12 +34,18 @@ const loginWithGoogle = async (): Promise<AxiosResponse["data"]> => {
 };
 
 const register = async (params: RegisterUserParams): Promise<AxiosResponse["data"]> => {
-  const { name, email, password, recaptcha } = params || {};
+  const { name, email, password, recaptcha } = params;
+
+  const payload = {
+    name,
+    email,
+    password,
+    "g-recaptcha-response": recaptcha
+  }
 
   try {
     const response = await axiosBaseUrl.post(
-      `/auth/register?name=${name}&email=${email}&password=${password}&g-recaptcha-response=${recaptcha}`,
-      params
+      `/auth/register`, payload
     );
     console.log("REGISTER RESPONSE", response);
 
@@ -64,16 +69,14 @@ const verifyOtp = async (params: {
   otp: number;
   email: string;
 }): Promise<AxiosResponse["data"]> => {
-  const { email, otp } = params || {};
-
   const payload = {
-    token: String(params.otp),
+    pin: String(params.otp),
     email: params.email,
   };
 
   try {
     const response = await axiosInstance.post(
-      `/auth/verify-pin?email=${email}&pin=${String(otp)}`,
+      `/auth/verify-pin`,
       payload
     );
     console.log("VERIFY OTP RESPONSE", response);
