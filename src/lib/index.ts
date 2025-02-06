@@ -1,34 +1,86 @@
+import dayjs from "dayjs";
+
 export const handleApiError = (error: any, message?: string) => {
-  console.error(`API Error - ${message}:`, error);
-  if (error.response) {
-    // Server returned a responnse not in the 200 range
-    console.error("Response data:", error.response.data);
-    console.error("Response status:", error.response.status);
-  } else if (error.request) {
-    console.error("Request data:", error.request);
-  } else {
-    // No response from server - 404
-    console.error("Error message:", error.message);
-  }
-  throw error;
+	console.error(`API Error - ${message}:`, error);
+	if (error.response) {
+		// Server returned a responnse not in the 200 range
+		console.error("Response data:", error.response.data);
+		console.error("Response status:", error.response.status);
+	} else if (error.request) {
+		console.error("Request data:", error.request);
+	} else {
+		// No response from server - 404
+		console.error("Error message:", error.message);
+	}
+	throw error;
 };
 
 export function getInitials(name?: string) {
-  if (!name) return "UN";
-  return name
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase())
-    .join("");
+	if (!name) return "UN";
+	return name
+		.split(" ")
+		.map((word) => word.charAt(0).toUpperCase())
+		.join("");
 }
 
 export const truncateString = (str: string, length: number = 25): string => {
-  return str.length > length ? `${str.substring(0, length - 2)}...` : str;
+	return str.length > length ? `${str.substring(0, length - 2)}...` : str;
 };
 
 export const wait = (ms: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+};
+
+export const formatNumber = (number: number) => {
+	if (!number) return false;
+
+	return new Intl.NumberFormat("en-US", {
+		style: "decimal",
+		maximumFractionDigits: 2,
+		minimumFractionDigits: 2,
+	}).format(number);
 };
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
+
+export const formatDate = (date: string | undefined, format: string) =>
+	date ? dayjs(date).format(format) : "N/A";
+
+type CSVOptions<T> = {
+	headers: string[];
+	data: T[];
+	filename?: string;
+	mapData: (item: T) => (string | number)[];
+};
+
+export const exportToCSV = <T>({
+	headers,
+	data,
+	filename = "export",
+	mapData,
+}: CSVOptions<T>) => {
+	if (data.length === 0) return;
+
+	try {
+		const csvContent = [
+			headers.join(","), // Add headers
+			...data.map((item) =>
+				mapData(item)
+					.map((field) => `"${String(field).replace(/"/g, '""')}"`) // Escape quotes
+					.join(",")
+			),
+		].join("\n");
+
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `${filename}_${dayjs().format("YYYY-MM-DD")}.csv`;
+		a.click();
+		URL.revokeObjectURL(url);
+	} catch (error) {
+		console.error("Error exporting CSV:", error);
+	}
+};
