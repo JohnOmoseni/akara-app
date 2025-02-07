@@ -45,58 +45,60 @@ function Offerings() {
 
 	// Client-side pagination logic
 	const offerings: ProcessedOffering[] = useMemo(() => {
-		const allListings = Array.from({ length: 3 }).map((item: any) => ({
-			name: item?.name || "",
-			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-			images: item?.images.map((img: any) => img?.image_path) || [
-				"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
-				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-				"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-			],
-			asideInfo: [
-				{
-					icon: Info,
-					label: "Description",
-					value: item?.description || "",
-				},
-				{
-					icon: Location,
-					label: "Location",
-					value: item?.location ? `${item.location}` : "N/A",
-				},
-				{
-					icon: Scale,
-					label: "Valuation",
-					value: formatNumber(item?.valuation) || "N/A",
-				},
-				{
-					icon: Rental,
-					label: "Net Annual Rental Income (Projection)",
-					value:
-						formatNumber(item?.projected_net_annual_rental_income) || "N/A",
-				},
-				{
-					icon: LineChart,
-					label: "Net Annual Appreciation (Projection)",
-					value: formatNumber(item?.projected_annual_appreciation) || "N/A",
-				},
-				{
-					icon: PieChart,
-					label: "Co-ownership units available",
-					value: item?.co_ownership_units || "N/A",
-				},
-				{
-					icon: PriceTag,
-					label: "Price per unit",
-					value: formatNumber(item?.price_per_unit) || "N/A",
-				},
-				{
-					icon: HouseKey,
-					label: "Current Occupancy Status",
-					value: item?.occupancy_stage || "N/A",
-				},
-			],
-		}));
+		const allListings =
+			paginatedData ||
+			[].map((item: any) => ({
+				name: item?.name || "",
+				area: item?.location ? item?.location?.split("\n", 2)[1] : "",
+				images: item?.image.map((img: any) => img?.image_path) || [
+					"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+					"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+					"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+				],
+				asideInfo: [
+					{
+						icon: Info,
+						label: "Description",
+						value: item?.description || "",
+					},
+					{
+						icon: Location,
+						label: "Location",
+						value: item?.location ? `${item.location}` : "N/A",
+					},
+					{
+						icon: Scale,
+						label: "Valuation",
+						value: formatNumber(item?.valuation) || "N/A",
+					},
+					{
+						icon: Rental,
+						label: "Net Annual Rental Income (Projection)",
+						value:
+							formatNumber(item?.projected_net_annual_rental_income) || "N/A",
+					},
+					{
+						icon: LineChart,
+						label: "Net Annual Appreciation (Projection)",
+						value: formatNumber(item?.projected_annual_appreciation) || "N/A",
+					},
+					{
+						icon: PieChart,
+						label: "Co-ownership units available",
+						value: item?.co_ownership_units || "N/A",
+					},
+					{
+						icon: PriceTag,
+						label: "Price per unit",
+						value: formatNumber(item?.price_per_unit) || "N/A",
+					},
+					{
+						icon: HouseKey,
+						label: "Current Occupancy Status",
+						value: item?.occupancy_stage || "N/A",
+					},
+				],
+			}));
 
 		return allListings;
 	}, [paginatedData, page]);
@@ -271,7 +273,7 @@ const Aside = ({
 							key={index}
 							className="w-full grid grid-cols-[max-content_1fr] gap-2"
 						>
-							<item.icon className="size-4 mt-1" />
+							<item.icon className="size-4 mt-[3px]" />
 							<p className="text-sm w-full pr-2">
 								<span className="capitalize font-medium">{item?.label}: </span>
 
