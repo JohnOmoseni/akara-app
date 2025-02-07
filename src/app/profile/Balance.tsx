@@ -12,16 +12,16 @@ import { FundWallet, WithdrawFund } from "./balance-modal";
 import { MinusCircle, PlusCircle } from "@/constants/icons";
 import { Link } from "react-router-dom";
 import { exportToCSV, formatDate } from "@/lib";
-import EmptyListWithIcon from "../_sections/empty-list";
 import { setSelectedTab } from "@/redux/features/appSlice";
 import { useAppDispatch } from "@/types";
+import EmptyListWithIcon from "../_sections/empty-list";
 
 type Props = {
 	profileInfo: any;
 	children: ReactNode;
 };
 
-function Balance({ profileInfo, children }: Props) {
+function Balance({ children }: Props) {
 	const [openModal, setOpenModal] = useState<false | "fund" | "withdraw">(
 		false
 	);

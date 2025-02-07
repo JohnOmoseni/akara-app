@@ -15,6 +15,8 @@ import { MdCancel as Remove } from "react-icons/md";
 import {
 	IoArrowDown as ArrowDown,
 	IoArrowDown as ArrowUp,
+	IoArrowRight as ArrowRight,
+	IoArrowLeft as ArrowLeft,
 } from "react-icons/io5";
 import { LogOut as LogoutIcon } from "lucide-react";
 import { MinusCircle, PlusCircle } from "lucide-react";
