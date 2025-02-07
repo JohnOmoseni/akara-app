@@ -158,17 +158,17 @@ function Offerings() {
 															ref={(el) => {
 																if (el) {
 																	// Store the element reference
-																	const element = el;
+																	// const element = el;
 																	// Use requestAnimationFrame to ensure DOM is ready
-																	requestAnimationFrame(() => {
-																		if (activeImageIndex === index) {
-																			element.scrollIntoView({
-																				behavior: "smooth",
-																				block: "nearest",
-																				inline: "nearest",
-																			});
-																		}
-																	});
+																	// requestAnimationFrame(() => {
+																	// 	if (activeImageIndex === index) {
+																	// 		element.scrollIntoView({
+																	// 			behavior: "smooth",
+																	// 			block: "nearest",
+																	// 			inline: "nearest",
+																	// 		});
+																	// 	}
+																	// });
 																}
 															}}
 															className={cn(
