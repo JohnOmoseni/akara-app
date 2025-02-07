@@ -63,7 +63,7 @@ main:has(> .empty-list) {
 
 /* SVGS */
 .stroke-variant * {
-	stroke: var(--secondary) !important;
+	stroke: var(--secondary-100) !important;
 }
 
 /* RECAPTCHA */

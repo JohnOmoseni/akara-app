@@ -4,7 +4,7 @@ import { FC } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const buttonVariants = cva(
-	"row-flex sm:whitespace-nowrap leading-4 max-sm:text-sm py-3 rounded-md border font-semibold capitalize tracking-wide subpixel-antialiased shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90 disabled:border-none disabled:pointer-events-none disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+	"row-flex sm:whitespace-nowrap leading-4 max-sm:text-sm py-3 rounded-md border font-semibold capitalize tracking-wide subpixel-antialiased shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90 disabled:border-none disabled:pointer-events-none disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0",
 	{
 		variants: {
 			variant: {
@@ -70,9 +70,13 @@ const Button: FC<ButtonProps> = ({
 				/>
 			) : (
 				<>
-					{Icon && dir === "left" && <Icon className="size-6 font-semibold" />}
+					{Icon && dir === "left" && (
+						<Icon className="size-6 font-semibold stroke-variant" />
+					)}
 					{title}
-					{Icon && dir === "right" && <Icon className="size-6 font-semibold" />}
+					{Icon && dir === "right" && (
+						<Icon className="size-6 font-semibold stroke-variant" />
+					)}
 				</>
 			)}
 		</button>

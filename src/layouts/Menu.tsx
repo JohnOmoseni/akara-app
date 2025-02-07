@@ -71,8 +71,7 @@ function NavLinks({ label, href, icon: Icon, idx, tag }: NavLinkProps) {
 				{...animateFn(linksAni, idx)}
 				onClick={() => handleClick()}
 				className={cn(
-					"row-flex-start gap-3 py-3.5 px-5 transition-all rounded",
-					isLogOut && "bg-red-200"
+					"row-flex-start gap-3 py-3.5 px-5 transition-all rounded"
 				)}
 			>
 				{Icon && <Icon className={cn("size-5", isActive && "")} />}

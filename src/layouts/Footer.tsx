@@ -42,7 +42,7 @@ const Footer = ({ isVisible }: { isVisible: boolean }) => {
 								<Icon
 									className={cn(
 										"size-5 sm:size-6 text-grey mx-auto",
-										isActive && "size-5 text-foreground-variant"
+										isActive && "size-5 stroke-variant"
 									)}
 								/>
 							)}

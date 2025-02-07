@@ -6,21 +6,11 @@ import {
 	IoAlertCircleOutline as Alert,
 } from "react-icons/io5";
 import { FcGoogle as Google } from "react-icons/fc";
-import { BiDotsVertical as VerticalDots } from "react-icons/bi";
 import { IoIosArrowBack as ArrowBack } from "react-icons/io";
-import { FcCancel as Cancel } from "react-icons/fc";
-import { SlBell as Bell } from "react-icons/sl";
 import { BiSearchAlt as SearchIcon } from "react-icons/bi";
-import {
-	HiOutlineEnvelope as Envelope,
-	HiOutlineTrash as Trash,
-} from "react-icons/hi2";
+import { HiOutlineEnvelope as Envelope } from "react-icons/hi2";
 import { GoLock as Lock } from "react-icons/go";
-import {
-	CiCircleCheck as CheckCircle,
-	CiFilter as FilterIcon,
-	CiEdit as Edit,
-} from "react-icons/ci";
+import { CiCircleCheck as CheckCircle, CiEdit as Edit } from "react-icons/ci";
 import { MdCancel as Remove } from "react-icons/md";
 import {
 	IoArrowDown as ArrowDown,
@@ -34,15 +24,21 @@ export { default as LogoMobile } from "@/assets/svgs/logo-mobile.svg?react";
 export { default as SuccessIcon } from "@/assets/svgs/success-icon.svg?react";
 export { default as ErrorIcon } from "@/assets/svgs/error-icon.svg?react";
 export { default as NoSearch } from "@/assets/svgs/no-search.svg?react";
+
 export { default as WalletIcon } from "@/assets/svgs/wallet.svg?react";
 export { default as WalletCard } from "@/assets/svgs/wallet-card.svg?react";
 export { default as UserAvatar } from "@/assets/svgs/user-avatar.svg?react";
-
 export { default as EditProfile } from "@/assets/svgs/edit-profile.svg?react";
 export { default as RemoveCircle } from "@/assets/svgs/remove-circle.svg?react";
 export { default as Plus } from "@/assets/svgs/add-circle.svg?react";
 export { default as Confetti } from "@/assets/svgs/confetti.svg?react";
+
 export { default as CloudDownload } from "@/assets/svgs/cloud-download.svg?react";
+export { default as BuyIcon } from "@/assets/svgs/buy.svg?react";
+export { default as Download } from "@/assets/svgs/download.svg?react";
+export { default as Home } from "@/assets/svgs/home.svg?react";
+export { default as Bell } from "@/assets/svgs/bell.svg?react";
+export { default as User } from "@/assets/svgs/user.svg?react";
 
 export { default as Help } from "@/assets/svgs/help.svg?react";
 export { default as Resources } from "@/assets/svgs/resources.svg?react";
@@ -66,26 +62,21 @@ import confetti from "/images/confetti.png";
 export {
 	Menu,
 	Close,
-	Cancel,
 	ArrowBack,
 	ArrowUp,
 	ArrowDown,
-	FilterIcon,
 	SearchIcon,
 	MinusCircle,
 	PlusCircle,
 	Remove,
 	Google,
-	Trash,
 	Edit,
 	confetti,
 	Alert,
 	CheckCircle,
 	LogoutIcon,
-	VerticalDots,
 	Envelope,
 	Eye,
-	Bell,
 	EyeOff,
 	Lock,
 	profile_pic,

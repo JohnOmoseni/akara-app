@@ -1,5 +1,14 @@
-import { Help, Logout, Refer, Resources, Settings } from "./icons";
-import { Bell, Home, User } from "lucide-react";
+import {
+	Bell,
+	Help,
+	Home,
+	Logout,
+	Refer,
+	Resources,
+	Settings,
+	User,
+} from "./icons";
+// import { Bell, Home, User } from "lucide-react";
 
 export const routes = {
 	ROOT: "/",

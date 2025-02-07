@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import {
 	ArrowDown,
 	ArrowUp,
+	BuyIcon,
+	Download,
 	HouseKey,
 	Info,
 	LineChart,
@@ -301,6 +303,7 @@ const Aside = ({
 			<div className="row-flex !flex-wrap gap-x-4 gap-y-2">
 				<Button
 					title="Download details"
+					icon={Download}
 					onClick={() => {}}
 					className="w-full text-foreground-variant"
 					variant={"outline"}
@@ -308,6 +311,7 @@ const Aside = ({
 
 				<Button
 					title="Buy"
+					icon={BuyIcon}
 					onClick={() => {
 						setActiveOffering(offering);
 						setOpenModal("pay");
