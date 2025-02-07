@@ -61,7 +61,7 @@ const Notifications = () => {
 
 	return (
 		<SectionWrapper mainContainerStyles="sm:pt-8">
-			{!isLoading ? (
+			{isLoading ? (
 				<div className="loader">
 					<FallbackLoader />
 				</div>
