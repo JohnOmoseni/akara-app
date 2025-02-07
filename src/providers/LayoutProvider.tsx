@@ -1,9 +1,8 @@
 import { useAppDispatch } from "@/types";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { setNetwork, setScreenSize } from "@/redux/features/appSlice";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
-import FallbackLoader from "@/components/fallback/FallbackLoader";
 
 function LayoutProvider() {
 	const dispatch = useAppDispatch();
@@ -33,9 +32,7 @@ function LayoutProvider() {
 	return (
 		<>
 			<div className="wrapper font-inter">
-				<Suspense fallback={<FallbackLoader />}>
-					<Outlet />
-				</Suspense>
+				<Outlet />
 			</div>
 			<Toaster
 				richColors

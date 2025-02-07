@@ -22,7 +22,6 @@ import AllTransactions from "./app/transactions/page";
 const AppRouter = () => {
 	return (
 		<>
-			{/* <ScrollToTop /> */}
 			<ErrorBoundary>
 				<Routes>
 					<Route element={<LayoutProvider />}>
