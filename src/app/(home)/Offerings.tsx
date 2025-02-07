@@ -50,7 +50,8 @@ function Offerings() {
 			[].map((item: any) => ({
 				name: item?.name || "",
 				area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-				images: item?.image.map((img: any) => img?.image_path) || [
+				// images: item?.image?.map((img: any) => img?.image_path) || [
+				images: [
 					"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
 					"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
 					"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
