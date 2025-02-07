@@ -36,6 +36,7 @@ const Notifications = () => {
 						);
 
 						// Subscribe to push notifications
+						// @ts-ignore
 						const subscription = await registration.pushManager.subscribe({
 							userVisibleOnly: true,
 							applicationServerKey: "YOUR_PUBLIC_VAPID_KEY",

@@ -15,8 +15,8 @@ import { MdCancel as Remove } from "react-icons/md";
 import {
 	IoArrowDown as ArrowDown,
 	IoArrowDown as ArrowUp,
-	IoArrowRight as ArrowRight,
-	IoArrowLeft as ArrowLeft,
+	IoArrowForward as ArrowRight,
+	IoArrowBack as ArrowLeft,
 } from "react-icons/io5";
 import { LogOut as LogoutIcon } from "lucide-react";
 import { MinusCircle, PlusCircle } from "lucide-react";
@@ -67,6 +67,8 @@ export {
 	ArrowBack,
 	ArrowUp,
 	ArrowDown,
+	ArrowRight,
+	ArrowLeft,
 	SearchIcon,
 	MinusCircle,
 	PlusCircle,
