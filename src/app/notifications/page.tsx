@@ -59,17 +59,13 @@ const Notifications = () => {
 			toast.warning((error as any)?.message || "Error fetching offerings");
 	}, [isError, error]);
 
-	if (isLoading) {
-		return (
-			<div className="loader">
-				<FallbackLoader loading={isLoading} />
-			</div>
-		);
-	}
-
 	return (
 		<SectionWrapper mainContainerStyles="sm:pt-8">
-			{paginatedNotifications?.length > 0 ? (
+			{!isLoading ? (
+				<div className="loader">
+					<FallbackLoader />
+				</div>
+			) : paginatedNotifications?.length > 0 ? (
 				<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">
 					<>
 						{paginatedNotifications?.map((_, idx) => {

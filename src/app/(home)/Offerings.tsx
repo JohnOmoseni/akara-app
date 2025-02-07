@@ -45,7 +45,7 @@ function Offerings() {
 
 	// Client-side pagination logic
 	const offerings: ProcessedOffering[] = useMemo(() => {
-		const allListings = (paginatedData || []).map((item: any) => ({
+		const allListings = Array.from({ length: 3 }).map((item: any) => ({
 			name: item?.name || "",
 			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
 			images: item?.images.map((img: any) => img?.image_path) || [
@@ -271,7 +271,7 @@ const Aside = ({
 							key={index}
 							className="w-full grid grid-cols-[max-content_1fr] gap-2"
 						>
-							<item.icon className="size-4" />
+							<item.icon className="size-4 mt-1" />
 							<p className="text-sm w-full pr-2">
 								<span className="capitalize font-medium">{item?.label}: </span>
 
@@ -285,15 +285,15 @@ const Aside = ({
 				{info?.length > 3 && screenSize < 648 && (
 					<li
 						onClick={() => setExpanded(!expanded)}
-						className="text-sm block sm:hidden text-foreground-variant text-end w-max ml-auto font-medium transition-all duration-300"
+						className="text-sm block sm:hidden text-foreground-variant text-end w-max ml-auto font-medium transition-all duration-300 cursor-pointer"
 					>
 						{expanded ? (
 							<>
-								View Less <ArrowUp className="inline size-4" />
+								View Less <ArrowUp className="inline size-4 -mt-0.5" />
 							</>
 						) : (
 							<>
-								Expand <ArrowDown className="inline size-4" />
+								Expand <ArrowDown className="inline size-4 -mt-0.5" />
 							</>
 						)}
 					</li>
@@ -304,6 +304,7 @@ const Aside = ({
 				<Button
 					title="Download details"
 					icon={Download}
+					iconStyles="-mt-1"
 					onClick={() => {}}
 					className="w-full text-foreground-variant"
 					variant={"outline"}
@@ -312,6 +313,7 @@ const Aside = ({
 				<Button
 					title="Buy"
 					icon={BuyIcon}
+					iconStyles="stroke-white"
 					onClick={() => {
 						setActiveOffering(offering);
 						setOpenModal("pay");

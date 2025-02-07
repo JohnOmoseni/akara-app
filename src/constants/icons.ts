@@ -14,7 +14,7 @@ import { CiCircleCheck as CheckCircle, CiEdit as Edit } from "react-icons/ci";
 import { MdCancel as Remove } from "react-icons/md";
 import {
 	IoArrowDown as ArrowDown,
-	IoArrowDown as ArrowUp,
+	IoArrowUp as ArrowUp,
 	IoArrowForward as ArrowRight,
 	IoArrowBack as ArrowLeft,
 } from "react-icons/io5";

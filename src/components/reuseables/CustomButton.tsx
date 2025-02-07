@@ -35,6 +35,7 @@ interface ButtonProps extends ButtonVariantsProps {
 	isLoading?: boolean;
 	dir?: "left" | "right";
 	disabled?: boolean;
+	iconStyles?: string;
 	onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -44,6 +45,7 @@ const Button: FC<ButtonProps> = ({
 	type = "button",
 	dir = "left",
 	icon: Icon,
+	iconStyles,
 	onClick,
 	isLoading = false,
 	disabled = false,
@@ -71,11 +73,15 @@ const Button: FC<ButtonProps> = ({
 			) : (
 				<>
 					{Icon && dir === "left" && (
-						<Icon className="size-6 font-semibold stroke-variant" />
+						<Icon
+							className={cn("size-6 font-semibold stroke-variant -mt-0.5", iconStyles)}
+						/>
 					)}
 					{title}
 					{Icon && dir === "right" && (
-						<Icon className="size-6 font-semibold stroke-variant" />
+						<Icon
+							className={cn("size-6 font-semibold stroke-variant", iconStyles)}
+						/>
 					)}
 				</>
 			)}

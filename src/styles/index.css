@@ -146,6 +146,6 @@
 	}
 
 	.loader {
-		@apply relative h-[50vh] max-h-[300px];
+		@apply relative h-[80vh] md:h-[65vh] max-h-[470px];
 	}
 }

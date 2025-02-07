@@ -63,9 +63,12 @@ main:has(> .empty-list) {
 
 /* SVGS */
 .stroke-variant * {
-	stroke: var(--secondary-100) !important;
+	stroke: var(--secondary-100);
 }
 
+.stroke-white * {
+	stroke: var(--secondary-foreground);
+}
 /* RECAPTCHA */
 .recaptcha-container > div > div > div {
 	margin-inline: auto !important;

@@ -19,7 +19,7 @@ function Home() {
 		<>
 			{isFetching ? (
 				<div className="loader">
-					<FallbackLoader loading={isFetching} />
+					<FallbackLoader loading />
 				</div>
 			) : (
 				<Main />
