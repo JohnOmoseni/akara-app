@@ -1,13 +1,4 @@
-import {
-	Info,
-	Instagram,
-	Logout,
-	Refer,
-	Resources,
-	Settings,
-	Twitter,
-	Whatsapp,
-} from "./icons";
+import { Help, Logout, Refer, Resources, Settings } from "./icons";
 import { Bell, Home, User } from "lucide-react";
 
 export const routes = {
@@ -18,24 +9,6 @@ export const routes = {
 	UNAUTH: "/unauthorized",
 	DASHBOARD: "/dashboard",
 };
-
-export const socials = [
-	{
-		label: Instagram,
-		href: "https://www.instagram.com/luxury.with.lan/profilecard/?igsh=MTh4MWl2d25hamZmMQ==",
-		tag: "instagram",
-	},
-	{
-		label: Twitter,
-		href: "https://www.twitter.com/@luxurywithlan",
-		tag: "facebook",
-	},
-	{
-		label: Whatsapp,
-		href: "https://wa.me/+2348074764296?text=Hello%20there!",
-		tag: "chat",
-	},
-];
 
 export const footerTabs = [
 	{
@@ -105,7 +78,7 @@ export const privacyPolicy = [
 
 export const sidebarLinks = [
 	{
-		icon: Info,
+		icon: Help,
 		label: "Help",
 		href: "/help",
 		tag: "help",

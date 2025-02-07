@@ -42,20 +42,22 @@ export { default as EditProfile } from "@/assets/svgs/edit-profile.svg?react";
 export { default as RemoveCircle } from "@/assets/svgs/remove-circle.svg?react";
 export { default as Plus } from "@/assets/svgs/add-circle.svg?react";
 export { default as Confetti } from "@/assets/svgs/confetti.svg?react";
+export { default as CloudDownload } from "@/assets/svgs/cloud-download.svg?react";
 
-export { default as Info } from "@/assets/svgs/info.svg?react";
+export { default as Help } from "@/assets/svgs/help.svg?react";
 export { default as Resources } from "@/assets/svgs/resources.svg?react";
 export { default as Terms } from "@/assets/svgs/terms.svg?react";
 export { default as Refer } from "@/assets/svgs/refer.svg?react";
 export { default as Settings } from "@/assets/svgs/settings.svg?react";
 export { default as Logout } from "@/assets/svgs/log-out.svg?react";
 
+export { default as Info } from "@/assets/svgs/info.svg?react";
 export { default as HouseKey } from "@/assets/svgs/house-key.svg?react";
 export { default as PriceTag } from "@/assets/svgs/price-tag.svg?react";
 export { default as Rental } from "@/assets/svgs/rental.svg?react";
 export { default as Scale } from "@/assets/svgs/scale.svg?react";
 export { default as PieChart } from "@/assets/svgs/pie-chart.svg?react";
-export { default as LineChart } from "@/assets/svgs/line-chart.svg?react";
+export { default as LineChart } from "@/assets/svgs/chart-line.svg?react";
 export { default as Location } from "@/assets/svgs/location.svg?react";
 
 import profile_pic from "/images/profile-pic.jpeg";

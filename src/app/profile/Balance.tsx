@@ -1,6 +1,12 @@
 import Button from "@/components/reuseables/CustomButton";
 import { Modal } from "@/components/ui/components/Modal";
-import { EyeOff, Plus, RemoveCircle, WalletCard } from "@/constants/icons";
+import {
+	CloudDownload,
+	EyeOff,
+	Plus,
+	RemoveCircle,
+	WalletCard,
+} from "@/constants/icons";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { FundWallet, WithdrawFund } from "./balance-modal";
 import { MinusCircle, PlusCircle } from "@/constants/icons";
@@ -22,11 +28,11 @@ function Balance({ profileInfo, children }: Props) {
 	return (
 		<>
 			<div className="flex-column gap-8 sm:gap-10">
-				<div className="relative pt-9 sm:pt-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[max(240px,_38vh)] rounded-lg shadow-sm overflow-hidden">
+				<div className="relative pt-9 sm:pt-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[max(220px,_35vh)] rounded-lg shadow-sm overflow-hidden">
 					<div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] min-[500px]:w-[70%]">
 						<h3 className="font-semibold text-base">Available Balance</h3>
 
-						<h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none">
+						<h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none text-secondary-foreground">
 							₦2,000,000
 							<EyeOff className="size-5 cursor-pointer" />
 						</h1>
@@ -132,7 +138,7 @@ export const Transactions = ({ data }: { data: any }) => {
 			{transactions?.length > 0 ? (
 				<>
 					<ul className="flex-column gap-5">
-						{transactions?.slice(0, 5)?.map((tx: any) => {
+						{transactions?.slice(0, 3)?.map((tx: any) => {
 							return (
 								<li
 									key={tx?.id}
@@ -161,6 +167,7 @@ export const Transactions = ({ data }: { data: any }) => {
 					<Button
 						title="Download transaction history"
 						variant="outline"
+						icon={CloudDownload}
 						onClick={downloadCsv}
 						className="text-foreground-variant border-none shadow-none sm:mt-4 ml-4 w-max"
 					/>

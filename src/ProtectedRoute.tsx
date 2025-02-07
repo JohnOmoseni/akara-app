@@ -17,10 +17,10 @@ function ProtectedRoute({ children }: PropsWithChildren) {
 
 			// Only redirect if we're sure user is null (not authenticated)
 			if (user === null) {
-				navigate(routes.LOGIN, {
-					replace: true,
-					state: { returnTo: location.pathname },
-				});
+				// navigate(routes.LOGIN, {
+				// 	replace: true,
+				// 	state: { returnTo: location.pathname },
+				// });
 			}
 			return;
 		}
