@@ -90,3 +90,7 @@ export const exportToCSV = <T>({
 		console.error("Error exporting CSV:", error);
 	}
 };
+
+export function convertToNumber(str: string) {
+	return parseFloat(str.replace(/,/g, ""));
+}

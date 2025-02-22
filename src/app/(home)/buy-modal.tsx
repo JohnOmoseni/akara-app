@@ -4,6 +4,7 @@ import CustomFormField, {
 import FormWrapper from "@/components/forms/FormWrapper";
 import Button from "@/components/reuseables/CustomButton";
 import { WalletIcon } from "@/constants/icons";
+import { convertToNumber } from "@/lib";
 import { useGetProfileDetailsQuery } from "@/server/actions/profile";
 import { useFormik } from "formik";
 import { Dispatch, SetStateAction, useMemo } from "react";
@@ -60,7 +61,9 @@ export function BuyOffering({
 						"max-balance",
 						"Amount cannot exceed available balance",
 						(value) => {
-							return value * Number(formatted_price_per_unit) <= balance;
+							return (
+								value * convertToNumber(formatted_price_per_unit) <= balance
+							);
 						}
 					),
 			}),
