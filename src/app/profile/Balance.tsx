@@ -17,23 +17,26 @@ import { useAppDispatch } from "@/types";
 import EmptyListWithIcon from "../_sections/empty-list";
 
 type Props = {
-	profileInfo: any;
+	profileInfo?: any;
+	balance: string | null;
 	children: ReactNode;
+	bankInfo: any;
 };
 
-function Balance({ children }: Props) {
+function Balance({ balance, bankInfo, children }: Props) {
 	const [openModal, setOpenModal] = useState<false | "fund" | "withdraw">(
 		false
 	);
+
 	return (
 		<>
 			<div className="flex-column gap-8 sm:gap-10">
 				<div className="relative pt-9 sm:pt-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[max(220px,_35vh)] rounded-lg shadow-sm overflow-hidden">
-					<div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] min-[500px]:w-[70%]">
+					<div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] sm:w-[70%]">
 						<h3 className="font-semibold text-base">Available Balance</h3>
 
 						<h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none text-secondary-foreground">
-							₦2,000,000
+							₦{balance}
 							<EyeOff className="size-5 cursor-pointer" />
 						</h1>
 
@@ -43,7 +46,7 @@ function Balance({ children }: Props) {
 								onClick={() => setOpenModal("fund")}
 								icon={Plus}
 								dir="right"
-								className="bg-white text-foreground-variant min-w-[100px] md:min-w-[130px]"
+								className="bg-white text-foreground-variant max-sm:min-w-[100px] md:min-w-[130px]"
 							/>
 
 							<Button
@@ -51,7 +54,7 @@ function Balance({ children }: Props) {
 								icon={RemoveCircle}
 								dir="right"
 								onClick={() => setOpenModal("withdraw")}
-								className="bg-white text-foreground-variant min-w-[100px] md:min-w-[130px]"
+								className="bg-white text-foreground-variant max-sm:min-w-[100px] md:min-w-[130px]"
 							/>
 						</div>
 					</div>
@@ -71,7 +74,10 @@ function Balance({ children }: Props) {
 						isTopContent={<div />}
 						setOpenModal={() => setOpenModal(false)}
 					>
-						<FundWallet closeModal={() => setOpenModal(false)} />
+						<FundWallet
+							bankInfo={bankInfo}
+							closeModal={() => setOpenModal(false)}
+						/>
 					</Modal>
 				)}
 
@@ -81,7 +87,10 @@ function Balance({ children }: Props) {
 						isTopContent={<div />}
 						setOpenModal={() => setOpenModal(false)}
 					>
-						<WithdrawFund closeModal={() => setOpenModal(false)} />
+						<WithdrawFund
+							bankInfo={{ ...bankInfo, balance }}
+							closeModal={() => setOpenModal(false)}
+						/>
 					</Modal>
 				)}
 			</>

@@ -10,6 +10,14 @@ export const offeringsApiSlice = api.injectEndpoints({
 			query: () => `/user/notifications`,
 			// keepUnusedDataFor: 0,
 			transformResponse: (responseData: any) => {
+				return responseData?.notifications;
+			},
+		}),
+
+		markAsRead: builder.query<any, { notification_id: string }>({
+			query: ({ notification_id }) =>
+				`/user/notifications/${notification_id}/mark-as-read`,
+			transformResponse: (responseData: any) => {
 				return responseData;
 			},
 		}),

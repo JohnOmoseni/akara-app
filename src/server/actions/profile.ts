@@ -3,10 +3,12 @@ import api from "../api";
 export const profileApiSlice = api.injectEndpoints({
 	endpoints: (builder) => ({
 		getProfileDetails: builder.query({
-			query: () => `/user/profile`,
+			query: () => `/user`,
 			transformResponse: (responseData: any) => {
 				return responseData?.data;
 			},
+			providesTags: (_result, _error) =>
+				[{ type: "Profile", id: "LIST" }] as any,
 		}),
 
 		getBankDetails: builder.query({
@@ -19,17 +21,34 @@ export const profileApiSlice = api.injectEndpoints({
 		getAllTransactions: builder.query({
 			query: () => `/user/history`,
 			transformResponse: (responseData: any) => {
-				return responseData;
+				return responseData?.bank_info;
 			},
 		}),
 
-		createBank: builder.mutation({
-			query: (bankDetails: CreateBankParams) => ({
-				url: "/user/bank/update",
+		getAllBanks: builder.query({
+			query: () => `/user/bank/list`,
+			transformResponse: (responseData: any) => {
+				return responseData?.data;
+			},
+		}),
+
+		getTransactionById: builder.query({
+			query: ({ transaction_id }: { transaction_id: string }) =>
+				`/user/history/${transaction_id}`,
+			keepUnusedDataFor: 0,
+			transformResponse: (responseData: any) => {
+				return responseData;
+			},
+			providesTags: (_result, _error, id) => [{ type: "Earnings", id }] as any,
+		}),
+
+		// MUTATTIONs
+		verifyBank: builder.mutation({
+			query: (bankInfo: VerifyBankParams) => ({
+				url: "/user/bank/verify",
 				method: "POST",
-				body: bankDetails,
+				body: bankInfo,
 			}),
-			invalidatesTags: [{ type: "Profile" }] as any,
 		}),
 
 		updateBankInfo: builder.mutation({
@@ -66,8 +85,12 @@ export const {
 	useGetProfileDetailsQuery,
 	useGetBankDetailsQuery,
 	useGetAllTransactionsQuery,
-	useCreateBankMutation,
+	useGetAllBanksQuery,
+
+	useGetTransactionByIdQuery,
+
 	useUpdateProfileMutation,
 	useUpdateProfilePictureMutation,
 	useUpdateBankInfoMutation,
+	useVerifyBankMutation,
 } = profileApiSlice;

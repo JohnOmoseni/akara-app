@@ -33,14 +33,20 @@ export const wait = (ms: number) => {
 	});
 };
 
-export const formatNumber = (number: number) => {
-	if (!number) return false;
+export const formatNumber = (value: string | number) => {
+	if (value === null || value === undefined || value === "") return "0.00";
+
+	// Convert to a number if it's a string with commas
+	const numericValue =
+		typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
+
+	if (isNaN(numericValue)) return "0.00"; // Handle invalid numbers safely
 
 	return new Intl.NumberFormat("en-US", {
 		style: "decimal",
 		maximumFractionDigits: 2,
 		minimumFractionDigits: 2,
-	}).format(number);
+	}).format(numericValue);
 };
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);

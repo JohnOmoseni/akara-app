@@ -86,7 +86,7 @@ function ProfilePic({ image }: { image?: string }) {
 				<div className="group relative size-40 sm:size-44 aspect-square rounded-full shadow max-sm:mx-auto">
 					<img
 						src={image!}
-						alt="profile"
+						alt=""
 						className="object-cover size-full drop-shadow-xl"
 					/>
 				</div>

@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import { toast } from "sonner";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 
 import {
@@ -17,7 +16,6 @@ import {
 	Scale,
 } from "@/constants/icons";
 import { useAppSelector } from "@/types";
-import { useGetAllOfferingsQuery } from "@/server/actions/offerings";
 import { formatNumber } from "@/lib";
 import { Modal } from "@/components/ui/components/Modal";
 import { BuyOffering } from "./buy-modal";
@@ -26,96 +24,84 @@ import { Loader2 } from "lucide-react";
 
 import SuccessModal from "../_sections/success-modal";
 import Button from "@/components/reuseables/CustomButton";
-import FallbackLoader from "@/components/fallback/FallbackLoader";
 import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
 
-function Offerings() {
-	const {
-		data: offeringsData,
-		isLoading,
-		isError,
-		error,
-	} = useGetAllOfferingsQuery({});
-
-	const [activeImageIndex, setActiveImageIndex] = useState(0);
+function Offerings({ offeringsData }: { offeringsData: any }) {
+	const [activeImage, setActiveImage] = useState({
+		activeItem: 0,
+		activeImageIndex: 0,
+	});
 
 	const { paginatedData, page, hasMore, loadMoreRef } =
 		useInfinitePagination<any>(offeringsData);
 
 	// Client-side pagination logic
 	const offerings: ProcessedOffering[] = useMemo(() => {
-		const allListings =
-			paginatedData ||
-			[].map((item: any) => ({
-				name: item?.name || "",
-				area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-				// images: item?.image?.map((img: any) => img?.image_path) || [
-				images: [
-					"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
-					"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-					"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-				],
-				asideInfo: [
-					{
-						icon: Info,
-						label: "Description",
-						value: item?.description || "",
-					},
-					{
-						icon: Location,
-						label: "Location",
-						value: item?.location ? `${item.location}` : "N/A",
-					},
-					{
-						icon: Scale,
-						label: "Valuation",
-						value: formatNumber(item?.valuation) || "N/A",
-					},
-					{
-						icon: Rental,
-						label: "Net Annual Rental Income (Projection)",
-						value:
-							formatNumber(item?.projected_net_annual_rental_income) || "N/A",
-					},
-					{
-						icon: LineChart,
-						label: "Net Annual Appreciation (Projection)",
-						value: formatNumber(item?.projected_annual_appreciation) || "N/A",
-					},
-					{
-						icon: PieChart,
-						label: "Co-ownership units available",
-						value: item?.co_ownership_units || "N/A",
-					},
-					{
-						icon: PriceTag,
-						label: "Price per unit",
-						value: formatNumber(item?.price_per_unit) || "N/A",
-					},
-					{
-						icon: HouseKey,
-						label: "Current Occupancy Status",
-						value: item?.occupancy_stage || "N/A",
-					},
-				],
-			}));
+		const allListings = paginatedData.map((item: any) => ({
+			name: item?.name || "",
+			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
+			// images: item?.image?.map((img: any) => img?.image_path) || [
+			images: [
+				"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+				"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+			],
+			asideInfo: [
+				{
+					icon: Info,
+					label: "Description",
+					value: item?.description || "",
+					tag: "description",
+				},
+				{
+					icon: Location,
+					label: "Location",
+					value: item?.location ? `${item.location}` : "N/A",
+					tag: "location",
+				},
+				{
+					icon: Scale,
+					label: "Valuation",
+					value: formatNumber(item?.valuation) || "N/A",
+					tag: "valuation",
+				},
+				{
+					icon: Rental,
+					label: "Net Annual Rental Income (Projection)",
+					value:
+						formatNumber(item?.projected_net_annual_rental_income) || "N/A",
+					tag: "annual_rental_income",
+				},
+				{
+					icon: LineChart,
+					label: "Net Annual Appreciation (Projection)",
+					value: formatNumber(item?.projected_annual_appreciation) || "N/A",
+					tag: "annual_appreciation",
+				},
+				{
+					icon: PieChart,
+					label: "Co-ownership units available",
+					value: item?.co_ownership_units || "N/A",
+					tag: "co_ownership_units",
+				},
+				{
+					icon: PriceTag,
+					label: "Price per unit",
+					value: formatNumber(item?.price_per_unit) || "N/A",
+					tag: "price_per_unit",
+				},
+				{
+					icon: HouseKey,
+					label: "Current Occupancy Status",
+					value: item?.occupancy_stage || "N/A",
+					tag: "occupancy_status",
+				},
+			],
+		}));
 
 		return allListings;
 	}, [paginatedData, page]);
-
-	useEffect(() => {
-		if (isError)
-			toast.warning((error as any)?.message || "Error fetching offerings");
-	}, [isError, error]);
-
-	if (isLoading) {
-		return (
-			<div className="relative h-[50vh] max-h-[300px]">
-				<FallbackLoader loading={isLoading} />
-			</div>
-		);
-	}
 
 	return (
 		<div className="max-w-7xl relative flex-column gap-6 md:gap-7">
@@ -129,7 +115,11 @@ function Offerings() {
 							<section className="flex-column w-full gap-6">
 								<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md overflow-hidden">
 									<img
-										src={offering?.images?.[activeImageIndex]}
+										src={
+											idx === activeImage?.activeItem
+												? offering?.images[activeImage?.activeImageIndex]
+												: offering?.images[0]
+										}
 										alt=""
 										className="w-full h-full object-cover transition-opacity duration-300 nodownload-image"
 										style={{ opacity: 0.9 }}
@@ -174,7 +164,7 @@ function Offerings() {
 															}}
 															className={cn(
 																"size-2 bg-white rounded-full transition-all duration-300",
-																activeImageIndex === index &&
+																activeImage?.activeImageIndex === index &&
 																	"bg-secondary scale-105"
 															)}
 														/>
@@ -192,7 +182,13 @@ function Offerings() {
 											className={cn(
 												"relative cursor-pointer transition-opacity rounded-md overflow-hidden duration-200"
 											)}
-											onClick={() => setActiveImageIndex(index)}
+											onClick={() =>
+												setActiveImage((prev) => ({
+													...prev,
+													activeItem: idx,
+													activeImageIndex: index,
+												}))
+											}
 										>
 											<img
 												src={img}
@@ -207,7 +203,10 @@ function Offerings() {
 											<div
 												className={cn(
 													"absolute inset-0 bg-transparent/50  select-none",
-													activeImageIndex === index && "opacity-30"
+													((activeImage?.activeItem === idx &&
+														activeImage?.activeImageIndex === index) ||
+														index === 0) &&
+														"opacity-30"
 												)}
 												onContextMenu={(e) => e.preventDefault()}
 											/>
@@ -217,7 +216,7 @@ function Offerings() {
 							</section>
 
 							<aside className="w-full space-y-10 sticky sm:self-start my-2">
-								<Aside info={offering?.asideInfo} offering={undefined} />
+								<Aside info={offering?.asideInfo} offering={offering} />
 							</aside>
 						</div>
 					))}
@@ -226,9 +225,7 @@ function Offerings() {
 						{/* Load more trigger */}
 						{hasMore && (
 							<div ref={loadMoreRef} className="w-full pb-4 flex row-flex">
-								{hasMore && (
-									<Loader2 className="size-6 animate-spin text-primary" />
-								)}
+								{hasMore && <Loader2 className="size-6 animate-spin" />}
 							</div>
 						)}
 
@@ -247,19 +244,19 @@ function Offerings() {
 }
 
 // Separate the Aside component into its own file
-const Aside = ({
-	info,
-	offering,
-}: {
-	info: AsideInfo[];
-	offering?: Offering;
-}) => {
+const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 	const [expanded, setExpanded] = useState(false);
 	const { screenSize } = useAppSelector((state) => state.appState);
 	const [openModal, setOpenModal] = useState<
 		false | "pay" | "confirm" | "success"
 	>(false);
-	const [activeOffering, setActiveOffering] = useState<Offering | undefined>();
+	const [activeOffering, setActiveOffering] = useState<
+		ProcessedOffering | undefined
+	>();
+
+	const handlePurchaseOffering = () => {
+		setOpenModal("success");
+	};
 
 	return (
 		<>
@@ -267,7 +264,7 @@ const Aside = ({
 				{info
 					?.slice(
 						0,
-						screenSize < 648 ? (expanded ? info.length : 3) : info?.length
+						screenSize < 640 ? (expanded ? info.length : 3) : info?.length
 					)
 					.map((item: any, index: number) => (
 						<li
@@ -285,7 +282,7 @@ const Aside = ({
 						</li>
 					))}
 
-				{info?.length > 3 && screenSize < 648 && (
+				{info?.length > 3 && screenSize < 640 && (
 					<li
 						onClick={() => setExpanded(!expanded)}
 						className="text-sm block sm:hidden text-foreground-variant text-end w-max ml-auto font-medium transition-all duration-300 cursor-pointer"
@@ -335,7 +332,8 @@ const Aside = ({
 						<BuyOffering
 							closeModal={() => setOpenModal(false)}
 							setOpenModal={setOpenModal}
-							offering={activeOffering}
+							offering={activeOffering!}
+							setActiveOffering={setActiveOffering}
 						/>
 					</Modal>
 				)}
@@ -352,13 +350,13 @@ const Aside = ({
 								<>
 									You are about to purchase 5.6 co ownership units of{" "}
 									<span className="font-semibold">
-										River Niger Apartments, Yaba
+										{activeOffering?.area || "N/A"}
 									</span>{" "}
 									for the sum of{" "}
 									<span className="font-semibold"> ₦7,000,000</span>
 								</>
 							}
-							action={() => setOpenModal("success")}
+							action={() => handlePurchaseOffering()}
 							actionText="Proceed"
 						/>
 					</Modal>

@@ -8,9 +8,10 @@ import ProfilePic from "./profile-pic";
 type Props = {
 	profileInfo: any;
 	bankInfo: any;
+	allBanks: any;
 };
 
-function ProfileInfo({ profileInfo, bankInfo }: Props) {
+function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 	const [openModal, setOpenModal] = useState<
 		false | "edit-profile" | "edit-bank"
 	>(false);
@@ -42,6 +43,10 @@ function ProfileInfo({ profileInfo, bankInfo }: Props) {
 				label: "Account number",
 				value: bankInfo?.acc_number,
 			},
+			{
+				label: "Account Name",
+				value: bankInfo?.acc_name,
+			},
 		];
 	}, [bankInfo]);
 
@@ -53,7 +58,7 @@ function ProfileInfo({ profileInfo, bankInfo }: Props) {
 					<h3 className="font-semibold">Personal Information</h3>
 
 					<div className="mt-6 mb-5 grid place-items-center">
-						<ProfilePic image={profileInfo?.avatar || profile_pic} />
+						<ProfilePic image={profileInfo?.avatar ?? profile_pic} />
 					</div>
 
 					<div className="sm:px-1.5">
@@ -63,22 +68,20 @@ function ProfileInfo({ profileInfo, bankInfo }: Props) {
 									key={idx}
 									className="row-flex-btwn group w-full gap-4 text-foreground-100"
 								>
-									<p className="font-semibold">{info?.label}</p>
+									<p className="font-semibold leading-6">{info?.label}</p>
 									<p
 										className={cn(
 											"font-light flex-1 min-w-[10ch] max-[380px]:max-w-[15ch] break-words text-end"
 										)}
 									>
-										{info?.value || (
-											<span className="italic text-xs">unknown</span>
-										)}
+										{info?.value || <span className="italic text-xs">N/A</span>}
 									</p>
 								</li>
 							))}
 						</ul>
 
 						<p
-							className="text-sm row-flex-start gap-2 mt-6 text-foreground-variant font-semibold cursor-pointer"
+							className="w-max text-sm row-flex-start gap-2 mt-6 text-foreground-variant font-semibold cursor-pointer"
 							onClick={() => setOpenModal("edit-profile")}
 						>
 							<Edit className="size-5" />
@@ -108,7 +111,7 @@ function ProfileInfo({ profileInfo, bankInfo }: Props) {
 						</ul>
 
 						<p
-							className="text-sm row-flex-start gap-2 mt-6 text-foreground-variant font-semibold cursor-pointer"
+							className="w-max text-sm row-flex-start gap-2 mt-6 text-foreground-variant font-semibold cursor-pointer"
 							onClick={() => setOpenModal("edit-bank")}
 						>
 							<Edit className="size-5" />
@@ -135,9 +138,16 @@ function ProfileInfo({ profileInfo, bankInfo }: Props) {
 				<Modal
 					openModal={openModal === "edit-bank"}
 					isTopContent={<div />}
+					modalStyles="min-h-[350px]"
 					setOpenModal={() => setOpenModal(false)}
 				>
-					<EditBank closeModal={() => setOpenModal(false)} />
+					<div className="relative h-[300px]">
+						<EditBank
+							bankInfo={bankInfo}
+							closeModal={() => setOpenModal(false)}
+							allBanks={allBanks}
+						/>
+					</div>
 				</Modal>
 			)}
 		</>

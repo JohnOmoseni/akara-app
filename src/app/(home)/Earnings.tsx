@@ -1,23 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
-import { toast } from "sonner";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Info, Location, PieChart, Rental, Scale } from "@/constants/icons";
 import { formatNumber } from "@/lib";
 import { Loader2 } from "lucide-react";
-import { useGetAllOfferingsQuery } from "@/server/actions/offerings";
 
 import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
-import FallbackLoader from "@/components/fallback/FallbackLoader";
 
-function Earnings() {
-	const {
-		data: earningsData,
-		isLoading,
-		isError,
-		error,
-	} = useGetAllOfferingsQuery({});
-
+function Earnings({ earningsData }: { earningsData: any }) {
 	const [activeImageIndex, setActiveImageIndex] = useState(0);
 
 	const { paginatedData, page, hasMore, loadMoreRef } =
@@ -25,60 +15,50 @@ function Earnings() {
 
 	// Client-side pagination logic
 	const earnings: ProcessedOffering[] = useMemo(() => {
-		const allListings = (paginatedData || []).map((item: any) => ({
-			name: item?.name || "",
-			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-			// images: item?.image?.map((img: any) => img?.image_path) || [
-			images: [
-				"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
-				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-				"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-			],
-			asideInfo: [
-				{
-					icon: Info,
-					label: "Description",
-					value: item?.description || "",
-				},
-				{
-					icon: Location,
-					label: "Location",
-					value: item?.location ? `${item.location}` : "",
-				},
-				{
-					icon: Scale,
-					label: "Valuation",
-					value: formatNumber(item?.valuation) || "N/A",
-				},
-				{
-					icon: PieChart,
-					label: "Co-ownership units available",
-					value: item?.co_ownership_units || "N/A",
-				},
-				{
-					icon: Rental,
-					label: "Rent Income Earned",
-					value:
-						formatNumber(item?.projected_net_annual_rental_income) || "N/A",
-				},
-			],
-		}));
+		const allListings = paginatedData.map((item: any) => {
+			const offering = item?.offering;
+
+			return {
+				name: offering?.name || "",
+				area: offering?.location ? offering?.location?.split("\n", 2)[1] : "",
+				// images: offering?.image?.map((img: any) => img?.image_path) || [
+				images: [
+					"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+					"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+					"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+				],
+				asideInfo: [
+					{
+						icon: Info,
+						label: "Description",
+						value: offering?.description || "",
+					},
+					{
+						icon: Location,
+						label: "Location",
+						value: offering?.location ? `${offering.location}` : "",
+					},
+					{
+						icon: Scale,
+						label: "Valuation",
+						value: formatNumber(offering?.valuation) || "N/A",
+					},
+					{
+						icon: PieChart,
+						label: "Co-ownership units available",
+						value: offering?.co_ownership_units || "N/A",
+					},
+					{
+						icon: Rental,
+						label: "Rent Income Earned",
+						value: formatNumber(item?.amount) || "N/A",
+					},
+				],
+			};
+		});
 
 		return allListings;
 	}, [paginatedData, page]);
-
-	useEffect(() => {
-		if (isError)
-			toast.warning((error as any)?.message || "Error fetching earnings");
-	}, [isError, error]);
-
-	if (isLoading) {
-		return (
-			<div className="relative h-[50vh] max-h-[300px]">
-				<FallbackLoader loading={isLoading} />
-			</div>
-		);
-	}
 
 	return (
 		<div className="max-w-7xl relative flex-column gap-6 md:gap-7">
@@ -119,22 +99,6 @@ function Earnings() {
 													(_, index) => (
 														<div
 															key={index}
-															ref={(el) => {
-																if (el) {
-																	// Store the element reference
-																	// const element = el;
-																	// Use requestAnimationFrame to ensure DOM is ready
-																	// requestAnimationFrame(() => {
-																	// 	if (activeImageIndex === index) {
-																	// 		element.scrollIntoView({
-																	// 			behavior: "smooth",
-																	// 			block: "nearest",
-																	// 			inline: "nearest",
-																	// 		});
-																	// 	}
-																	// });
-																}
-															}}
 															className={cn(
 																"size-2 bg-white rounded-full transition-all duration-300",
 																activeImageIndex === index &&
@@ -221,15 +185,16 @@ const Aside = ({ info }: { info: AsideInfo[]; earning?: Earning }) => {
 					>
 						<item.icon className="size-4 mt-[3px]" />
 
-						<p
-							className={cn(
-								"text-sm w-full pr-2",
-								item?.label === "Rent Income Earned" && "text-secondary-100"
-							)}
-						>
+						<p className={cn("text-sm w-full pr-2")}>
 							<span className="capitalize font-medium">{item?.label}: </span>
 
-							<span className="text-foreground-100 leading-6 whitespace-pre-line">
+							<span
+								className={cn(
+									"text-foreground-100 leading-6 whitespace-pre-line",
+									item?.label === "Rent Income Earned" &&
+										"text-secondary-100 font-medium"
+								)}
+							>
 								{item?.value}
 							</span>
 						</p>

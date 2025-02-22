@@ -1,12 +1,34 @@
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import FallbackLoader from "@/components/fallback/FallbackLoader";
-import Main from "./Main";
+import {
+	useGetAllEarningsQuery,
+	useGetAllOfferingsQuery,
+} from "@/server/actions/offerings";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-function Home() {
-	const isError = false;
-	const error = null;
-	const isFetching = false;
+import SectionWrapper from "@/layouts/SectionWrapper";
+import Offerings from "./Offerings";
+import Earnings from "./Earnings";
+import FallbackLoader from "@/components/fallback/FallbackLoader";
+
+function Main() {
+	const { state } = useLocation();
+	const { type } = state || { type: "offerings" };
+
+	const {
+		data: offerings,
+		isFetching,
+		isError,
+		error,
+	} = useGetAllOfferingsQuery({});
+
+	const {
+		data: earnings,
+		isFetching: isFetchingEarnings,
+		isError: isEarningsError,
+		error: earningsError,
+	} = useGetAllEarningsQuery({});
 
 	useEffect(() => {
 		if (isError) {
@@ -15,17 +37,42 @@ function Home() {
 		}
 	}, [isError]);
 
+	if (isFetching) {
+		return (
+			<div className="loader">
+				<FallbackLoader loading />
+			</div>
+		);
+	}
+
+	console.log("TEST", earnings, offerings);
+
 	return (
-		<>
-			{isFetching ? (
-				<div className="loader">
-					<FallbackLoader loading />
-				</div>
-			) : (
-				<Main />
-			)}
-		</>
+		<SectionWrapper customHeaderComponent={<></>}>
+			<Tabs defaultValue={type} className="">
+				<TabsList className="grid w-full grid-cols-2 sm:max-w-max mx-auto">
+					<TabsTrigger value="offerings">Offerings </TabsTrigger>
+					<TabsTrigger value="earnings">Earnings</TabsTrigger>
+				</TabsList>
+
+				{/* OFFERINGS */}
+				<TabsContent value="offerings">
+					<div className="flex-column gap-4 sm:mt-6">
+						<Offerings offeringsData={offerings} />
+					</div>
+				</TabsContent>
+
+				{/* EARNINGS */}
+				<TabsContent value="earnings">
+					<div className="flex-column gap-4 mt-6">
+						<Earnings earningsData={earnings} />
+					</div>
+				</TabsContent>
+			</Tabs>
+		</SectionWrapper>
 	);
 }
 
-export default Home;
+export default Main;
+
+// @ts-ignore

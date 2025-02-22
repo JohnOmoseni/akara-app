@@ -49,6 +49,11 @@ interface CreateBankParams {
 	acc_number: string;
 }
 
+interface VerifyBankParams {
+	account_number: string;
+	bank_code: string;
+}
+
 interface UpdateProfileParams {
 	firstname: string;
 	lastname: string;

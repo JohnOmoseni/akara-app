@@ -7,6 +7,7 @@ interface FormWrapperProps {
 	buttonLabel?: string;
 	isSubmitting?: boolean;
 	containerStyles?: string;
+	formWrapperStyles?: string;
 	btnStyles?: string;
 	onSubmit?: () => void;
 	footerSection?: ReactNode;
@@ -17,13 +18,17 @@ function FormWrapper({
 	buttonLabel,
 	isSubmitting,
 	containerStyles,
+	formWrapperStyles,
 	btnStyles,
 	onSubmit,
 	footerSection,
 }: FormWrapperProps) {
 	return (
 		<div className={cn("mt-4 sm:mt-6 h-full w-full max-w-lg", containerStyles)}>
-			<form onSubmit={onSubmit} className="flex-column flex-1 gap-8">
+			<form
+				onSubmit={onSubmit}
+				className={cn("flex-column flex-1 gap-8", formWrapperStyles)}
+			>
 				<div className="flex-column gap-2 space-y-2">{children}</div>
 
 				{footerSection ? (

@@ -1,22 +1,29 @@
+import { useGetAllNotificationsQuery } from "@/server/actions/notifications";
+import { useEffect, useMemo } from "react";
+import { toast } from "sonner";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
 import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
 import SectionWrapper from "@/layouts/SectionWrapper";
-import { useGetAllNotificationsQuery } from "@/server/actions/notifications";
-import { useEffect, useMemo } from "react";
-import { toast } from "sonner";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const Notifications = () => {
 	const { data, isLoading, isError, error } = useGetAllNotificationsQuery({});
 	const { paginatedData, page, hasMore, loadMoreRef } =
-		useInfinitePagination<any>(data?.notifications);
+		useInfinitePagination<any>(data);
 
 	// Client-side pagination logic
 	const paginatedNotifications: NotificationsType[] = useMemo(() => {
-		const allNotifications = (paginatedData || []).map((item: any) => ({
-			description: item?.name || "",
-			time: "",
-			date: "",
+		const allNotifications = paginatedData.map((item: any) => ({
+			id: item?.id,
+			description: item?.data?.info || "",
+			time: item?.created_at ? dayjs(item?.created_at).fromNow() : "",
+			date: item?.created_at
+				? dayjs(item?.created_at).format("D MMM, YYYY")
+				: "",
 		}));
 
 		return allNotifications;
@@ -56,7 +63,7 @@ const Notifications = () => {
 
 	useEffect(() => {
 		if (isError)
-			toast.warning((error as any)?.message || "Error fetching offerings");
+			toast.warning((error as any)?.message || "Error fetching notifications");
 	}, [isError, error]);
 
 	return (
@@ -68,20 +75,19 @@ const Notifications = () => {
 			) : paginatedNotifications?.length > 0 ? (
 				<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">
 					<>
-						{paginatedNotifications?.map((_, idx) => {
+						{paginatedNotifications?.map((item, idx) => {
 							return (
 								<li
 									key={idx}
 									className="flex-column gap-1 pr-1 card !px-3 !py-3 drop-shadow-[0_1px_4px_rgb(0_0_0_/_0.08)]"
 								>
 									<p className="text-sm font-light break-all">
-										You have successfully funded your wallet with ₦50,000. Your
-										current wallet balance is ₦5,000
+										{item.description}
 									</p>
 
 									<p className="text-xs mt-1 text-grey row-flex-start gap-2 tracking-wide">
 										<span className="size-2 bg-grey-100 rounded-full clip-circle" />
-										<span>4mins ago</span>
+										<span>{item.time}</span>
 									</p>
 								</li>
 							);

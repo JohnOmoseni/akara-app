@@ -4,26 +4,47 @@ import CustomFormField, {
 import FormWrapper from "@/components/forms/FormWrapper";
 import Button from "@/components/reuseables/CustomButton";
 import { WalletIcon } from "@/constants/icons";
+import { handlePayment } from "@/lib/utils";
+import {
+	useDepositMutation,
+	useWithdrawMutation,
+} from "@/server/actions/transactions";
 import { useFormik } from "formik";
+import { useState } from "react";
 import { toast } from "sonner";
 import * as yup from "yup";
 
 type Props = {
 	closeModal: () => void;
-	info?: any;
+	bankInfo?: any;
 };
 
-export function FundWallet({ closeModal }: Props) {
-	// @ts-ignore
-	const onSubmit = async (values: any, actions: any) => {
+export function FundWallet({ bankInfo, closeModal }: Props) {
+	const [depositMutation, { isLoading }] = useDepositMutation();
+	const [isPaymentInitiated, setIsPaymentInitiated] = useState(false);
+	const onSubmit = async (values: any) => {
+		setIsPaymentInitiated(true);
+		const data = { amount: values.amount };
+		let message;
+
 		try {
-			// const res = await requestCallbackMutation(data);
+			const res = await depositMutation(data);
+			if (res?.error) {
+				message = (res.error as any)?.error || "An error occured";
+				throw new Error(message);
+			}
 
-			actions?.resetForm();
+			message = res?.data?.message || "Deposit initialized successfully";
+			toast.info(message);
+
+			const checkoutUrl = res?.data?.data?.checkoutUrl;
+			if (checkoutUrl) await handlePayment(checkoutUrl);
+			setIsPaymentInitiated(false);
 		} catch (error: any) {
-			const message = error?.response?.data?.message;
+			const message = error.message || "An error occured";
 
-			toast.error(message || "Error saving changes");
+			toast.error(message);
+			setIsPaymentInitiated(false);
 		}
 	};
 
@@ -52,9 +73,10 @@ export function FundWallet({ closeModal }: Props) {
 							className="flex-1 max-[500px]:order-2 w-full"
 						/>
 						<Button
-							title="Proceed"
 							type="submit"
-							onClick={() => null}
+							title={isLoading ? "Processing..." : "Proceed"}
+							disabled={isLoading || isPaymentInitiated}
+							isLoading={isLoading}
 							className="flex-1 max-[500px]:order-1 w-full"
 						/>
 					</div>
@@ -65,9 +87,9 @@ export function FundWallet({ closeModal }: Props) {
 					<WalletIcon className="size-12" />
 
 					<div>
-						<p className="font-semibold">Wema Bank</p>
+						<p className="font-semibold">{bankInfo?.bank_name || "Unknown"}</p>
 						<span className="text-xs text-grey mt-0.5 font-medium">
-							0513889571
+							{bankInfo?.acc_number || "N/A"}
 						</span>
 					</div>
 				</div>
@@ -90,18 +112,31 @@ export function FundWallet({ closeModal }: Props) {
 	);
 }
 
-export function WithdrawFund({ closeModal, info }: Props) {
-	const balance = info?.balance;
-	// @ts-ignore
-	const onSubmit = async (values: any, actions: any) => {
+export function WithdrawFund({ closeModal, bankInfo }: Props) {
+	const balance = bankInfo?.balance
+		? Number(bankInfo?.balance.replace(/,/g, ""))
+		: 0;
+	const [withdrawMutation, { isLoading }] = useWithdrawMutation();
+
+	const onSubmit = async (values: any) => {
+		let message;
+
+		const data = { amount: String(values.amount) };
 		try {
-			// const res = await requestCallbackMutation(data);
+			const res = await withdrawMutation(data);
 
-			actions?.resetForm();
+			if (res?.error) {
+				message = (res.error as any)?.error || "An error occured";
+				throw new Error(message);
+			}
+
+			message = res?.data?.message || "Withdrawal successfully";
+			toast.info(message);
+
+			closeModal();
 		} catch (error: any) {
-			const message = error?.response?.data?.message;
-
-			toast.error(message || "Error saving changes");
+			const message = error.message || "An error occured";
+			toast.error(message);
 		}
 	};
 
@@ -128,6 +163,7 @@ export function WithdrawFund({ closeModal, info }: Props) {
 	return (
 		<div className="relative">
 			<FormWrapper
+				onSubmit={handleSubmit}
 				btnStyles=""
 				containerStyles="max-w-full !mt-0"
 				footerSection={
@@ -139,14 +175,14 @@ export function WithdrawFund({ closeModal, info }: Props) {
 							className="flex-1 max-[500px]:order-2 w-full"
 						/>
 						<Button
-							title="Withdraw"
 							type="submit"
-							onClick={() => null}
+							disabled={isLoading}
+							isLoading={isLoading}
+							title={isLoading ? "Submitting..." : "Withdraw"}
 							className="flex-1 max-[500px]:order-1 w-full"
 						/>
 					</div>
 				}
-				onSubmit={handleSubmit}
 			>
 				<div className="flex-column gap-1.5">
 					<CustomFormField
@@ -164,7 +200,7 @@ export function WithdrawFund({ closeModal, info }: Props) {
 					/>
 
 					<p className="text-xs text-muted-foreground ml-1">
-						Current Wallet balance: ₦{balance || 0}
+						Current Wallet balance: ₦{bankInfo?.balance || 0}
 					</p>
 				</div>
 			</FormWrapper>

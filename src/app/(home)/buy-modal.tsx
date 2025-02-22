@@ -4,8 +4,9 @@ import CustomFormField, {
 import FormWrapper from "@/components/forms/FormWrapper";
 import Button from "@/components/reuseables/CustomButton";
 import { WalletIcon } from "@/constants/icons";
+import { useGetProfileDetailsQuery } from "@/server/actions/profile";
 import { useFormik } from "formik";
-import { toast } from "sonner";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import * as yup from "yup";
 
 type Props = {
@@ -13,22 +14,36 @@ type Props = {
 	setOpenModal: (
 		value: React.SetStateAction<false | "confirm" | "pay" | "success">
 	) => void;
-	offering?: any;
+	offering: ProcessedOffering;
+	setActiveOffering: Dispatch<SetStateAction<ProcessedOffering | undefined>>;
 };
 
-export function BuyOffering({ closeModal, setOpenModal, offering }: Props) {
-	// @ts-ignore
-	const price_per_unit = offering?.price_per_unit;
-	const balance = offering?.price_per_unit || 100;
-	// @ts-ignore
-	const onSubmit = async (values: any, actions: any) => {
-		try {
-			setOpenModal("confirm");
-		} catch (error: any) {
-			const message = error?.response?.data?.message;
+export function BuyOffering({
+	closeModal,
+	setOpenModal,
+	setActiveOffering,
+	offering,
+}: Props) {
+	const { data: profileInfo } = useGetProfileDetailsQuery({});
 
-			toast.error(message || "Something went wrong");
-		}
+	const balance = useMemo(
+		() =>
+			profileInfo?.wallet?.balance
+				? Number(profileInfo?.wallet?.balance.replace(/,/g, ""))
+				: 0,
+		[profileInfo]
+	);
+	const price_per_unit = offering?.asideInfo.find(
+		(item) => item?.tag === "price_per_unit"
+	)?.value;
+	const formatted_price_per_unit = parseInt(
+		price_per_unit.replace(/,/g, ""),
+		10
+	).toLocaleString();
+
+	const onSubmit = async (values: any) => {
+		setActiveOffering({ ...offering, amount: values.amount });
+		setOpenModal("confirm");
 	};
 
 	const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
@@ -45,7 +60,7 @@ export function BuyOffering({ closeModal, setOpenModal, offering }: Props) {
 						"max-balance",
 						"Amount cannot exceed available balance",
 						(value) => {
-							return value <= balance;
+							return value * Number(formatted_price_per_unit) <= balance;
 						}
 					),
 			}),
@@ -85,7 +100,9 @@ export function BuyOffering({ closeModal, setOpenModal, offering }: Props) {
 						<CustomFormField
 							fieldType={FormFieldType.INPUT}
 							name="amount"
-							label="₦1,245 / Unit"
+							label={`${
+								price_per_unit ? `₦${formatted_price_per_unit} / Unit` : ""
+							}`}
 							labelStyles="font-medium opacity-80 ml-1"
 							onBlur={handleBlur}
 							errors={errors}
@@ -99,7 +116,7 @@ export function BuyOffering({ closeModal, setOpenModal, offering }: Props) {
 						/>
 
 						<p className="text-xs text-grey ml-1 mt-1">
-							River Niger Apartment, Yaba
+							{offering?.area || "N/A"}
 						</p>
 					</div>
 				</div>
