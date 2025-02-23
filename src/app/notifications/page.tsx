@@ -11,7 +11,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const Notifications = () => {
-	const { data, isLoading, isError, error } = useGetAllNotificationsQuery({});
+	const { data, isFetching, isError, error } = useGetAllNotificationsQuery({});
 	const { paginatedData, page, hasMore, loadMoreRef } =
 		useInfinitePagination<any>(data);
 
@@ -19,7 +19,9 @@ const Notifications = () => {
 	const paginatedNotifications: NotificationsType[] = useMemo(() => {
 		const allNotifications = paginatedData.map((item: any) => ({
 			id: item?.id,
-			description: item?.data?.info || "",
+			description: item?.data?.info ?? (
+				<span className="italic">No description available</span>
+			),
 			time: item?.created_at ? dayjs(item?.created_at).fromNow() : "",
 			date: item?.created_at
 				? dayjs(item?.created_at).format("D MMM, YYYY")
@@ -29,37 +31,37 @@ const Notifications = () => {
 		return allNotifications;
 	}, [data, page]);
 
-	useEffect(() => {
-		// Request notification permission and register service worker
-		const requestNotificationPermission = async () => {
-			try {
-				if ("Notification" in window) {
-					const permission = await Notification.requestPermission();
+	// useEffect(() => {
+	// 	// Request notification permission and register service worker
+	// 	const requestNotificationPermission = async () => {
+	// 		try {
+	// 			if ("Notification" in window) {
+	// 				const permission = await Notification.requestPermission();
 
-					if (permission === "granted") {
-						// Register service worker
-						const registration = await navigator.serviceWorker.register(
-							"/service-worker.js"
-						);
+	// 				if (permission === "granted") {
+	// 					// Register service worker
+	// 					const registration = await navigator.serviceWorker.register(
+	// 						"/service-worker.js"
+	// 					);
 
-						// Subscribe to push notifications
-						// @ts-ignore
-						const subscription = await registration.pushManager.subscribe({
-							userVisibleOnly: true,
-							applicationServerKey: "YOUR_PUBLIC_VAPID_KEY",
-						});
+	// 					// Subscribe to push notifications
+	// 					// @ts-ignore
+	// 					const subscription = await registration.pushManager.subscribe({
+	// 						userVisibleOnly: true,
+	// 						applicationServerKey: "YOUR_PUBLIC_VAPID_KEY",
+	// 					});
 
-						// Send subscription to your backend
-						// await sendSubscriptionToServer(subscription);
-					}
-				}
-			} catch (error) {
-				console.error("Error setting up notifications:", error);
-			}
-		};
+	// 					// Send subscription to your backend
+	// 					// await sendSubscriptionToServer(subscription);
+	// 				}
+	// 			}
+	// 		} catch (error) {
+	// 			console.error("Error setting up notifications:", error);
+	// 		}
+	// 	};
 
-		requestNotificationPermission();
-	}, []);
+	// 	requestNotificationPermission();
+	// }, []);
 
 	useEffect(() => {
 		if (isError)
@@ -68,9 +70,9 @@ const Notifications = () => {
 
 	return (
 		<SectionWrapper mainContainerStyles="sm:pt-8">
-			{isLoading ? (
+			{isFetching ? (
 				<div className="loader">
-					<FallbackLoader />
+					<FallbackLoader loading />
 				</div>
 			) : paginatedNotifications?.length > 0 ? (
 				<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">

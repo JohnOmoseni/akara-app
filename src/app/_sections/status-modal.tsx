@@ -1,20 +1,30 @@
 import Button from "@/components/reuseables/CustomButton";
 import { confetti, ErrorIcon } from "@/constants/icons";
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
-type SuccessModalProps = {
+type StatusModalProps = {
 	info: ReactNode;
 	type: "success" | "error";
-	onButtonClick: () => void;
+	closeModal: () => void;
 	buttonStyle?: string;
 };
-function SuccessModal({
+function StatusModal({
 	info,
 	type = "success",
-	onButtonClick,
+	closeModal,
 	buttonStyle,
-}: SuccessModalProps) {
+}: StatusModalProps) {
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			closeModal();
+		}, 5000);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, []);
+
 	return (
 		<div className="relative mb-1.5">
 			<div className="flex-column items-center gap-5">
@@ -27,17 +37,17 @@ function SuccessModal({
 			</div>
 
 			<div className="flex-column mt-4 items-center gap-6 md:gap-8">
-				<p className="max-w-[40ch] px-2 text-center leading-5 ">{info}</p>
+				<p className="max-w-[50ch] px-2 text-center leading-5">{info}</p>
 
 				<Button
-					onClick={onButtonClick}
+					onClick={closeModal}
 					title={"Close"}
 					variant={"outline"}
-					className={cn("w-full", buttonStyle)}
+					className={cn("w-[95%]", buttonStyle)}
 				/>
 			</div>
 		</div>
 	);
 }
 
-export default SuccessModal;
+export default StatusModal;

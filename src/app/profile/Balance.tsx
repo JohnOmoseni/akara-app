@@ -14,6 +14,9 @@ import { Link } from "react-router-dom";
 import { exportToCSV, formatDate } from "@/lib";
 import { setSelectedTab } from "@/redux/features/appSlice";
 import { useAppDispatch } from "@/types";
+import { ConfirmAction } from "../_sections/confirm-action";
+import { useWithdrawMutation } from "@/server/actions/transactions";
+import { toast } from "sonner";
 import EmptyListWithIcon from "../_sections/empty-list";
 
 type Props = {
@@ -21,12 +24,49 @@ type Props = {
 	balance: string | null;
 	children: ReactNode;
 	bankInfo: any;
+	currentTxn: any;
+	refetchProfile: any;
+	setCurrentTxn: React.Dispatch<React.SetStateAction<CurrentTxnParams>>;
+	setStatusOpenModal: React.Dispatch<
+		React.SetStateAction<false | "withdraw-success" | "fund-success">
+	>;
 };
 
-function Balance({ balance, bankInfo, children }: Props) {
-	const [openModal, setOpenModal] = useState<false | "fund" | "withdraw">(
-		false
-	);
+function Balance({
+	balance,
+	bankInfo,
+	children,
+	currentTxn,
+	refetchProfile,
+	setCurrentTxn,
+	setStatusOpenModal,
+}: Props) {
+	const [openModal, setOpenModal] = useState<
+		false | "fund" | "withdraw" | "confirm"
+	>(false);
+	const [withdrawMutation, { isLoading: isWithdrawing }] =
+		useWithdrawMutation();
+
+	const handleWithdraw = async () => {
+		let message;
+		const data = { amount: String(currentTxn?.amount) };
+
+		try {
+			const res = await withdrawMutation(data);
+			if (res?.error) {
+				message = (res.error as any)?.error || "An error occured";
+				throw new Error(message);
+			}
+
+			message = res?.data?.message || "Withdrawal successfully";
+			setOpenModal(false);
+			refetchProfile?.();
+			setStatusOpenModal("withdraw-success");
+		} catch (error: any) {
+			const message = error.message || "An error occured";
+			toast.error(message);
+		}
+	};
 
 	return (
 		<>
@@ -77,6 +117,7 @@ function Balance({ balance, bankInfo, children }: Props) {
 						<FundWallet
 							bankInfo={bankInfo}
 							closeModal={() => setOpenModal(false)}
+							setOpenModal={setOpenModal}
 						/>
 					</Modal>
 				)}
@@ -90,6 +131,45 @@ function Balance({ balance, bankInfo, children }: Props) {
 						<WithdrawFund
 							bankInfo={{ ...bankInfo, balance }}
 							closeModal={() => setOpenModal(false)}
+							setOpenModal={setOpenModal}
+							setCurrentTxn={setCurrentTxn}
+						/>
+					</Modal>
+				)}
+
+				{openModal && (
+					<Modal
+						openModal={openModal === "confirm"}
+						isTopContent={<div />}
+						modalStyles="min-h-[100px]"
+					>
+						<ConfirmAction
+							closeModal={() => setOpenModal(false)}
+							info={
+								<>
+									You are about to withdraw <br />{" "}
+									<span className="font-semibold">₦{currentTxn?.amount}</span>
+									<br />
+									from your wallet into your registered bank account
+									<span className="flex-column gap-1 mt-1.5">
+										<span className="font-semibold">
+											{" "}
+											Account Number: {bankInfo?.acc_number}
+										</span>
+										<span className="font-semibold">
+											{" "}
+											Bank Name: {bankInfo?.bank_name}
+										</span>
+										<span className="font-semibold">
+											{" "}
+											Account Name: {bankInfo?.acc_name}
+										</span>
+									</span>
+								</>
+							}
+							action={() => handleWithdraw()}
+							actionText={isWithdrawing ? "Withdrawing..." : "Withdraw"}
+							cancelText="Go back"
 						/>
 					</Modal>
 				)}
@@ -97,7 +177,6 @@ function Balance({ balance, bankInfo, children }: Props) {
 		</>
 	);
 }
-
 export default Balance;
 
 export const Transactions = ({ data }: { data: any }) => {

@@ -18,7 +18,7 @@ export const ConfirmAction = ({
 }: Props) => {
 	return (
 		<div className="flex-column gap-6">
-			<p className="text-center leading-5 max-w-[40ch] px-2">{info}</p>
+			<p className="text-center leading-5 max-w-[40ch] px-2 mx-auto">{info}</p>
 
 			<div className="flex-column min-[500px]:row-flex gap-x-4 gap-y-2">
 				<Button

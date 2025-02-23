@@ -206,12 +206,16 @@ export default function AuthProvider({
 	};
 
 	const handleGoogleLogin = () => {
+		setIsLoadingAuth(true);
 		try {
 			// Redirect the user to the Google login endpoint
-			window.location.href = `${API_DOMAIN}/login-with-google`;
+			window.location.href = `https://api.akara.ng/auth/google`;
 		} catch (error: any) {
 			const errorMessage = error?.message || error?.response?.data?.message;
+			console.log("ERROR", error);
 			toast.error(errorMessage || "Something went wrong. Please try again.");
+		} finally {
+			setIsLoadingAuth(false);
 		}
 	};
 

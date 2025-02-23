@@ -37,7 +37,7 @@ function SignIn() {
 	};
 
 	useEffect(() => {
-		const ssoStatus = searchParams.get("sso-signin-status");
+		const ssoStatus = searchParams.get("status");
 		const ssoToken = searchParams.get("token");
 
 		const handleSSOAuth = async () => {

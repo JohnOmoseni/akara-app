@@ -5,10 +5,7 @@ import FormWrapper from "@/components/forms/FormWrapper";
 import Button from "@/components/reuseables/CustomButton";
 import { WalletIcon } from "@/constants/icons";
 import { handlePayment } from "@/lib/utils";
-import {
-	useDepositMutation,
-	useWithdrawMutation,
-} from "@/server/actions/transactions";
+import { useDepositMutation } from "@/server/actions/transactions";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,16 +14,27 @@ import * as yup from "yup";
 type Props = {
 	closeModal: () => void;
 	bankInfo?: any;
+	setCurrentTxn?: React.Dispatch<React.SetStateAction<CurrentTxnParams>>;
+	setOpenModal?: React.Dispatch<
+		React.SetStateAction<false | "fund" | "withdraw" | "confirm">
+	>;
 };
 
 export function FundWallet({ bankInfo, closeModal }: Props) {
 	const [depositMutation, { isLoading }] = useDepositMutation();
 	const [isPaymentInitiated, setIsPaymentInitiated] = useState(false);
-	const onSubmit = async (values: any) => {
-		setIsPaymentInitiated(true);
-		const data = { amount: values.amount };
-		let message;
 
+	const onSubmit = async (values: any) => {
+		const data = { amount: values.amount };
+		const currentTxn = {
+			type: "fund",
+			amount: values.amount,
+		};
+
+		localStorage.setItem("currentTxn", JSON.stringify(currentTxn));
+
+		setIsPaymentInitiated(true);
+		let message;
 		try {
 			const res = await depositMutation(data);
 			if (res?.error) {
@@ -112,32 +120,24 @@ export function FundWallet({ bankInfo, closeModal }: Props) {
 	);
 }
 
-export function WithdrawFund({ closeModal, bankInfo }: Props) {
+export function WithdrawFund({
+	closeModal,
+	bankInfo,
+	setOpenModal,
+	setCurrentTxn,
+}: Props) {
 	const balance = bankInfo?.balance
 		? Number(bankInfo?.balance.replace(/,/g, ""))
 		: 0;
-	const [withdrawMutation, { isLoading }] = useWithdrawMutation();
 
 	const onSubmit = async (values: any) => {
-		let message;
-
-		const data = { amount: String(values.amount) };
-		try {
-			const res = await withdrawMutation(data);
-
-			if (res?.error) {
-				message = (res.error as any)?.error || "An error occured";
-				throw new Error(message);
-			}
-
-			message = res?.data?.message || "Withdrawal successfully";
-			toast.info(message);
-
-			closeModal();
-		} catch (error: any) {
-			const message = error.message || "An error occured";
-			toast.error(message);
-		}
+		const currentTxn: CurrentTxnParams = {
+			type: "withdraw",
+			amount: values.amount,
+		};
+		setCurrentTxn?.(currentTxn);
+		localStorage.setItem("currentTxn", JSON.stringify(currentTxn));
+		setOpenModal?.("confirm");
 	};
 
 	const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
@@ -176,9 +176,7 @@ export function WithdrawFund({ closeModal, bankInfo }: Props) {
 						/>
 						<Button
 							type="submit"
-							disabled={isLoading}
-							isLoading={isLoading}
-							title={isLoading ? "Submitting..." : "Withdraw"}
+							title="Proceed"
 							className="flex-1 max-[500px]:order-1 w-full"
 						/>
 					</div>

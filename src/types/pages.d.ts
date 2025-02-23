@@ -18,3 +18,8 @@ interface NotificationsType {
 	time: string;
 	date: string;
 }
+
+type CurrentTxnParams = {
+	type: "fund" | "withdraw";
+	amount: number | null;
+} | null;

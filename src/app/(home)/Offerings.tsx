@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-
 import {
 	ArrowDown,
 	ArrowUp,
@@ -16,16 +15,18 @@ import {
 	Scale,
 } from "@/constants/icons";
 import { useAppSelector } from "@/types";
-import { formatNumber } from "@/lib";
+import { formatNumber, truncateText } from "@/lib";
 import { Modal } from "@/components/ui/components/Modal";
 import { BuyOffering } from "./buy-modal";
 import { ConfirmAction } from "../_sections/confirm-action";
 import { Loader2 } from "lucide-react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
-import SuccessModal from "../_sections/success-modal";
+import StatusModal from "../_sections/status-modal";
 import Button from "@/components/reuseables/CustomButton";
 import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
+import OfferingDocument from "./OfferingDocument";
 
 function Offerings({ offeringsData }: { offeringsData: any }) {
 	const [activeImage, setActiveImage] = useState({
@@ -41,7 +42,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 		const allListings = paginatedData.map((item: any) => ({
 			name: item?.name || "",
 			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-			// images: item?.image?.map((img: any) => img?.image_path) || [
+			// images: item?.image?.map((img: any) => img?.image_path) || [],
 			images: [
 				"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
 				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
@@ -116,8 +117,8 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 								<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md overflow-hidden">
 									<img
 										src={
-											idx === activeImage?.activeItem
-												? offering?.images[activeImage?.activeImageIndex]
+											activeImage.activeImageIndex === idx
+												? offering?.images[activeImage.activeItem]
 												: offering?.images[0]
 										}
 										alt=""
@@ -130,13 +131,13 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 
 									<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 via-30% pointer-events-none" />
 
-									<div className="absolute px-2.5 pb-3 sm:px-4 sm:pb-4 inset-0 top-auto row-flex-btwn gap-4 pointer-events-none">
-										<div className="flex-column flex-1">
+									<div className="absolute px-2.5 pb-3 sm:px-5 sm:pb-5 inset-0 top-auto row-flex-btwn gap-4 pointer-events-none">
+										<div className="flex-column flex-1 gap-1">
 											<p className="text-white text-2xl sm:text-3xl capitalize">
-												River Niger Apartment
+												{truncateText(offering.name)}
 											</p>
 											<p className="text-white text-base sm:text-xl opacity-80">
-												Yaba
+												{truncateText(offering.area)}
 											</p>
 										</div>
 
@@ -175,44 +176,52 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 									</div>
 								</div>
 
-								<div className="grid grid-flow-col auto-cols-[7rem] h-20 md:h-28 gap-4 overflow-x-auto snap-x snap-mandatory remove-scrollbar [mask-image:linear-gradient(to_right,transparent,black_0%,black_100%,transparent)] px-[0.3rem]">
-									{offering?.images?.map((img, index) => (
-										<div
-											key={index}
-											className={cn(
-												"relative cursor-pointer transition-opacity rounded-md overflow-hidden duration-200"
-											)}
-											onClick={() =>
-												setActiveImage((prev) => ({
-													...prev,
-													activeItem: idx,
-													activeImageIndex: index,
-												}))
-											}
-										>
-											<img
-												src={img}
-												alt={`Image ${index + 1}`}
-												onContextMenu={(e) => e.preventDefault()}
-												draggable="false"
-												loading="lazy"
-												className="size-full object-cover nodownload-image"
-											/>
+								{offering?.images?.length > 0 && (
+									<div className="grid grid-flow-col auto-cols-[7rem] h-20 md:h-28 gap-4 overflow-x-auto snap-x snap-mandatory remove-scrollbar [mask-image:linear-gradient(to_right,transparent,black_0%,black_100%,transparent)] px-[0.3rem]">
+										{offering.images.map((img, index) => {
+											const isActive =
+												(activeImage?.activeItem === index &&
+													activeImage?.activeImageIndex === idx) ||
+												(index === 0 && activeImage?.activeImageIndex !== idx);
 
-											{/* Invisible overlay for thumbnails */}
-											<div
-												className={cn(
-													"absolute inset-0 bg-transparent/50  select-none",
-													((activeImage?.activeItem === idx &&
-														activeImage?.activeImageIndex === index) ||
-														index === 0) &&
-														"opacity-30"
-												)}
-												onContextMenu={(e) => e.preventDefault()}
-											/>
-										</div>
-									))}
-								</div>
+											return (
+												<div
+													key={index}
+													className={cn(
+														"relative cursor-pointer transition-opacity rounded-md overflow-hidden duration-200"
+													)}
+													onClick={() =>
+														setActiveImage((prev) => ({
+															...prev,
+															activeItem: index,
+															activeImageIndex: idx,
+														}))
+													}
+												>
+													<img
+														src={img}
+														alt={`Image ${index + 1}`}
+														onContextMenu={(e) => e.preventDefault()}
+														draggable="false"
+														loading="lazy"
+														className="size-full object-cover nodownload-image"
+													/>
+
+													<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 via-30% pointer-events-none" />
+
+													{/* Invisible overlay for thumbnails */}
+													<div
+														className={cn(
+															"absolute inset-0 bg-transparent/50  select-none",
+															isActive && "opacity-10"
+														)}
+														onContextMenu={(e) => e.preventDefault()}
+													/>
+												</div>
+											);
+										})}
+									</div>
+								)}
 							</section>
 
 							<aside className="w-full space-y-10 sticky sm:self-start my-2">
@@ -258,6 +267,46 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 		setOpenModal("success");
 	};
 
+	// @ts-ignore
+	const downloadCSV = (data: any, filename?: string) => {
+		const headers = [
+			"offering_name",
+			"offering_description",
+			"offering_location",
+			"offering_valuation",
+			"offering_rental_income",
+			"offering_annual_appreciation",
+			"offering_co-ownership_unit",
+			"offering_price_per_unit",
+			"offering_occupancy_status",
+		];
+
+		try {
+			const csvRows = [headers.join(",")];
+
+			const row = [
+				data.name,
+				...data?.asideInfo?.map((item: any) => item?.value),
+			];
+			console.log("TEST", data, row);
+			csvRows.push(row.join(","));
+
+			const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+			const url = URL.createObjectURL(blob);
+
+			const a = document.createElement("a");
+			a.href = url;
+			a.download =
+				filename || `${data?.name ? `${data?.name}-data` : "data"}.csv`;
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+			URL.revokeObjectURL(url);
+		} catch (error) {
+			console.log("Error downloading CSV:", error);
+		}
+	};
+
 	return (
 		<>
 			<ul className="flex-column gap-4 w-full">
@@ -301,14 +350,21 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 			</ul>
 
 			<div className="row-flex !flex-wrap gap-x-4 gap-y-2">
-				<Button
-					title="Download details"
-					icon={Download}
-					iconStyles="-mt-1"
-					onClick={() => {}}
-					className="w-full text-foreground-variant"
-					variant={"outline"}
-				/>
+				<PDFDownloadLink
+					document={<OfferingDocument offering={offering} />}
+					className="w-full download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
+					fileName="earnings_report.pdf"
+				>
+					{({ loading }) => {
+						return (
+							<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
+								<Download className="size-6 text-foreground -mt-1" />
+
+								{loading ? "Generating PDF..." : "	Download PDF"}
+							</div>
+						);
+					}}
+				</PDFDownloadLink>
 
 				<Button
 					title="Buy"
@@ -364,8 +420,8 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 
 				{openModal && (
 					<Modal openModal={openModal === "success"} isTopContent={<div />}>
-						<SuccessModal
-							onButtonClick={() => setOpenModal(false)}
+						<StatusModal
+							closeModal={() => setOpenModal(false)}
 							info={
 								<>
 									Congrats!!! You have successfully purchased 5.6 co ownership

@@ -94,3 +94,7 @@ export const exportToCSV = <T>({
 export function convertToNumber(str: string) {
 	return parseFloat(str.replace(/,/g, ""));
 }
+
+export const truncateText = (str: string, length: number = 50): string => {
+	return str.length > length ? `${str.substring(0, length - 2)}...` : str;
+};

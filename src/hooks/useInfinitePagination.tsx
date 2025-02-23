@@ -6,9 +6,17 @@ const useInfinitePagination = <T,>(data: T[]) => {
 	const { ref: loadMoreRef, inView } = useInView();
 	const ITEMS_PER_PAGE = 10;
 
-	const paginatedData = useMemo(() => {
+	// Sort data by most recent (descending order)
+	const sortedData = useMemo(() => {
 		if (!data) return [];
-		return data.slice(0, page * ITEMS_PER_PAGE);
+		return [...(data as any)].sort(
+			(a, b) =>
+				new Date(b?.created_at).getTime() - new Date(a?.created_at).getTime()
+		);
+	}, [data]);
+
+	const paginatedData = useMemo(() => {
+		return sortedData.slice(0, page * ITEMS_PER_PAGE);
 	}, [data, page]);
 
 	const hasMore = useMemo(() => {
