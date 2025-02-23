@@ -69,7 +69,9 @@ const Notifications = () => {
 	return (
 		<SectionWrapper mainContainerStyles="sm:pt-8">
 			{isLoading ? (
-				""
+				<div className="loader">
+					<FallbackLoader loading />
+				</div>
 			) : paginatedNotifications?.length > 0 ? (
 				<>
 					<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">
