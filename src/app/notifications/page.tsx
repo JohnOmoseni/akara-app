@@ -11,7 +11,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const Notifications = () => {
-	const { data, isFetching, isError, error } = useGetAllNotificationsQuery({});
+	const { data, isLoading, isError, error } = useGetAllNotificationsQuery({});
 	const { paginatedData, page, hasMore, loadMoreRef } =
 		useInfinitePagination<any>(data);
 
@@ -19,9 +19,7 @@ const Notifications = () => {
 	const paginatedNotifications: NotificationsType[] = useMemo(() => {
 		const allNotifications = paginatedData.map((item: any) => ({
 			id: item?.id,
-			description: item?.data?.info ?? (
-				<span className="italic">No description available</span>
-			),
+			description: item?.data ? JSON.parse(item?.data)?.message : "",
 			time: item?.created_at ? dayjs(item?.created_at).fromNow() : "",
 			date: item?.created_at
 				? dayjs(item?.created_at).format("D MMM, YYYY")
@@ -70,17 +68,15 @@ const Notifications = () => {
 
 	return (
 		<SectionWrapper mainContainerStyles="sm:pt-8">
-			{isFetching ? (
-				<div className="loader">
-					<FallbackLoader loading />
-				</div>
+			{isLoading ? (
+				""
 			) : paginatedNotifications?.length > 0 ? (
-				<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">
-					<>
-						{paginatedNotifications?.map((item, idx) => {
+				<>
+					<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">
+						{paginatedNotifications?.map((item) => {
 							return (
 								<li
-									key={idx}
+									key={item.id}
 									className="flex-column gap-1 pr-1 card !px-3 !py-3 drop-shadow-[0_1px_4px_rgb(0_0_0_/_0.08)]"
 								>
 									<p className="text-sm font-light break-all">
@@ -94,23 +90,23 @@ const Notifications = () => {
 								</li>
 							);
 						})}
+					</ul>
 
-						<>
-							{/* Load more trigger */}
-							{hasMore && (
-								<div ref={loadMoreRef} className="w-full pb-4 flex row-flex">
-									{hasMore && <FallbackLoader loading={true} />}
-								</div>
-							)}
+					<>
+						{/* Load more trigger */}
+						{hasMore && (
+							<div ref={loadMoreRef} className="w-full py-4 flex row-flex">
+								{hasMore && <FallbackLoader loading={true} />}
+							</div>
+						)}
 
-							{!hasMore && paginatedNotifications.length > 0 && (
-								<p className="text-center text-grey italics pb-4">
-									No more offerings to load
-								</p>
-							)}
-						</>
+						{!hasMore && paginatedNotifications.length > 0 && (
+							<p className="text-center text-grey italics my-4">
+								No more offerings to load
+							</p>
+						)}
 					</>
-				</ul>
+				</>
 			) : (
 				<EmptyListWithIcon title="No notifications yet!" />
 			)}

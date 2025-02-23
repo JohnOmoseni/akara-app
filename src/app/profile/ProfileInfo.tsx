@@ -101,7 +101,7 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 									key={idx}
 									className="row-flex-btwn group w-full gap-4 text-foreground-100"
 								>
-									<p className="font-semibold">{bank?.label}</p>
+									<p className="font-semibold capitalize">{bank?.label}</p>
 
 									<p className="flex-1 font-light min-w-[10ch] max-[380px]:max-w-[15ch] break-words text-end">
 										{bank.value || <span className="italic text-xs">N/A</span>}

@@ -14,9 +14,10 @@ interface ProcessedOffering {
 }
 
 interface NotificationsType {
-	description: string;
+	description: any;
 	time: string;
 	date: string;
+	id: string;
 }
 
 type CurrentTxnParams = {

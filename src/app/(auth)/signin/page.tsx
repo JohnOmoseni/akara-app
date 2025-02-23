@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Envelope, Lock } from "@/constants/icons";
 import { cn } from "@/lib/utils";
 import { SignInSchema } from "@/schema/validation";
@@ -36,35 +36,30 @@ function SignIn() {
 		);
 	};
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const ssoStatus = searchParams.get("status");
 		const ssoToken = searchParams.get("token");
 
 		const handleSSOAuth = async () => {
 			if (ssoStatus === "success" && ssoToken) {
 				try {
-					sessionStorage.setItem("skymeasures-token", JSON.stringify(ssoToken));
+					sessionStorage.setItem("akara-token", JSON.stringify(ssoToken));
 					await fetchGoogleAuthUser(ssoToken);
 					setHasLoggedInWithGoogle(true);
 
 					// Clear the URL parameters after successful authentication
-					// const returnTo = searchParams.get("returnTo") || "/";
 					const returnTo = location.state?.returnTo || "/";
 					navigate(returnTo, { replace: true });
-					toast.success("SSO login successful!");
 				} catch (error) {
 					toast.error("Authentication failed! Please try again.");
-					sessionStorage.removeItem("skymeasures-token");
+					sessionStorage.removeItem("akara-token");
 				}
 			} else if (ssoStatus === "failed") {
-				toast.error("SSO login failed! Please try again.");
 				setHasLoggedInWithGoogle(false);
 			}
 		};
 
-		if (ssoStatus) {
-			handleSSOAuth();
-		}
+		handleSSOAuth();
 	}, [searchParams]);
 
 	const {

@@ -1,6 +1,6 @@
 import api from "../api";
 
-export const offeringsApiSlice = api.injectEndpoints({
+export const notificationApiSlice = api.injectEndpoints({
 	endpoints: (builder) => ({
 		// OFFERINGS
 		getAllNotifications: builder.query<
@@ -25,4 +25,4 @@ export const offeringsApiSlice = api.injectEndpoints({
 	overrideExisting: false, // To avoid overwriting existing endpoints
 });
 
-export const { useGetAllNotificationsQuery } = offeringsApiSlice;
+export const { useGetAllNotificationsQuery } = notificationApiSlice;
