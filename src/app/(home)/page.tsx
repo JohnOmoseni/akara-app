@@ -23,12 +23,7 @@ function Main() {
 		error,
 	} = useGetAllOfferingsQuery({});
 
-	const {
-		data: earnings,
-		isFetching: isFetchingEarnings,
-		isError: isEarningsError,
-		error: earningsError,
-	} = useGetAllEarningsQuery({});
+	const { data: earnings } = useGetAllEarningsQuery({});
 
 	useEffect(() => {
 		if (isError) {

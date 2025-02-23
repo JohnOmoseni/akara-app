@@ -11,7 +11,7 @@ import { User } from "@/types";
 import { NavigateFunction } from "react-router-dom";
 import { Alert } from "@/constants/icons";
 import { useCallback } from "react";
-import { API_DOMAIN, axiosBaseUrl } from "@/server/axios";
+import { axiosBaseUrl } from "@/server/axios";
 
 type AuthContextType = {
 	user?: User | null;
