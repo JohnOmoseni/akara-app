@@ -65,7 +65,6 @@ export default defineConfig({
 			external: ["yup"], // Replace with the actual module name
 		},
 	},
-
 	server: {
 		port: 5173,
 	},

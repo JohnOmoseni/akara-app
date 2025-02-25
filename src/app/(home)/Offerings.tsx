@@ -395,7 +395,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 					{({ loading }) => {
 						return (
 							<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
-								<Download className="size-6 text-foreground -mt-1" />
+								<Download className="size-6 stroke-variant -mt-1" />
 
 								{loading ? "Generating PDF..." : "	Download PDF"}
 							</div>
