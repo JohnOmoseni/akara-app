@@ -60,6 +60,12 @@ export default defineConfig({
 			"@": path.resolve(__dirname, "./src"),
 		},
 	},
+	build: {
+		rollupOptions: {
+			external: ["yup"], // Replace with the actual module name
+		},
+	},
+
 	server: {
 		port: 5173,
 	},
