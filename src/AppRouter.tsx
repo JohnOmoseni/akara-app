@@ -2,6 +2,9 @@ import { Route, Routes } from "react-router-dom";
 import SignIn from "./app/(auth)/signin/page";
 import SignUp from "./app/(auth)/signup/page";
 import VerifyOTP from "./app/(auth)/verify/page";
+import ForgotPassword from "./app/(auth)/forgotpassword/page";
+import VerifyPasswordPin from "./app/(auth)/forgotpassword/verify-pin";
+import ResetPassword from "./app/(auth)/forgotpassword/reset-password";
 
 import LayoutProvider from "./providers/LayoutProvider";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -17,9 +20,6 @@ import Home from "./app/(home)/page";
 import Notifications from "./app/notifications/page";
 import Profile from "./app/profile/page";
 import AllTransactions from "./app/transactions/page";
-import ForgotPassword from "./app/(auth)/forgotpassword/page";
-import VerifyPasswordPin from "./app/(auth)/forgotpassword/verify-pin";
-import ResetPassword from "./app/(auth)/forgotpassword/reset-password";
 
 const AppRouter = () => {
 	return (
