@@ -38,6 +38,13 @@ export const SignInSchema = yup.object().shape({
 	rememberMe: yup.boolean().optional(),
 });
 
+export const EmailSchema = yup.object().shape({
+	email: yup
+		.string()
+		.email("Invalid email address")
+		.required("Email is required"),
+});
+
 export const PasswordSchema = yup.object().shape({
 	email: yup
 		.string()

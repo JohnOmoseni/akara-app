@@ -6,7 +6,7 @@ import Button from "@/components/reuseables/CustomButton";
 import CustomFormField, {
 	FormFieldType,
 } from "@/components/forms/CustomFormField";
-import * as yup from "yup";
+import { EmailSchema } from "@/schema/validation";
 
 type FormValues = {
 	email: string;
@@ -32,12 +32,7 @@ function ForgotPassword() {
 		initialValues: {
 			email: "",
 		},
-		validationSchema: yup.object().shape({
-			email: yup
-				.string()
-				.email("Invalid email address")
-				.required("Email is required"),
-		}),
+		validationSchema: EmailSchema,
 		onSubmit,
 	});
 
