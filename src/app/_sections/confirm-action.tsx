@@ -6,6 +6,7 @@ type Props = {
 	info: ReactNode;
 	cancelText?: string;
 	actionText: string;
+	isLoading?: boolean;
 	action: () => void;
 };
 
@@ -13,6 +14,7 @@ export const ConfirmAction = ({
 	info,
 	closeModal,
 	cancelText,
+	isLoading,
 	actionText,
 	action,
 }: Props) => {
@@ -30,6 +32,8 @@ export const ConfirmAction = ({
 				<Button
 					title={actionText}
 					type="submit"
+					disabled={isLoading}
+					isLoading={isLoading}
 					onClick={() => action()}
 					className="flex-1 max-[500px]:order-1 w-full"
 				/>

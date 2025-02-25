@@ -31,6 +31,8 @@ function ProfilePic({ image }: { image?: string }) {
 			return;
 		}
 
+		let message;
+
 		try {
 			setFile(selectedFile);
 
@@ -38,34 +40,18 @@ function ProfilePic({ image }: { image?: string }) {
 			formData.append("profile_picture", selectedFile);
 
 			const res = await updateProfilePicture(formData);
-			if (!res?.data?.picture_url)
-				throw new Error("Failed to upload the profile picture.");
+			if (!res?.data?.picture_url) {
+				message = res?.data?.message || "Failed to upload the profile picture.";
+				throw new Error(message);
+			}
 
 			setPreview(convertFileToUrl(selectedFile));
 
 			toast.success("Profile picture updated successfully!");
 		} catch (error: any) {
-			const message = error?.message || "Failed to upload the profile picture.";
+			const message = error?.message;
 
 			toast.error(message);
-		}
-	};
-
-	// @ts-ignore
-	const handleDelete = async () => {
-		try {
-			const formData = new FormData();
-			formData.append("profile_picture", "");
-
-			// await updateProfilePicMutation(formData).unwrap();
-			setPreview(null);
-			setFile(null);
-
-			toast.success("Profile picture deleted successfully!");
-		} catch (error: any) {
-			toast.error(
-				error?.data?.message || "Failed to delete the profile picture."
-			);
 		}
 	};
 

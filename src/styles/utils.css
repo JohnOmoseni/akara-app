@@ -70,9 +70,6 @@ main:has(> .empty-list) {
 	stroke: var(--secondary-foreground);
 }
 
-.download-button * {
-	stroke: var(--foreground);
-}
 /* RECAPTCHA */
 .recaptcha-container > div > div > div {
 	margin-inline: auto !important;

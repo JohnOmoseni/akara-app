@@ -12,17 +12,19 @@ const AllTransactions = () => {
 
 	const transactions = useMemo(
 		() =>
-			data?.transactions?.map(
-				({ amount, description, created_at, type }: any) => ({
-					id: created_at,
-					amount: amount ? `₦${amount}` : "₦0",
-					desc: description || "",
-					date: formatDate(created_at, "D MMM, YYYY"),
-					time: formatDate(created_at, "h:mm A"),
-					type: type || "debit",
-				})
-			) || [],
-		[data?.transactions]
+			data?.map(({ amount, id, description, created_at, type }: any) => ({
+				id,
+				amount: amount ? `₦${amount}` : "₦0",
+				desc:
+					description ||
+					`₦${amount} ${
+						type === "deposit" ? "credited" : "debited"
+					} into your wallet`,
+				date: formatDate(created_at, "D MMM, YYYY"),
+				time: formatDate(created_at, "h:mm A"),
+				type: type || null,
+			})) || [],
+		[data]
 	);
 
 	useEffect(() => {

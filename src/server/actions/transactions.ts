@@ -9,6 +9,14 @@ export const transactionApiSlice = api.injectEndpoints({
 		}),
 
 		// MUTATTIONs
+		buyOffering: builder.mutation({
+			query: (data: BuyOfferingParams) => ({
+				url: "/user/offerings/buy",
+				method: "POST",
+				body: data,
+			}),
+		}),
+
 		deposit: builder.mutation({
 			query: (data: { amount: number }) => ({
 				url: "/user/deposit",
@@ -30,6 +38,7 @@ export const transactionApiSlice = api.injectEndpoints({
 
 export const {
 	useVerifyTransactionQuery,
+	useBuyOfferingMutation,
 	useWithdrawMutation,
 	useDepositMutation,
 } = transactionApiSlice;

@@ -21,6 +21,8 @@ import { BuyOffering } from "./buy-modal";
 import { ConfirmAction } from "../_sections/confirm-action";
 import { Loader2 } from "lucide-react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useBuyOfferingMutation } from "@/server/actions/transactions";
+import { useAuth } from "@/context/AuthContext";
 
 import StatusModal from "../_sections/status-modal";
 import Button from "@/components/reuseables/CustomButton";
@@ -40,6 +42,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 	// Client-side pagination logic
 	const offerings: ProcessedOffering[] = useMemo(() => {
 		const allListings = paginatedData.map((item: any) => ({
+			id: item?.id,
 			name: item?.name || "",
 			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
 			// images: item?.image?.map((img: any) => img?.image_path) || [],
@@ -165,8 +168,12 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 															}}
 															className={cn(
 																"size-2 bg-white rounded-full transition-all duration-300",
-																activeImage?.activeImageIndex === index &&
-																	"bg-secondary scale-105"
+																(activeImage?.activeItem === index &&
+																	activeImage?.activeImageIndex === idx) ||
+																	(index === 0 &&
+																		activeImage?.activeImageIndex !== idx)
+																	? "bg-secondary scale-105"
+																	: ""
 															)}
 														/>
 													)
@@ -254,17 +261,47 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 
 // Separate the Aside component into its own file
 const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
+	const { user } = useAuth();
+
 	const [expanded, setExpanded] = useState(false);
 	const { screenSize } = useAppSelector((state) => state.appState);
 	const [openModal, setOpenModal] = useState<
-		false | "pay" | "confirm" | "success"
+		false | "pay" | "confirm" | "success" | "error"
 	>(false);
-	const [activeOffering, setActiveOffering] = useState<
-		ProcessedOffering | undefined
-	>();
+	const [error, setError] = useState("");
+	const [activeOffering, setActiveOffering] = useState<ActiveOffering | null>(
+		null
+	);
+	const [buyOfferingMutation, { isLoading }] = useBuyOfferingMutation();
 
-	const handlePurchaseOffering = () => {
-		setOpenModal("success");
+	const handlePurchaseOffering = async () => {
+		if (activeOffering === null) return;
+
+		const data = {
+			offering_id: activeOffering.id,
+			number_of_units: activeOffering.number_of_units,
+			total_amount_worth: activeOffering.total_amount_worth,
+		};
+		let message;
+
+		setError("");
+
+		try {
+			const res = await buyOfferingMutation(data);
+
+			if (res.error) {
+				message = (res.error as any)?.data?.error || "An error occured";
+				throw new Error(message);
+			}
+
+			message = res?.data?.message || "Buy Request Successful";
+			setOpenModal("success");
+		} catch (error: any) {
+			const message = error?.message || "An error occured";
+
+			setOpenModal("error");
+			setError(message);
+		}
 	};
 
 	// @ts-ignore
@@ -404,16 +441,24 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 							closeModal={() => setOpenModal(false)}
 							info={
 								<>
-									You are about to purchase 5.6 co ownership units of{" "}
+									You are about to purchase{" "}
+									{activeOffering?.number_of_units || "-"} co-ownership units of{" "}
 									<span className="font-semibold">
 										{activeOffering?.area || "N/A"}
 									</span>{" "}
 									for the sum of{" "}
-									<span className="font-semibold"> ₦7,000,000</span>
+									<span className="font-semibold">
+										{" "}
+										₦
+										{activeOffering?.total_amount_worth
+											? formatNumber(activeOffering?.total_amount_worth)
+											: "N/A"}
+									</span>
 								</>
 							}
 							action={() => handlePurchaseOffering()}
-							actionText="Proceed"
+							actionText={isLoading ? "Processing..." : "Buy"}
+							isLoading={isLoading}
 						/>
 					</Modal>
 				)}
@@ -424,18 +469,44 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 							closeModal={() => setOpenModal(false)}
 							info={
 								<>
-									Congrats!!! You have successfully purchased 5.6 co ownership
-									units of{" "}
+									Congrats!!! You have successfully purchased{" "}
+									{activeOffering?.number_of_units} co ownership units of{" "}
+									<span className="font-semibold">{activeOffering?.area}</span>{" "}
+									for{" "}
 									<span className="font-semibold">
-										River Niger Apartments, Yaba
-									</span>{" "}
-									for <span className="font-semibold"> ₦7,000,000</span>.
+										{" "}
+										₦{activeOffering?.total_amount_worth}
+									</span>
+									.
 									<br /> Your certificate of Beneficial Ownership has been sent
-									to your registered email address <br />{" "}
-									(Jamalnnamdi@gmail.com)
+									to your registered email address <br /> ({user?.email})
 								</>
 							}
 							type="success"
+						/>
+					</Modal>
+				)}
+
+				{openModal && (
+					<Modal openModal={openModal === "error"} isTopContent={<div />}>
+						<StatusModal
+							closeModal={() => setOpenModal(false)}
+							info={
+								<>
+									Oops! Something went wrong while processing your purchase of{" "}
+									{activeOffering?.number_of_units} co-ownership units of{" "}
+									<span className="font-semibold">{activeOffering?.area}</span>{" "}
+									for{" "}
+									<span className="font-semibold">
+										₦{activeOffering?.total_amount_worth}
+									</span>
+									.
+									<br />
+									<br />
+									{error ? error : "Please check your details and try again."}
+								</>
+							}
+							type="error"
 						/>
 					</Modal>
 				)}

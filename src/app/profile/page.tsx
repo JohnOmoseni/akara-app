@@ -1,6 +1,6 @@
 import SectionWrapper from "@/layouts/SectionWrapper";
 import ProfileInfo from "./ProfileInfo";
-import Balance, { Transactions } from "./Balance";
+import Balance from "./Balance";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
 import {
 	useGetAllBanksQuery,
@@ -12,6 +12,7 @@ import { useSearchParams } from "react-router-dom";
 import { useVerifyTransactionQuery } from "@/server/actions/transactions";
 import { Modal } from "@/components/ui/components/Modal";
 import StatusModal from "../_sections/status-modal";
+import Transactions from "./Transactions";
 
 function Profile() {
 	const [openStatusModal, setStatusOpenModal] = useState<

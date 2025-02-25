@@ -28,7 +28,7 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 			},
 			{
 				label: "Phone number",
-				value: profileInfo?.phone_number,
+				value: profileInfo?.phone_number || "N/A",
 			},
 		];
 	}, [profileInfo]);
@@ -58,7 +58,7 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 					<h3 className="font-semibold">Personal Information</h3>
 
 					<div className="mt-6 mb-5 grid place-items-center">
-						<ProfilePic image={profileInfo?.avatar ?? profile_pic} />
+						<ProfilePic image={profileInfo?.avatar || profile_pic} />
 					</div>
 
 					<div className="sm:px-1.5">

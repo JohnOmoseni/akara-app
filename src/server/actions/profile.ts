@@ -21,7 +21,7 @@ export const profileApiSlice = api.injectEndpoints({
 		getAllTransactions: builder.query({
 			query: () => `/user/history`,
 			transformResponse: (responseData: any) => {
-				return responseData?.bank_info;
+				return responseData?.transactions;
 			},
 		}),
 

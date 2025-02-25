@@ -3,6 +3,8 @@ import SignIn from "./app/(auth)/signin/page";
 import SignUp from "./app/(auth)/signup/page";
 import VerifyOTP from "./app/(auth)/verify/page";
 import ForgotPassword from "./app/(auth)/forgot-password/page";
+import ResetPassword from "./app/(auth)/forgot-password/reset-password";
+import VerifyPasswordPin from "./app/(auth)/forgot-password/verify-pin";
 
 import LayoutProvider from "./providers/LayoutProvider";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -26,6 +28,7 @@ const AppRouter = () => {
 				<Routes>
 					<Route element={<LayoutProvider />}>
 						<Route path="*" element={<NotFound />} />
+						<Route path="/policy" element={<PrivacyPolicy />} />
 
 						<Route
 							element={
@@ -38,9 +41,12 @@ const AppRouter = () => {
 							<Route path="/signup" element={<SignUp />} />
 							<Route path="/verify-otp" element={<VerifyOTP />} />
 							<Route path="/recover-password" element={<ForgotPassword />} />
+							<Route
+								path="/verify-password-pin"
+								element={<VerifyPasswordPin />}
+							/>
+							<Route path="/reset-password" element={<ResetPassword />} />
 						</Route>
-
-						<Route path="/policy" element={<PrivacyPolicy />} />
 
 						<Route
 							element={

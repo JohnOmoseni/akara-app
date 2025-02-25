@@ -42,6 +42,12 @@ interface Earning {
 	occupancy_stage: string;
 }
 
+interface BuyOfferingParams {
+	number_of_units: number;
+	total_amount_worth: number;
+	offering_id: number;
+}
+
 // PROFILE
 interface CreateBankParams {
 	bank_name: string;

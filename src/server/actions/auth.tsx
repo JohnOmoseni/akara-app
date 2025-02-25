@@ -9,7 +9,6 @@ const login = async (params: {
 }): Promise<AxiosResponse["data"]> => {
 	try {
 		const response = await axiosBaseUrl.post(`/auth/login`, params);
-		console.log("LOGIN RESPONSE", response);
 
 		return response.data;
 	} catch (error) {
@@ -85,7 +84,6 @@ const resendOtp = async (params: {
 		const response = await axiosInstance.post(
 			`/auth/resend-pin?email=${params.email}`
 		);
-		console.log("RESEND OTP RESPONSE", response);
 
 		return response.data;
 	} catch (error) {
@@ -97,8 +95,27 @@ const forgotPassword = async (params: {
 	email: string;
 }): Promise<AxiosResponse["data"]> => {
 	try {
-		const response = await axiosInstance.post("/password-request", params);
-		console.log("FORGOT PASSWORD RESPONSE", response);
+		const response = await axiosInstance.post("/auth/forgot-password", params);
+		return response.data;
+	} catch (error) {
+		handleApiError(error);
+	}
+};
+
+const verifyPasswordPin = async (params: {
+	pin: number;
+	email: string;
+}): Promise<AxiosResponse["data"]> => {
+	const payload = {
+		pin: params.pin,
+		email: params.email,
+	};
+
+	try {
+		const response = await axiosInstance.post(
+			"/auth/forgot-password/verify-pin",
+			payload
+		);
 
 		return response.data;
 	} catch (error) {
@@ -109,12 +126,13 @@ const forgotPassword = async (params: {
 const resetPassword = async (params: {
 	email: string;
 	password: string;
-	otp: string;
+	password_confirmation: string;
 }): Promise<AxiosResponse["data"]> => {
 	try {
-		const response = await axiosInstance.post(`/auth/password-reset`, params);
-		console.log("RESET PASSWORD RESPONSE", response);
-
+		const response = await axiosInstance.post(
+			"/auth/forgot-password/reset-password",
+			params
+		);
 		return response.data;
 	} catch (error) {
 		handleApiError(error);
@@ -128,7 +146,6 @@ const logout = async (): Promise<AxiosResponse["data"]> => {
 
 		return response.data;
 	} catch (error) {
-		console.log("ERROR", error);
 		handleApiError(error);
 	}
 };
@@ -141,6 +158,7 @@ export const authApi = {
 	verifyOtp,
 	resendOtp,
 	forgotPassword,
+	verifyPasswordPin,
 	resetPassword,
 	loginWithGoogle,
 };

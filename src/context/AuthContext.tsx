@@ -26,6 +26,7 @@ type AuthContextType = {
 	handleVerifyOtp: (otp: number, email: string) => Promise<void>;
 	handleResendOtp: (email: string) => Promise<void>;
 	handleForgotPassword: (email: string) => Promise<void>;
+	handleVerifyPasswordPin: (pin: number, email: string) => Promise<void>;
 	handleResetPassword: (
 		email: string,
 		password: string,
@@ -279,21 +280,44 @@ export default function AuthProvider({
 	const handleForgotPassword = async (email: string) => {
 		if (!email) return;
 		setIsLoadingAuth(true);
+		let message;
 
 		try {
 			const res = await authApi.forgotPassword({ email });
+			if (res?.error) {
+				message = res?.error?.message || "An error occured";
+				throw new Error(message);
+			}
 
-			if (!res?.status)
-				throw new Error(res?.message || "Error sending reset OTP");
-
-			toast.success(
-				res?.message || "Password reset OTP has been sent successfully"
-			);
-			navigate("/change-password");
+			message = res?.message || "A 4-digit PIN has been sent to your email.";
+			toast.success(message);
+			navigate("/verify-password-pin", { state: { email } });
 		} catch (error: any) {
-			const errorMessage = error?.response?.data?.message;
+			const errorMessage =
+				error?.response?.data?.errors?.email?.[0] ||
+				error?.response?.data?.message;
+			("An error occured");
 
-			toast.error(errorMessage || "Error sending reset OTP");
+			toast.error(errorMessage);
+		} finally {
+			setIsLoadingAuth(false);
+		}
+	};
+
+	const handleVerifyPasswordPin = async (pin: number, email: string) => {
+		if (!pin || !email) return;
+		setIsLoadingAuth(true);
+
+		try {
+			const res = await authApi.verifyPasswordPin({ pin, email });
+			const message = res?.message || "PIN verified successfully.";
+
+			toast.success(message);
+			navigate("/reset-password", { state: { email } });
+		} catch (error: any) {
+			const errorMessage = error?.response?.data?.error || "An error occured";
+			toast.error(errorMessage);
+			throw errorMessage;
 		} finally {
 			setIsLoadingAuth(false);
 		}
@@ -302,23 +326,27 @@ export default function AuthProvider({
 	const handleResetPassword = async (
 		email: string,
 		password: string,
-		otp: string
+		password_confirmation: string
 	) => {
-		if (!email || !password || !otp) return;
+		if (!email || !password || !password_confirmation) return;
 		setIsLoadingAuth(true);
 
+		let message;
+
 		try {
-			const res = await authApi.resetPassword({ email, password, otp });
+			const res = await authApi.resetPassword({
+				email,
+				password,
+				password_confirmation,
+			});
 
-			if (!res?.status)
-				throw new Error(res?.message || "Failed to reset password");
-
-			toast.success("Password reset successful");
-			navigate("/change-password/success");
+			message = res?.message || "Password reset successfully.";
+			toast.success(message);
+			navigate("/signin");
 		} catch (error: any) {
-			const errorMessage = error?.response?.data?.message;
-
-			toast.error(errorMessage || "Failed to reset password");
+			const errorMessage =
+				error?.response?.data?.message || "Failed to reset password";
+			toast.error(errorMessage);
 		} finally {
 			setIsLoadingAuth(false);
 		}
@@ -363,6 +391,7 @@ export default function AuthProvider({
 				handleVerifyOtp,
 				handleResendOtp,
 				handleForgotPassword,
+				handleVerifyPasswordPin,
 				handleResetPassword,
 				handleRegister,
 				handleGoogleLogin,

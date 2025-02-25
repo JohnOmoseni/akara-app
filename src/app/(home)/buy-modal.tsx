@@ -13,10 +13,10 @@ import * as yup from "yup";
 type Props = {
 	closeModal: () => void;
 	setOpenModal: (
-		value: React.SetStateAction<false | "confirm" | "pay" | "success">
+		value: React.SetStateAction<false | "confirm" | "pay" | "success" | "error">
 	) => void;
 	offering: ProcessedOffering;
-	setActiveOffering: Dispatch<SetStateAction<ProcessedOffering | undefined>>;
+	setActiveOffering: Dispatch<SetStateAction<ActiveOffering | null>>;
 };
 
 export function BuyOffering({
@@ -34,29 +34,36 @@ export function BuyOffering({
 				: 0,
 		[profileInfo]
 	);
+
 	const price_per_unit = offering?.asideInfo.find(
 		(item) => item?.tag === "price_per_unit"
 	)?.value;
+
 	const formatted_price_per_unit = parseInt(
 		price_per_unit.replace(/,/g, ""),
 		10
 	).toLocaleString();
 
 	const onSubmit = async (values: any) => {
-		setActiveOffering({ ...offering, amount: values.amount });
+		setActiveOffering({
+			...offering,
+			number_of_units: values.number_of_units,
+			total_amount_worth:
+				values.number_of_units * convertToNumber(formatted_price_per_unit),
+		});
 		setOpenModal("confirm");
 	};
 
 	const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
 		useFormik({
 			initialValues: {
-				amount: "",
+				number_of_units: "",
 			},
 			validationSchema: yup.object().shape({
-				amount: yup
+				number_of_units: yup
 					.number()
-					.required("Amount is required")
-					.typeError("Amount is required")
+					.required("Number of Units is required")
+					.typeError("Number of Units must be a number")
 					.test(
 						"max-balance",
 						"Amount cannot exceed available balance",
@@ -102,25 +109,23 @@ export function BuyOffering({
 					<div>
 						<CustomFormField
 							fieldType={FormFieldType.INPUT}
-							name="amount"
+							name="number_of_units"
 							label={`${
 								price_per_unit ? `₦${formatted_price_per_unit} / Unit` : ""
 							}`}
-							labelStyles="font-medium opacity-80 ml-1"
+							labelStyles="opacity-80"
 							onBlur={handleBlur}
 							errors={errors}
 							touched={touched}
 							onChange={handleChange}
 							field={{
-								// value: `₦${values.amount}`,
-								value: values.amount,
+								value: values.number_of_units,
+								placeholder: "Enter Number of Units",
 								type: "number",
 							}}
 						/>
 
-						<p className="text-xs text-grey ml-1 mt-1">
-							{offering?.area || "N/A"}
-						</p>
+						<p className="text-xs text-grey ml-px mt-1.5">{offering?.area}</p>
 					</div>
 				</div>
 			</FormWrapper>

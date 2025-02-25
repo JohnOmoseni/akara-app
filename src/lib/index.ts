@@ -23,10 +23,6 @@ export function getInitials(name?: string) {
 		.join("");
 }
 
-export const truncateString = (str: string, length: number = 25): string => {
-	return str.length > length ? `${str.substring(0, length - 2)}...` : str;
-};
-
 export const wait = (ms: number) => {
 	return new Promise((resolve) => {
 		setTimeout(resolve, ms);

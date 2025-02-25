@@ -39,11 +39,11 @@ export const SignInSchema = yup.object().shape({
 });
 
 export const PasswordSchema = yup.object().shape({
-	otpValue: yup
+	email: yup
 		.string()
-		.matches(/^\d{4}$/, "OTP must be a 4-digit number")
-		.required("OTP is required"),
-	new_password: yup
+		.email("Invalid email address")
+		.required("Email is required"),
+	password: yup
 		.string()
 		.min(8, "New password must be at least 8 characters")
 		.matches(
@@ -53,7 +53,7 @@ export const PasswordSchema = yup.object().shape({
 		.required("Password is required"),
 	confirm_password: yup
 		.string()
-		.oneOf([yup.ref("new_password"), undefined], "Passwords must match")
+		.oneOf([yup.ref("password"), undefined], "Passwords must match")
 		.required("Please confirm your new password"),
 });
 

@@ -18,7 +18,7 @@ function StatusModal({
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			closeModal();
-		}, 5000);
+		}, 50000000);
 
 		return () => {
 			clearTimeout(timer);
