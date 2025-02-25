@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { Envelope } from "@/constants/icons";
 import { useFormik } from "formik";
 import { useAuth } from "@/context/AuthContext";
@@ -7,6 +6,7 @@ import Button from "@/components/reuseables/CustomButton";
 import CustomFormField, {
 	FormFieldType,
 } from "@/components/forms/CustomFormField";
+import * as yup from "yup";
 
 type FormValues = {
 	email: string;

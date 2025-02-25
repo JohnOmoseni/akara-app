@@ -85,19 +85,3 @@ export const ProfileSchema = yup.object().shape({
 		.oneOf([yup.ref("password"), undefined], "Passwords must match")
 		.required("Please confirm your new password"),
 });
-
-export const ProfilePasswordSchema = yup.object().shape({
-	old_password: yup.string().required("Password is required"),
-	new_password: yup
-		.string()
-		.min(8, "New password must be at least 8 characters")
-		.matches(
-			passwordRegex,
-			"New password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character"
-		)
-		.required("New password is required"),
-	confirm_password: yup
-		.string()
-		.oneOf([yup.ref("new_password"), undefined], "Passwords must match")
-		.required("Please confirm your new password"),
-});
