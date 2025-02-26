@@ -19,13 +19,16 @@ const Notifications = () => {
 	// Client-side pagination logic
 	const paginatedNotifications: NotificationsType[] = useMemo(() => {
 		const allNotifications = paginatedData.map((item: any) => {
-			let message = "";
+			let message: any = "";
 
 			if (item?.data) {
 				try {
 					const parsedData = JSON.parse(item.data);
-					message = parsedData?.message || "";
+					message = parsedData?.message || (
+						<span className="italic">No description</span>
+					);
 				} catch (error) {
+					message = <span className="italic">No description</span>;
 					console.error("Invalid JSON:", item.data, error);
 				}
 			}
@@ -118,7 +121,7 @@ const Notifications = () => {
 
 						{!hasMore && paginatedNotifications.length > 0 && (
 							<p className="text-center text-grey italics my-4">
-								No more offerings to load
+								No more notifications to load
 							</p>
 						)}
 					</>
