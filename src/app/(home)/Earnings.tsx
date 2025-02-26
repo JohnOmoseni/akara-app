@@ -91,8 +91,8 @@ function Earnings({ earningsData }: { earningsData: any }) {
 
 									<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 via-30% pointer-events-none" />
 
-									<div className="absolute px-2.5 pb-3 sm:px-5 sm:pb-5 inset-0 top-auto row-flex-btwn gap-4 pointer-events-none">
-										<div className="flex-column flex-1 gap-1">
+									<div className="absolute px-2.5 pb-3 sm:px-5 sm:pb-5 inset-0 top-auto row-flex-btwn gap-4">
+										<div className="flex-column flex-1 gap-1 pointer-events-none">
 											<p className="text-white text-2xl sm:text-3xl capitalize">
 												{truncateText(earning.name)}
 											</p>
@@ -124,7 +124,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 																}
 															}}
 															className={cn(
-																"size-2 lg:size-2.5 bg-white rounded-full transition-all duration-300",
+																"size-2 lg:size-2.5 bg-white rounded-full transition-all duration-300 shadow-sm",
 																(activeImage?.activeItem === index &&
 																	activeImage?.activeImageIndex === idx) ||
 																	(index === 0 &&
@@ -133,7 +133,11 @@ function Earnings({ earningsData }: { earningsData: any }) {
 																	: ""
 															)}
 															onClick={() => {
-																console.log("RUNNING");
+																setActiveImage((prev) => ({
+																	...prev,
+																	activeItem: index,
+																	activeImageIndex: idx,
+																}));
 															}}
 														/>
 													)
@@ -144,7 +148,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 								</div>
 
 								{earning?.images?.length > 0 && (
-									<div className="grid grid-flow-col auto-cols-[7rem] h-20 md:h-28 gap-4 overflow-x-auto snap-x snap-mandatory remove-scrollbar [mask-image:linear-gradient(to_right,transparent,black_0%,black_100%,transparent)] px-[0.3rem]">
+									<div className="grid grid-flow-col auto-cols-[7rem] h-20 md:h-28 gap-4 overflow-x-auto snap-x snap-mandatory remove-scrollbar [mask-image:linear-gradient(to_right,transparent,black_0%,black_100%,transparent)] transition-all px-[0.3rem]">
 										{earning.images.map((img, index) => {
 											const isActive =
 												(activeImage?.activeItem === index &&
@@ -179,7 +183,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 													{/* Invisible overlay for thumbnails */}
 													<div
 														className={cn(
-															"absolute inset-0 bg-transparent/50  select-none",
+															"absolute inset-0 bg-transparent/50 transition select-none",
 															isActive && "opacity-10"
 														)}
 														onContextMenu={(e) => e.preventDefault()}
