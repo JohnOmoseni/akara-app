@@ -15,6 +15,7 @@ export const transactionApiSlice = api.injectEndpoints({
 				method: "POST",
 				body: data,
 			}),
+			invalidatesTags: ["Profile", "Earnings"],
 		}),
 
 		deposit: builder.mutation({
@@ -23,6 +24,7 @@ export const transactionApiSlice = api.injectEndpoints({
 				method: "POST",
 				body: data,
 			}),
+			invalidatesTags: ["Profile"],
 		}),
 
 		withdraw: builder.mutation({
@@ -31,6 +33,7 @@ export const transactionApiSlice = api.injectEndpoints({
 				method: "POST",
 				body: data,
 			}),
+			invalidatesTags: ["Profile"],
 		}),
 	}),
 	overrideExisting: false, // To avoid overwriting existing endpoints
