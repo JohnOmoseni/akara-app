@@ -49,7 +49,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 					},
 					{
 						icon: PieChart,
-						label: "Co-ownership units available",
+						label: "Co-ownership units owned",
 						value: offering?.units || "N/A",
 					},
 					{
@@ -124,7 +124,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 																}
 															}}
 															className={cn(
-																"size-2 bg-white rounded-full transition-all duration-300",
+																"size-2 lg:size-2.5 bg-white rounded-full transition-all duration-300",
 																(activeImage?.activeItem === index &&
 																	activeImage?.activeImageIndex === idx) ||
 																	(index === 0 &&
@@ -132,6 +132,9 @@ function Earnings({ earningsData }: { earningsData: any }) {
 																	? "bg-secondary scale-105"
 																	: ""
 															)}
+															onClick={() => {
+																console.log("RUNNING");
+															}}
 														/>
 													)
 												)}

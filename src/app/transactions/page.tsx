@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useGetAllTransactionsQuery } from "@/server/actions/profile";
 import { formatDate } from "@/lib";
 import { MinusCircle, PlusCircle } from "@/constants/icons";
+import BackArrow from "@/components/reuseables/BackArrow";
 
 const AllTransactions = () => {
 	const { data, isLoading, isError, error } = useGetAllTransactionsQuery({});
@@ -43,32 +44,38 @@ const AllTransactions = () => {
 	return (
 		<SectionWrapper mainContainerStyles="sm:pt-8">
 			{transactions?.length > 0 ? (
-				<ul className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-4xl sm:px-3 mx-auto">
-					{transactions.map((tx: any) => {
-						return (
-							<li
-								key={tx?.id}
-								className="grid grid-cols-[max-content_1fr] gap-2 pr-1 card !px-3 !py-3 drop-shadow-[0_1px_4px_rgb(0_0_0_/_0.08)]"
-							>
-								{tx.type === "credit" ? (
-									<PlusCircle className="size-4 text-green-500 mt-0.5" />
-								) : (
-									<MinusCircle className="size-4 text-red-500 mt-0.5" />
-								)}
+				<div className="flex-column gap-6 md:gap-8 max-w-4xl sm:px-3 mx-auto">
+					<div className="">
+						<BackArrow />
+					</div>
 
-								<div className="flex-column gap-1 w-full">
-									<p className="text-sm break-all">{tx?.desc}</p>
+					<ul className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+						{transactions.map((tx: any) => {
+							return (
+								<li
+									key={tx?.id}
+									className="grid grid-cols-[max-content_1fr] gap-2 pr-1 card !px-3 !py-3 drop-shadow-[0_1px_4px_rgb(0_0_0_/_0.08)]"
+								>
+									{tx.type === "credit" ? (
+										<PlusCircle className="size-4 text-green-500 mt-0.5" />
+									) : (
+										<MinusCircle className="size-4 text-red-500 mt-0.5" />
+									)}
 
-									<p className="text-xs  text-grey row-flex-start gap-2 tracking-wide">
-										{tx?.date}
-										<span className="size-2 bg-grey-100 rounded-full clip-circle" />
-										{tx?.time}
-									</p>
-								</div>
-							</li>
-						);
-					})}
-				</ul>
+									<div className="flex-column gap-1 w-full">
+										<p className="text-sm break-all">{tx?.desc}</p>
+
+										<p className="text-xs  text-grey row-flex-start gap-2 tracking-wide">
+											{tx?.date}
+											<span className="size-2 bg-grey-100 rounded-full clip-circle" />
+											{tx?.time}
+										</p>
+									</div>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
 			) : (
 				<EmptyListWithIcon title="No transactions yet!" />
 			)}

@@ -436,7 +436,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 								</>
 							}
 							action={() => handlePurchaseOffering()}
-							actionText={isLoading ? "Processing..." : "Buy"}
+							actionText={isLoading ? "Processing..." : "Proceed"}
 							isLoading={isLoading}
 						/>
 					</Modal>
@@ -457,7 +457,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 										₦{activeOffering?.total_amount_worth}
 									</span>
 									.
-									<br /> Your certificate of Beneficial Ownership has been sent
+									<br /> Your certificate of Beneficial Ownership will be sent
 									to your registered email address <br /> ({user?.email})
 								</>
 							}

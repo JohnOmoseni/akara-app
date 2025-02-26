@@ -7,6 +7,7 @@ import { FundWallet, WithdrawFund } from "./balance-modal";
 import { ConfirmAction } from "../_sections/confirm-action";
 import { useWithdrawMutation } from "@/server/actions/transactions";
 import { toast } from "sonner";
+import { EyeOpenIcon } from "@radix-ui/react-icons";
 
 type Props = {
 	profileInfo?: any;
@@ -35,6 +36,7 @@ function Balance({
 	>(false);
 	const [withdrawMutation, { isLoading: isWithdrawing }] =
 		useWithdrawMutation();
+	const [hideBalance, setHideBalance] = useState(false);
 
 	const handleWithdraw = async () => {
 		let message;
@@ -64,19 +66,34 @@ function Balance({
 					<div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] min-[450px]:w-[70%] ">
 						<h3 className="font-semibold text-base">Available Balance</h3>
 
-						<h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none text-secondary-foreground">
-							₦{balance}
-							<EyeOff className="size-5 cursor-pointer" />
-						</h1>
+						{hideBalance ? (
+							<div className="row-flex-start gap-2 h-[30px]">
+								{Array.from({ length: 3 }).map((_, idx) => (
+									<div
+										key={idx}
+										className="size-4 rounded-full bg-white shadow"
+									/>
+								))}
+
+								<EyeOpenIcon
+									className="size-5 cursor-pointer ml-1"
+									onClick={() => setHideBalance(false)}
+								/>
+							</div>
+						) : (
+							<h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none text-secondary-foreground">
+								₦{balance}
+								<EyeOff
+									className="size-5 cursor-pointer"
+									onClick={() => setHideBalance(true)}
+								/>
+							</h1>
+						)}
 
 						<div className="row-flex-btwn gap-6 mt-auto">
 							<Button
 								title="Fund"
-								onClick={() => {
-									if (!bankInfo)
-										return toast.info("Please add a bank account first.");
-									setOpenModal("fund");
-								}}
+								onClick={() => setOpenModal("fund")}
 								icon={Plus}
 								dir="right"
 								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"

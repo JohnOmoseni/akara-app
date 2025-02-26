@@ -71,5 +71,3 @@ function Main() {
 }
 
 export default Main;
-
-// @ts-ignore
