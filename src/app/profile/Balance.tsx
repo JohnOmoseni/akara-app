@@ -72,7 +72,11 @@ function Balance({
 						<div className="row-flex-btwn gap-6 mt-auto">
 							<Button
 								title="Fund"
-								onClick={() => setOpenModal("fund")}
+								onClick={() => {
+									if (!bankInfo)
+										return toast.info("Please add a bank account first.");
+									setOpenModal("fund");
+								}}
 								icon={Plus}
 								dir="right"
 								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"
@@ -82,7 +86,11 @@ function Balance({
 								title="Withdraw"
 								icon={RemoveCircle}
 								dir="right"
-								onClick={() => setOpenModal("withdraw")}
+								onClick={() => {
+									if (!bankInfo)
+										return toast.info("Please add a bank account first.");
+									setOpenModal("withdraw");
+								}}
 								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"
 							/>
 						</div>
