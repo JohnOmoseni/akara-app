@@ -58,7 +58,7 @@ export { default as PieChart } from "@/assets/svgs/pie-chart.svg?react";
 export { default as LineChart } from "@/assets/svgs/chart-line.svg?react";
 export { default as Location } from "@/assets/svgs/location.svg?react";
 
-import profile_pic from "/images/profile-pic.jpeg";
+import profile_pic from "/images/profile-pic.jpg";
 import confetti from "/images/confetti.png";
 
 export {
