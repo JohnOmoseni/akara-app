@@ -45,12 +45,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 			id: item?.id,
 			name: item?.name || "",
 			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-			// images: item?.image?.map((img: any) => img?.image_path) || [],
-			images: [
-				"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
-				"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-				"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-			],
+			images: item?.image?.map((img: any) => img?.image_path) || [],
 			asideInfo: [
 				{
 					icon: Info,
@@ -86,7 +81,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 				{
 					icon: PieChart,
 					label: "Co-ownership units available",
-					value: item?.co_ownership_units || "N/A",
+					value: item?.units || "N/A",
 					tag: "co_ownership_units",
 				},
 				{
@@ -114,7 +109,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 					{offerings.map((offering, idx) => (
 						<div
 							key={offering.name + idx}
-							className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[70%_minmax(min-content,30%)] !items-start gap-8 !p-1 sm:!p-3"
+							className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[65%_minmax(min-content,35%)] !items-start gap-8 !p-1 sm:!p-3"
 						>
 							<section className="flex-column w-full gap-6">
 								<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md overflow-hidden">
@@ -150,22 +145,6 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 													(_, index) => (
 														<div
 															key={index}
-															ref={(el) => {
-																if (el) {
-																	// Store the element reference
-																	// const element = el;
-																	// Use requestAnimationFrame to ensure DOM is ready
-																	// requestAnimationFrame(() => {
-																	// 	if (activeImageIndex === index) {
-																	// 		element.scrollIntoView({
-																	// 			behavior: "smooth",
-																	// 			block: "nearest",
-																	// 			inline: "nearest",
-																	// 		});
-																	// 	}
-																	// });
-																}
-															}}
 															className={cn(
 																"size-2 bg-white rounded-full transition-all duration-300",
 																(activeImage?.activeItem === index &&

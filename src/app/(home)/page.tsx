@@ -34,9 +34,11 @@ function Main() {
 
 	if (isFetching) {
 		return (
-			<div className="loader">
-				<FallbackLoader loading />
-			</div>
+			<SectionWrapper customHeaderComponent={<></>}>
+				<div className="loader">
+					<FallbackLoader loading />
+				</div>
+			</SectionWrapper>
 		);
 	}
 
@@ -45,7 +47,7 @@ function Main() {
 	return (
 		<SectionWrapper customHeaderComponent={<></>}>
 			<Tabs defaultValue={type} className="">
-				<TabsList className="grid w-full grid-cols-2 sm:max-w-max mx-auto">
+				<TabsList className="grid w-full grid-cols-2 sm:max-w-max mx-auto transition">
 					<TabsTrigger value="offerings">Offerings </TabsTrigger>
 					<TabsTrigger value="earnings">Earnings</TabsTrigger>
 				</TabsList>

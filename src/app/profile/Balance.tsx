@@ -60,8 +60,8 @@ function Balance({
 	return (
 		<>
 			<div className="flex-column gap-8 sm:gap-10">
-				<div className="relative pt-9 sm:pt-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[max(220px,_35vh)] rounded-lg shadow-sm overflow-hidden">
-					<div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] sm:w-[70%]">
+				<div className="relative pt-9 sm:pt-10 pb-8 px-4 sm:px-6 bg-secondary isolate h-[min(280px,_42vh)] rounded-lg shadow-sm overflow-hidden">
+					<div className="flex-column gap-3 text-secondary-foreground h-full w-[90%] min-[450px]:w-[70%] ">
 						<h3 className="font-semibold text-base">Available Balance</h3>
 
 						<h1 className="text-3xl md:text-4xl font-semibold grid grid-cols-[max-content_max-content] items-center gap-2 leading-none text-secondary-foreground">
@@ -75,7 +75,7 @@ function Balance({
 								onClick={() => setOpenModal("fund")}
 								icon={Plus}
 								dir="right"
-								className="bg-white text-foreground-variant max-sm:min-w-[100px] md:min-w-[130px]"
+								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"
 							/>
 
 							<Button
@@ -83,7 +83,7 @@ function Balance({
 								icon={RemoveCircle}
 								dir="right"
 								onClick={() => setOpenModal("withdraw")}
-								className="bg-white text-foreground-variant max-sm:min-w-[100px] md:min-w-[130px]"
+								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"
 							/>
 						</div>
 					</div>

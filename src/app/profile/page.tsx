@@ -22,7 +22,7 @@ function Profile() {
 
 	const {
 		data: profileInfo,
-		isLoading: isLoadingProfile,
+		isFetching: isLoadingProfile,
 		refetch: refetchProfile,
 	} = useGetProfileDetailsQuery({});
 	const { data: transactions } = useGetAllTransactionsQuery({});

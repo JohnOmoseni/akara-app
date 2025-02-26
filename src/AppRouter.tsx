@@ -15,11 +15,12 @@ import AuthProtectedRoute from "./AuthProtectedRoute";
 import ErrorBoundary from "./components/fallback/Error";
 import NotFound from "./layouts/NotFound";
 
-import PrivacyPolicy from "./app/policy/page";
 import Home from "./app/(home)/page";
 import Notifications from "./app/notifications/page";
 import Profile from "./app/profile/page";
 import AllTransactions from "./app/transactions/page";
+import TermsOfUse from "./app/termsOfUse/page";
+// import TermsOfUse from "./app/termsOfUse/page";
 
 const AppRouter = () => {
 	return (
@@ -28,7 +29,7 @@ const AppRouter = () => {
 				<Routes>
 					<Route element={<LayoutProvider />}>
 						<Route path="*" element={<NotFound />} />
-						<Route path="/policy" element={<PrivacyPolicy />} />
+						<Route path="/terms-of-use" element={<TermsOfUse />} />
 
 						<Route
 							element={

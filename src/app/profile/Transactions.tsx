@@ -80,7 +80,7 @@ export const Transactions = ({ data }: { data: any }) => {
 
 					<PDFDownloadLink
 						document={<TransactionPdf data={transactions} />}
-						className="row-flex ml-6 mt-4 w-max filter transition duration-150 active:translate-y-0.5"
+						className="row-flex ml-6 my-4 w-max filter transition duration-150 active:translate-y-0.5"
 						fileName="transactions.pdf"
 					>
 						{({ loading }) => {

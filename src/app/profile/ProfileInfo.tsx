@@ -28,7 +28,7 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 			},
 			{
 				label: "Phone number",
-				value: profileInfo?.phone_number || "N/A",
+				value: profileInfo?.phone_number,
 			},
 		];
 	}, [profileInfo]);
@@ -138,10 +138,10 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 				<Modal
 					openModal={openModal === "edit-bank"}
 					isTopContent={<div />}
-					modalStyles="min-h-[350px]"
+					modalStyles="min-h-[380px]"
 					setOpenModal={() => setOpenModal(false)}
 				>
-					<div className="relative h-[300px]">
+					<div className="relative h-[330px]">
 						<EditBank
 							bankInfo={bankInfo}
 							closeModal={() => setOpenModal(false)}

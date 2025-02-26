@@ -1,6 +1,7 @@
 import { useGetAllNotificationsQuery } from "@/server/actions/notifications";
 import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
 import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
@@ -17,49 +18,62 @@ const Notifications = () => {
 
 	// Client-side pagination logic
 	const paginatedNotifications: NotificationsType[] = useMemo(() => {
-		const allNotifications = paginatedData.map((item: any) => ({
-			id: item?.id,
-			description: item?.data ? JSON.parse(item?.data)?.message : "",
-			time: item?.created_at ? dayjs(item?.created_at).fromNow() : "",
-			date: item?.created_at
-				? dayjs(item?.created_at).format("D MMM, YYYY")
-				: "",
-		}));
+		const allNotifications = paginatedData.map((item: any) => {
+			let message = "";
+
+			if (item?.data) {
+				try {
+					const parsedData = JSON.parse(item.data);
+					message = parsedData?.message || "";
+				} catch (error) {
+					console.error("Invalid JSON:", item.data, error);
+				}
+			}
+
+			return {
+				id: item?.id,
+				description: message,
+				time: item?.created_at ? dayjs(item?.created_at).fromNow() : "",
+				date: item?.created_at
+					? dayjs(item?.created_at).format("D MMM, YYYY")
+					: "",
+			};
+		});
 
 		return allNotifications;
 	}, [data, page]);
 
-	// useEffect(() => {
-	// 	// Request notification permission and register service worker
-	// 	const requestNotificationPermission = async () => {
-	// 		try {
-	// 			if ("Notification" in window) {
-	// 				const permission = await Notification.requestPermission();
+	useEffect(() => {
+		// Request notification permission and register service worker
+		const requestNotificationPermission = async () => {
+			try {
+				if ("Notification" in window) {
+					const permission = await Notification.requestPermission();
 
-	// 				if (permission === "granted") {
-	// 					// Register service worker
-	// 					const registration = await navigator.serviceWorker.register(
-	// 						"/service-worker.js"
-	// 					);
+					if (permission === "granted") {
+						// Register service worker
+						const registration = await navigator.serviceWorker.register(
+							"/service-worker.js"
+						);
 
-	// 					// Subscribe to push notifications
-	// 					// @ts-ignore
-	// 					const subscription = await registration.pushManager.subscribe({
-	// 						userVisibleOnly: true,
-	// 						applicationServerKey: "YOUR_PUBLIC_VAPID_KEY",
-	// 					});
+						// Subscribe to push notifications
+						// @ts-ignore
+						const subscription = await registration.pushManager.subscribe({
+							userVisibleOnly: true,
+							applicationServerKey: "YOUR_PUBLIC_VAPID_KEY",
+						});
 
-	// 					// Send subscription to your backend
-	// 					// await sendSubscriptionToServer(subscription);
-	// 				}
-	// 			}
-	// 		} catch (error) {
-	// 			console.error("Error setting up notifications:", error);
-	// 		}
-	// 	};
+						// Send subscription to your backend
+						// await sendSubscriptionToServer(subscription);
+					}
+				}
+			} catch (error) {
+				console.error("Error setting up notifications:", error);
+			}
+		};
 
-	// 	requestNotificationPermission();
-	// }, []);
+		requestNotificationPermission();
+	}, []);
 
 	useEffect(() => {
 		if (isError)
@@ -98,7 +112,7 @@ const Notifications = () => {
 						{/* Load more trigger */}
 						{hasMore && (
 							<div ref={loadMoreRef} className="w-full py-4 flex row-flex">
-								{hasMore && <FallbackLoader loading={true} />}
+								{hasMore && <Loader2 className="size-6 animate-spin" />}
 							</div>
 						)}
 
