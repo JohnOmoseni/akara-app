@@ -212,7 +212,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 					</>
 				</>
 			) : (
-				<EmptyListWithIcon title="No listed earnings yet!" />
+				<EmptyListWithIcon title="No earnings yet!" />
 			)}
 		</div>
 	);

@@ -177,7 +177,10 @@ function SignIn() {
 
 				<p className="leading-4 text-xs text-center mt-3 tracking-wide text-foreground-100">
 					By continuing you agree to the{" "}
-					<Link to="/policy" className="text-foreground-variant font-semibold">
+					<Link
+						to="/terms-of-use"
+						className="text-foreground-variant font-semibold"
+					>
 						Policy and Rules
 					</Link>
 				</p>
