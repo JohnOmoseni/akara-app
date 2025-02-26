@@ -111,7 +111,7 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 						</ul>
 
 						<p
-							className="w-max text-sm row-flex-start gap-2 mt-6 text-foreground-variant font-semibold cursor-pointer"
+							className="w-max text-sm row-flex-start gap-2 mt-6 mb-4 text-foreground-variant font-semibold cursor-pointer"
 							onClick={() => setOpenModal("edit-bank")}
 						>
 							<Edit className="size-5" />

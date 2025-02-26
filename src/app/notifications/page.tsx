@@ -91,14 +91,14 @@ const Notifications = () => {
 				</div>
 			) : paginatedNotifications?.length > 0 ? (
 				<>
-					<ul className="flex-column gap-5 max-w-4xl sm:px-3 mx-auto">
+					<ul className="flex-column gap-5 max-w-3xl sm:px-3 mx-auto">
 						{paginatedNotifications?.map((item) => {
 							return (
 								<li
 									key={item.id}
 									className="flex-column gap-1 pr-1 card !px-3 !py-3 drop-shadow-[0_1px_4px_rgb(0_0_0_/_0.08)]"
 								>
-									<p className="text-sm font-light break-all">
+									<p className="text-sm font-light break-before-auto">
 										{item.description}
 									</p>
 

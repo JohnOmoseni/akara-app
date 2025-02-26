@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import { setOpenMenu } from "@/redux/features/appSlice";
 import { useAppDispatch, useAppSelector } from "@/types";
 import { SidebarLinksProp } from "../types";
+import { useAuth } from "@/context/AuthContext";
+import { Loader } from "@/components/fallback/FallbackLoader";
 
 function Menu() {
 	const dispatch = useAppDispatch();
@@ -54,6 +56,7 @@ type NavLinkProps = SidebarLinksProp & {
 
 function NavLinks({ label, href, icon: Icon, idx, tag }: NavLinkProps) {
 	const { pathname } = useLocation();
+	const { isLoadingAuth, handleLogout } = useAuth();
 	const isActive = pathname === href;
 	const isLogOut = tag === "logout";
 
@@ -61,7 +64,14 @@ function NavLinks({ label, href, icon: Icon, idx, tag }: NavLinkProps) {
 	const dispatch = useAppDispatch();
 
 	const handleClick = () => {
-		if (openMenu) dispatch(setOpenMenu(false));
+		if (openMenu) {
+			if (isLogOut) {
+				handleLogout();
+				setTimeout(() => dispatch(setOpenMenu(false)), 2000);
+			} else {
+				dispatch(setOpenMenu(false));
+			}
+		}
 	};
 
 	return (
@@ -74,7 +84,11 @@ function NavLinks({ label, href, icon: Icon, idx, tag }: NavLinkProps) {
 					"row-flex-start gap-3 py-3.5 px-5 transition-all rounded"
 				)}
 			>
-				{Icon && <Icon className={cn("size-5", isActive && "")} />}
+				{isLoadingAuth && isLogOut ? (
+					<Loader isLoading={isLoadingAuth} />
+				) : (
+					<Icon className={cn("size-5", isActive && "")} />
+				)}
 
 				<motion.span
 					className={cn(
