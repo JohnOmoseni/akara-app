@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useVerifyTransactionQuery } from "@/server/actions/transactions";
 import { Modal } from "@/components/ui/components/Modal";
+import { formatNumber } from "@/lib";
 import StatusModal from "../_sections/status-modal";
 import Transactions from "./Transactions";
 
@@ -44,17 +45,21 @@ function Profile() {
 
 	useEffect(() => {
 		if (paymentRef) {
-			verifyTransaction(); // Manually trigger verification
+			try {
+				verifyTransaction(); // Manually trigger verification
 
-			// Clear paymentReference from URL after a short delay
-			timeoutRef.current = setTimeout(() => {
-				setSearchParams((prev) => {
-					const newParams = new URLSearchParams(prev);
-					newParams.delete("paymentReference");
-					return newParams;
-				});
-				localStorage.removeItem("currentTxn");
-			}, 2000);
+				// Clear paymentReference from URL after a short delay
+				timeoutRef.current = setTimeout(() => {
+					setSearchParams((prev) => {
+						const newParams = new URLSearchParams(prev);
+						newParams.delete("paymentReference");
+						return newParams;
+					});
+					localStorage.removeItem("currentTxn");
+				}, 2000);
+			} catch (error: any) {
+				console.log("error", error);
+			}
 		}
 
 		return () => {
@@ -125,7 +130,9 @@ function Profile() {
 						info={
 							<span>
 								Congrats!!! You have successfully funded your wallet with{" "}
-								<span className="font-semibold">₦{currentTxn?.amount}</span>
+								<span className="font-semibold">
+									₦{formatNumber(currentTxn?.amount!)}
+								</span>
 							</span>
 						}
 						closeModal={() => setStatusOpenModal(false)}
@@ -144,9 +151,11 @@ function Profile() {
 						info={
 							<span>
 								Congrats!!! You have successfully withdrawn the sum of{" "}
-								<span className="font-semibold">₦{currentTxn?.amount}</span>{" "}
-								from your wallet. The funds should in your registered back
-								within the next 3 days
+								<span className="font-semibold">
+									₦{formatNumber(currentTxn?.amount!)}
+								</span>{" "}
+								from your wallet. The funds should reflect in your registered
+								bank within the next 3 days
 							</span>
 						}
 						closeModal={() => setStatusOpenModal(false)}

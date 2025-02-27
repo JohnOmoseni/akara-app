@@ -50,7 +50,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 					{
 						icon: PieChart,
 						label: "Co-ownership units owned",
-						value: offering?.units || "N/A",
+						value: item?.unit || "N/A",
 					},
 					{
 						icon: Rental,
@@ -71,7 +71,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 					{earnings.map((earning, idx) => (
 						<div
 							key={earning.name + idx}
-							className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[70%_minmax(min-content,30%)] !items-start gap-8 !p-1 sm:!p-3"
+							className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[65%_minmax(min-content,35%)] !items-start gap-8 !p-1 sm:!p-3"
 						>
 							<section className="flex-column w-full gap-6">
 								<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md overflow-hidden">

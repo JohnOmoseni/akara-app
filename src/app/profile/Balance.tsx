@@ -96,7 +96,7 @@ function Balance({
 								onClick={() => setOpenModal("fund")}
 								icon={Plus}
 								dir="right"
-								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"
+								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] lg:min-w-[150px]"
 							/>
 
 							<Button
@@ -108,7 +108,7 @@ function Balance({
 										return toast.info("Please add a bank account first.");
 									setOpenModal("withdraw");
 								}}
-								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] md:min-w-[150px]"
+								className="bg-white text-foreground-variant max-[400px]:min-w-[90px] min-w-[120px] lg:min-w-[150px]"
 							/>
 						</div>
 					</div>

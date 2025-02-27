@@ -30,7 +30,7 @@ export const wait = (ms: number) => {
 };
 
 export const formatNumber = (value: string | number) => {
-	if (value === null || value === undefined || value === "") return "0.00";
+	if (value === null || value === undefined) return "0.00";
 
 	// Convert to a number if it's a string with commas
 	const numericValue =
@@ -42,6 +42,20 @@ export const formatNumber = (value: string | number) => {
 		style: "decimal",
 		maximumFractionDigits: 2,
 		minimumFractionDigits: 2,
+	}).format(numericValue);
+};
+
+export const formatNumberAsCurrency = (value: string | number) => {
+	if (value === null || value === undefined) return "0.00";
+
+	// Convert to a number if it's a string with commas
+	const numericValue =
+		typeof value === "string" ? parseFloat(value.replace(/,/g, "")) : value;
+
+	if (isNaN(numericValue)) return "0.00"; // Handle invalid numbers safely
+
+	return new Intl.NumberFormat("en-US", {
+		style: "currency",
 	}).format(numericValue);
 };
 
