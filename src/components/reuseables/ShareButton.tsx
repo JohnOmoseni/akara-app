@@ -16,10 +16,13 @@ import {
 	FaShareAlt,
 } from "react-icons/fa";
 import { PopoverComponent } from "../ui/components/PopoverComponent";
+import { Helmet } from "react-helmet-async";
 
 const ShareButton = ({ offering }: { offering: any }) => {
 	const shareTitle = `Check out this offering: ${offering.name}`;
 	const shareUrl = `${window.location.origin}/offering/${offering.id}`;
+
+	console.log("TEST", offering);
 
 	const list = [
 		<FacebookShareButton
@@ -32,7 +35,7 @@ const ShareButton = ({ offering }: { offering: any }) => {
 
 		<TwitterShareButton
 			url={shareUrl}
-			title={shareTitle}
+			title={`${offering.name}\nCheck this out! ${offering.images?.[0]}`}
 			className="flex items-center gap-2 p-2 w-max"
 		>
 			<FaTwitter className="text-blue-400" />{" "}
@@ -41,7 +44,7 @@ const ShareButton = ({ offering }: { offering: any }) => {
 
 		<WhatsappShareButton
 			url={shareUrl}
-			title={shareTitle}
+			title={`${offering.name}\nCheck this out! ${offering.images?.[0]}`}
 			separator=" - "
 			className="flex items-center gap-2 p-2 w-max"
 		>
@@ -80,6 +83,18 @@ const ShareButton = ({ offering }: { offering: any }) => {
 
 	return (
 		<>
+			{/* Dynamic Meta Tags */}
+			<Helmet>
+				<meta property="og:title" content={offering.name} />
+				<meta
+					property="og:description"
+					content="Check out this amazing offering!"
+				/>
+				<meta property="og:image" content={offering.images?.[0] || ""} />
+				<meta property="og:url" content={shareUrl} />
+				<meta property="og:type" content="website" />
+			</Helmet>
+
 			<PopoverComponent
 				trigger={
 					<div className="row-flex-start gap-2 px-3 py-2 transition">
