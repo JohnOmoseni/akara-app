@@ -7,7 +7,10 @@ import {
 } from "react-icons/io5";
 import { FcGoogle as Google } from "react-icons/fc";
 import { IoIosArrowBack as ArrowBack } from "react-icons/io";
-import { BiSearchAlt as SearchIcon } from "react-icons/bi";
+import {
+	BiSearchAlt as SearchIcon,
+	BiDotsVertical as DotsVertical,
+} from "react-icons/bi";
 import { HiOutlineEnvelope as Envelope } from "react-icons/hi2";
 import { GoLock as Lock } from "react-icons/go";
 import { CiCircleCheck as CheckCircle, CiEdit as Edit } from "react-icons/ci";
@@ -78,6 +81,7 @@ export {
 	confetti,
 	Alert,
 	CheckCircle,
+	DotsVertical,
 	LogoutIcon,
 	Envelope,
 	Eye,

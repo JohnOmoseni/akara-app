@@ -29,6 +29,7 @@ import Button from "@/components/reuseables/CustomButton";
 import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
 import OfferingDocument from "./OfferingDocument";
+import ShareButton from "@/components/reuseables/ShareButton";
 
 function Offerings({ offeringsData }: { offeringsData: any }) {
 	const [activeImage, setActiveImage] = useState({
@@ -365,22 +366,26 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 				)}
 			</ul>
 
-			<div className="row-flex !flex-wrap gap-x-4 gap-y-2">
-				<PDFDownloadLink
-					document={<OfferingDocument offering={offering} />}
-					className="w-full download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
-					fileName="earnings_report.pdf"
-				>
-					{({ loading }) => {
-						return (
-							<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
-								<Download className="size-6 stroke-variant -mt-1" />
+			<div className="flex-column gap-x-4 gap-y-2">
+				<div className="row-flex-btwn gap-3">
+					<PDFDownloadLink
+						document={<OfferingDocument offering={offering} />}
+						className="w-full flex-1 download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
+						fileName="earnings_report.pdf"
+					>
+						{({ loading }) => {
+							return (
+								<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
+									<Download className="size-6 stroke-variant -mt-1" />
 
-								{loading ? "Generating PDF..." : "	Download PDF"}
-							</div>
-						);
-					}}
-				</PDFDownloadLink>
+									{loading ? "Generating PDF..." : "	Download PDF"}
+								</div>
+							);
+						}}
+					</PDFDownloadLink>
+
+					<ShareButton offering={offering} />
+				</div>
 
 				<Button
 					title="Buy"

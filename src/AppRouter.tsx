@@ -20,7 +20,6 @@ import Notifications from "./app/notifications/page";
 import Profile from "./app/profile/page";
 import AllTransactions from "./app/transactions/page";
 import TermsOfUse from "./app/termsOfUse/page";
-// import TermsOfUse from "./app/termsOfUse/page";
 
 const AppRouter = () => {
 	return (
