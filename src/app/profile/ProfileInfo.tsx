@@ -9,9 +9,18 @@ type Props = {
 	profileInfo: any;
 	bankInfo: any;
 	allBanks: any;
+	bankListError: {
+		message: string;
+		isError: boolean;
+	};
 };
 
-function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
+function ProfileInfo({
+	profileInfo,
+	bankInfo,
+	allBanks,
+	bankListError,
+}: Props) {
 	const [openModal, setOpenModal] = useState<
 		false | "edit-profile" | "edit-bank"
 	>(false);
@@ -146,6 +155,7 @@ function ProfileInfo({ profileInfo, bankInfo, allBanks }: Props) {
 							bankInfo={bankInfo}
 							closeModal={() => setOpenModal(false)}
 							allBanks={allBanks}
+							bankListError={bankListError}
 						/>
 					</div>
 				</Modal>

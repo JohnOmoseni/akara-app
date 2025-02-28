@@ -20,6 +20,7 @@ import Notifications from "./app/notifications/page";
 import Profile from "./app/profile/page";
 import AllTransactions from "./app/transactions/page";
 import TermsOfUse from "./app/termsOfUse/page";
+import OfferingDetails from "./app/(home)/details/offering-details";
 
 const AppRouter = () => {
 	return (
@@ -29,6 +30,10 @@ const AppRouter = () => {
 					<Route element={<LayoutProvider />}>
 						<Route path="*" element={<NotFound />} />
 						<Route path="/terms-of-use" element={<TermsOfUse />} />
+
+						<Route element={<DashboardLayout />}>
+							<Route path="/offerings/:id" element={<OfferingDetails />} />
+						</Route>
 
 						<Route
 							element={

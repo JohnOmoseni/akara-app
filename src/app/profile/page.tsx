@@ -32,6 +32,11 @@ function Profile() {
 	const paymentRef = searchParams.get("paymentReference");
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+	const [bankListError, setBankListError] = useState<{
+		message: string;
+		isError: boolean;
+	}>({ message: "", isError: false });
+
 	const {
 		data: verificationData,
 		isLoading: isVerifying,
@@ -82,6 +87,20 @@ function Profile() {
 		}
 	}, [verificationData]);
 
+	useEffect(() => {
+		if (allBanks?.error) {
+			setBankListError({
+				message:
+					allBanks?.error || "Failed to fetch list of banks with Monnify",
+				isError: true,
+			});
+		}
+
+		return () => {
+			setBankListError({ message: "", isError: false });
+		};
+	}, [allBanks]);
+
 	const isLoading = isLoadingProfile || (isVerifying && !verificationData);
 
 	if (isLoading) {
@@ -115,6 +134,7 @@ function Profile() {
 						profileInfo={profileInfo}
 						bankInfo={bankInfo}
 						allBanks={allBanks}
+						bankListError={bankListError}
 					/>
 				</div>
 			</div>

@@ -45,7 +45,7 @@ function Main() {
 	console.log("TEST", earnings, offerings);
 
 	return (
-		<SectionWrapper customHeaderComponent={<></>}>
+		<SectionWrapper>
 			<Tabs defaultValue={type} className="">
 				<TabsList className="grid w-full grid-cols-2 sm:max-w-max mx-auto transition">
 					<TabsTrigger value="offerings">Offerings </TabsTrigger>

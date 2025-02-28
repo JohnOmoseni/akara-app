@@ -64,6 +64,7 @@ export function BuyOffering({
 					.number()
 					.required("Number of Units is required")
 					.typeError("Number of Units must be a number")
+					.min(1, "Number of Units must be greater or equal to 1")
 					.test(
 						"max-balance",
 						"Amount cannot exceed available balance",

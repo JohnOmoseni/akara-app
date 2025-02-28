@@ -94,7 +94,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 									<div className="absolute px-2.5 pb-3 sm:px-5 sm:pb-5 inset-0 top-auto row-flex-btwn gap-4">
 										<div className="flex-column flex-1 gap-1 pointer-events-none">
 											<p className="text-white text-2xl sm:text-3xl capitalize">
-												{truncateText(earning.name)}
+												{earning.name ? truncateText(earning.name) : "Unknown"}
 											</p>
 											<p className="text-white text-base sm:text-xl opacity-80">
 												{truncateText(earning.area)}

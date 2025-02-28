@@ -16,7 +16,7 @@ export const offeringsApiSlice = api.injectEndpoints({
 				`/user/offerings/${offering_id}`,
 			keepUnusedDataFor: 0,
 			transformResponse: (responseData: any) => {
-				return responseData;
+				return responseData?.data;
 			},
 			providesTags: (_result, _error, id) => [{ type: "Offerings", id }] as any,
 		}),

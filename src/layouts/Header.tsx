@@ -30,10 +30,6 @@ function Header({ headerTitle, customHeaderComponent }: HeaderProps) {
 					/>
 				)}
 
-				<div className="hidden md:block">
-					{customHeaderComponent && customHeaderComponent}
-				</div>
-
 				<h3 className="font-semibold capitalize text-center">
 					{headerTitle
 						? headerTitle
@@ -41,6 +37,12 @@ function Header({ headerTitle, customHeaderComponent }: HeaderProps) {
 						? "Dashboard"
 						: selectedTab}
 				</h3>
+
+				{customHeaderComponent && (
+					<div className="hidden md:block">
+						{customHeaderComponent && customHeaderComponent}
+					</div>
+				)}
 
 				<Link to="/" className="cursor-pointer">
 					<Logo className="w-fit h-10 hidden sm:block" />

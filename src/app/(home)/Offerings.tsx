@@ -133,7 +133,9 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 									<div className="absolute px-2.5 pb-3 sm:px-5 sm:pb-5 inset-0 top-auto row-flex-btwn gap-4 pointer-events-none">
 										<div className="flex-column flex-1 gap-1">
 											<p className="text-white text-2xl sm:text-3xl capitalize">
-												{truncateText(offering.name)}
+												{offering.name
+													? truncateText(offering.name)
+													: "Unknown"}
 											</p>
 											<p className="text-white text-base sm:text-xl opacity-80">
 												{truncateText(offering.area)}
@@ -147,7 +149,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 														<div
 															key={index}
 															className={cn(
-																"size-2 bg-white rounded-full transition-all duration-300",
+																"size-2 lg:size-2.5 bg-white rounded-full transition-all duration-300",
 																(activeImage?.activeItem === index &&
 																	activeImage?.activeImageIndex === idx) ||
 																	(index === 0 &&
@@ -155,6 +157,13 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 																	? "bg-secondary scale-105"
 																	: ""
 															)}
+															onClick={() => {
+																setActiveImage((prev) => ({
+																	...prev,
+																	activeItem: index,
+																	activeImageIndex: idx,
+																}));
+															}}
 														/>
 													)
 												)}
@@ -366,26 +375,25 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 			</ul>
 
 			<div className="flex-column gap-x-4 gap-y-2">
-				 <div className="row-flex-btwn gap-3"> 
+				<div className="row-flex-btwn gap-3">
+					<PDFDownloadLink
+						document={<OfferingDocument offering={offering} />}
+						className="w-full flex-1 download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
+						fileName="earnings_report.pdf"
+					>
+						{({ loading }) => {
+							return (
+								<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
+									<Download className="size-6 stroke-variant -mt-1" />
 
-				<PDFDownloadLink
-					document={<OfferingDocument offering={offering} />}
-					className="w-full flex-1 download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
-					fileName="earnings_report.pdf"
-				>
-					{({ loading }) => {
-						return (
-							<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
-								<Download className="size-6 stroke-variant -mt-1" />
+									{loading ? "Generating PDF..." : "	Download PDF"}
+								</div>
+							);
+						}}
+					</PDFDownloadLink>
 
-								{loading ? "Generating PDF..." : "	Download PDF"}
-							</div>
-						);
-					}}
-				</PDFDownloadLink>
-
- <ShareButton offering={offering} /> 
-</div> 
+					<ShareButton offering={offering} />
+				</div>
 
 				<Button
 					title="Buy"

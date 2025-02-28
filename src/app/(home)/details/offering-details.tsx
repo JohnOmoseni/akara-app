@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
-	ArrowDown,
-	ArrowUp,
 	BuyIcon,
 	Download,
 	HouseKey,
@@ -19,19 +17,18 @@ import { Modal } from "@/components/ui/components/Modal";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useBuyOfferingMutation } from "@/server/actions/transactions";
 import { useAuth } from "@/context/AuthContext";
-
-import Button from "@/components/reuseables/CustomButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useGetOfferingByIdQuery } from "@/server/actions/offerings";
+import { BuyOffering } from "../buy-modal";
+import { ConfirmAction } from "@/app/_sections/confirm-action";
 import SectionWrapper from "@/layouts/SectionWrapper";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
 import EmptyListWithIcon from "@/app/_sections/empty-list";
 import OfferingDocument from "../OfferingDocument";
 import ShareButton from "@/components/reuseables/ShareButton";
-import { BuyOffering } from "../buy-modal";
-import { ConfirmAction } from "@/app/_sections/confirm-action";
 import StatusModal from "@/app/_sections/status-modal";
+import Button from "@/components/reuseables/CustomButton";
 
 function OfferingDetails() {
 	const { id: offering_id } = useParams();
@@ -59,68 +56,69 @@ function OfferingDetails() {
 	}
 
 	// Client-side pagination logic
-	const offering: ProcessedOffering = useMemo(() => {
-		return {
-			id: data?.id,
-			name: data?.name || "",
-			area: data?.location ? data?.location?.split("\n", 2)[1] : "",
-			images: data?.image?.map((img: any) => img?.image_path) || [],
-			asideInfo: [
-				{
-					icon: Info,
-					label: "Description",
-					value: data?.description || "",
-					tag: "description",
-				},
-				{
-					icon: Location,
-					label: "Location",
-					value: data?.location ? `${data.location}` : "N/A",
-					tag: "location",
-				},
-				{
-					icon: Scale,
-					label: "Valuation",
-					value: formatNumber(data?.valuation) || "N/A",
-					tag: "valuation",
-				},
-				{
-					icon: Rental,
-					label: "Net Annual Rental Income (Projection)",
-					value:
-						formatNumber(data?.projected_net_annual_rental_income) || "N/A",
-					tag: "annual_rental_income",
-				},
-				{
-					icon: LineChart,
-					label: "Net Annual Appreciation (Projection)",
-					value: formatNumber(data?.projected_annual_appreciation) || "N/A",
-					tag: "annual_appreciation",
-				},
-				{
-					icon: PieChart,
-					label: "Co-ownership units available",
-					value: data?.units || "N/A",
-					tag: "co_ownership_units",
-				},
-				{
-					icon: PriceTag,
-					label: "Price per unit",
-					value: formatNumber(data?.price_per_unit) || "N/A",
-					tag: "price_per_unit",
-				},
-				{
-					icon: HouseKey,
-					label: "Current Occupancy Status",
-					value: data?.occupancy_stage || "N/A",
-					tag: "occupancy_status",
-				},
-			],
-		};
-	}, [data]);
+	const offering: ProcessedOffering = {
+		id: data?.id,
+		name: data?.name || "",
+		area: data?.location ? data?.location?.split("\n", 2)[1] : "",
+		images: [
+			"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+			"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+		],
+		asideInfo: [
+			{
+				icon: Info,
+				label: "Description",
+				value: data?.description || "",
+				tag: "description",
+			},
+			{
+				icon: Location,
+				label: "Location",
+				value: data?.location ? `${data.location}` : "N/A",
+				tag: "location",
+			},
+			{
+				icon: Scale,
+				label: "Valuation",
+				value: formatNumber(data?.valuation) || "N/A",
+				tag: "valuation",
+			},
+			{
+				icon: Rental,
+				label: "Net Annual Rental Income (Projection)",
+				value: formatNumber(data?.projected_net_annual_rental_income) || "N/A",
+				tag: "annual_rental_income",
+			},
+			{
+				icon: LineChart,
+				label: "Net Annual Appreciation (Projection)",
+				value: formatNumber(data?.projected_annual_appreciation) || "N/A",
+				tag: "annual_appreciation",
+			},
+			{
+				icon: PieChart,
+				label: "Co-ownership units available",
+				value: data?.units || "N/A",
+				tag: "co_ownership_units",
+			},
+			{
+				icon: PriceTag,
+				label: "Price per unit",
+				value: formatNumber(data?.price_per_unit) || "N/A",
+				tag: "price_per_unit",
+			},
+			{
+				icon: HouseKey,
+				label: "Current Occupancy Status",
+				value: data?.occupancy_stage || "N/A",
+				tag: "occupancy_status",
+			},
+		],
+	};
 
 	return (
-		<div className="max-w-7xl relative flex-column gap-6 md:gap-7">
+		<SectionWrapper mainContainerStyles="max-w-7xl">
 			{offering ? (
 				<>
 					<div className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[65%_minmax(min-content,35%)] !items-start gap-8 !p-1 sm:!p-3">
@@ -141,7 +139,7 @@ function OfferingDetails() {
 								<div className="absolute px-2.5 pb-3 sm:px-5 sm:pb-5 inset-0 top-auto row-flex-btwn gap-4 pointer-events-none">
 									<div className="flex-column flex-1 gap-1">
 										<p className="text-white text-2xl sm:text-3xl capitalize">
-											{truncateText(offering.name)}
+											{offering.name ? truncateText(offering.name) : "Unknown"}
 										</p>
 										<p className="text-white text-base sm:text-xl opacity-80">
 											{truncateText(offering.area)}
@@ -160,6 +158,9 @@ function OfferingDetails() {
 																? "bg-secondary scale-105"
 																: ""
 														)}
+														onClick={() => {
+															setActiveImageIndex(index);
+														}}
 													/>
 												)
 											)}
@@ -215,7 +216,7 @@ function OfferingDetails() {
 			) : (
 				<EmptyListWithIcon title="No information available for this offering" />
 			)}
-		</div>
+		</SectionWrapper>
 	);
 }
 
@@ -348,8 +349,13 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 					icon={BuyIcon}
 					iconStyles="stroke-white"
 					onClick={() => {
-						setActiveOffering(offering);
-						setOpenModal("pay");
+						if (!user || !isAuthenticated) {
+							navigate("/signin");
+							return;
+						} else {
+							setActiveOffering(offering);
+							setOpenModal("pay");
+						}
 					}}
 					className="w-full"
 				/>
@@ -366,11 +372,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 							closeModal={() => setOpenModal(false)}
 							setOpenModal={setOpenModal}
 							offering={activeOffering!}
-							setActiveOffering={() =>
-								!user || !isAuthenticated
-									? navigate("/signin")
-									: setActiveOffering
-							}
+							setActiveOffering={setActiveOffering}
 						/>
 					</Modal>
 				)}

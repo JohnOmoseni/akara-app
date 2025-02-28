@@ -24,6 +24,10 @@ type Props = {
 	bankInfo?: any;
 	profileInfo?: any;
 	allBanks?: any;
+	bankListError?: {
+		message: string;
+		isError: boolean;
+	};
 };
 
 export function EditProfile({ profileInfo, closeModal }: Props) {
@@ -157,7 +161,12 @@ export function EditProfile({ profileInfo, closeModal }: Props) {
 	);
 }
 
-export function EditBank({ bankInfo, allBanks, closeModal }: Props) {
+export function EditBank({
+	bankInfo,
+	allBanks,
+	closeModal,
+	bankListError,
+}: Props) {
 	const [updateBankInfo, { isLoading: isUpdating }] =
 		useUpdateBankInfoMutation();
 	const [verifyBankMutation, { isLoading: isVerifying }] =
@@ -231,6 +240,7 @@ export function EditBank({ bankInfo, allBanks, closeModal }: Props) {
 			if (accountNumberStr.length !== 10 || !/^\d{10}$/.test(accountNumberStr))
 				return;
 
+			let message;
 			try {
 				const data = {
 					account_number: accountNumberStr,
@@ -238,13 +248,11 @@ export function EditBank({ bankInfo, allBanks, closeModal }: Props) {
 				};
 
 				const res = await verifyBankMutation(data);
-				console.log("Verification Response:", res);
-
-				let message;
 				const error = res?.data?.data?.error;
 
 				if (error) {
-					message = res?.data?.message || "Failed to validate bank account";
+					message =
+						res.data.data.error || "Failed to authenticate with Monnify";
 					toast.info(message);
 					setFieldValue("account_name", "");
 					return;
@@ -309,6 +317,12 @@ export function EditBank({ bankInfo, allBanks, closeModal }: Props) {
 							}}
 							options={bankList}
 						/>
+
+						{bankListError?.isError && (
+							<p className="transition-sm ml-1 mt-1.5 text-xs font-semibold text-red-500">
+								{bankListError?.message || "Error fetching banks"}
+							</p>
+						)}
 					</>
 				)}
 			/>
