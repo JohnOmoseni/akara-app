@@ -55,7 +55,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 					{
 						icon: Rental,
 						label: "Rent Income Earned",
-						value: formatNumber(item?.amount) || "N/A",
+						value: formatNumber(item?.earnings) || "N/A",
 					},
 				],
 			};
