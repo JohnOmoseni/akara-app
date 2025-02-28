@@ -19,7 +19,7 @@ const AllTransactions = () => {
 				desc:
 					description ||
 					`₦${amount} ${
-						type === "deposit" ? "credited" : "debited"
+						type === "debit" ? "debited" : "credited"
 					} into your wallet`,
 				date: formatDate(created_at, "D MMM, YYYY"),
 				time: formatDate(created_at, "h:mm A"),
