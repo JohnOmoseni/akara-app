@@ -30,17 +30,17 @@ function Header({ headerTitle, customHeaderComponent }: HeaderProps) {
 					/>
 				)}
 
-				<h3 className="font-semibold capitalize">
+				<div className="hidden md:block">
+					{customHeaderComponent && customHeaderComponent}
+				</div>
+
+				<h3 className="font-semibold capitalize text-center">
 					{headerTitle
 						? headerTitle
 						: selectedTab === "home"
 						? "Dashboard"
 						: selectedTab}
 				</h3>
-
-				<div className="hidden md:block">
-					{customHeaderComponent && customHeaderComponent}
-				</div>
 
 				<Link to="/" className="cursor-pointer">
 					<Logo className="w-fit h-10 hidden sm:block" />

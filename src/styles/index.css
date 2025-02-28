@@ -27,14 +27,14 @@
 		--border-variant: #e7c102ae;
 
 		--grey: #8c9db1;
-		--grey-100: #b8b8b8;
+		--grey-100: #929292;
 
 		--input: #aab7c6;
 		--placeholder: #6e7b8b;
 		--ring: #e7bf02;
 
 		--muted: #f3f5f6;
-		--muted-foreground: #aab7c6;
+		--muted-foreground: #b6b6b6;
 
 		--skeleton: #e0e0e0;
 
@@ -127,7 +127,7 @@
 		@apply my-auto w-full rounded-lg border border-border-100 px-2 text-base disabled:border-border;
 	}
 	.shad-alert-dialog {
-		@apply border-2 border-border outline-none;
+		@apply border-2 md:border border-border outline-none;
 	}
 
 	.shad-select-trigger {
