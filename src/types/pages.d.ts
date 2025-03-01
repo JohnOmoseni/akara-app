@@ -9,6 +9,7 @@ interface ProcessedOffering {
 	id: number;
 	name: string;
 	area: string;
+	price_per_unit: string;
 	images: string[];
 	asideInfo: OfferingAsideInfo[];
 }

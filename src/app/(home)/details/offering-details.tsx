@@ -29,6 +29,7 @@ import OfferingDocument from "../OfferingDocument";
 import ShareButton from "@/components/reuseables/ShareButton";
 import StatusModal from "@/app/_sections/status-modal";
 import Button from "@/components/reuseables/CustomButton";
+import { DatabaseIcon } from "lucide-react";
 
 function OfferingDetails() {
 	const { id: offering_id } = useParams();
@@ -60,6 +61,7 @@ function OfferingDetails() {
 		id: data?.id,
 		name: data?.name || "",
 		area: data?.location ? data?.location?.split("\n", 2)[1] : "",
+		price_per_unit: formatNumber(data?.price_per_unit),
 		images: [
 			"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
 			"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",

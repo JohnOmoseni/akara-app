@@ -63,6 +63,7 @@ export { default as Location } from "@/assets/svgs/location.svg?react";
 
 import profile_pic from "/images/profile-pic.jpg";
 import confetti from "/images/confetti.png";
+import house_1 from "/images/house_1.jpg";
 
 export {
 	Menu,
@@ -88,4 +89,5 @@ export {
 	EyeOff,
 	Lock,
 	profile_pic,
+	house_1,
 };

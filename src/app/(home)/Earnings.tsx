@@ -25,6 +25,7 @@ function Earnings({ earningsData }: { earningsData: any }) {
 				id: offering?.id,
 				name: offering?.name || "",
 				area: offering?.location ? offering?.location?.split("\n", 2)[1] : "",
+				price_per_unit: formatNumber(item?.price_per_unit),
 				// images: offering?.image?.map((img: any) => img?.image_path) || [],
 				images: [
 					"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",

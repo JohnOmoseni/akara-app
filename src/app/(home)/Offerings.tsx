@@ -46,6 +46,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 			id: item?.id,
 			name: item?.name || "",
 			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
+			price_per_unit: formatNumber(item?.price_per_unit),
 			images: item?.image?.map((img: any) => img?.image_path) || [],
 			asideInfo: [
 				{
@@ -375,7 +376,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 			</ul>
 
 			<div className="flex-column gap-x-4 gap-y-2">
-				<div className="row-flex-btwn gap-3">
+				<div className="grid grid-cols-[1fr_max-content] gap-3">
 					<PDFDownloadLink
 						document={<OfferingDocument offering={offering} />}
 						className="w-full flex-1 download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
