@@ -22,8 +22,6 @@ const ShareButton = ({ offering }: { offering: any }) => {
 	const shareTitle = `Check out this offering: ${offering.name}`;
 	const shareUrl = `${window.location.origin}/offering/${offering.id}`;
 
-	console.log("TEST", offering);
-
 	const list = [
 		<FacebookShareButton
 			url={shareUrl}
@@ -35,7 +33,9 @@ const ShareButton = ({ offering }: { offering: any }) => {
 
 		<TwitterShareButton
 			url={shareUrl}
-			title={`${offering.name}\nCheck this out! ${offering.images?.[0]}`}
+			title={`${offering.name}\nCheck this out! ${
+				offering.images?.[0] ? offering.images?.[0] : offering.name
+			}`}
 			className="flex items-center gap-2 p-2 w-max"
 		>
 			<FaTwitter className="text-blue-400" />{" "}
@@ -44,7 +44,9 @@ const ShareButton = ({ offering }: { offering: any }) => {
 
 		<WhatsappShareButton
 			url={shareUrl}
-			title={`${offering.name}\nCheck this out! ${offering.images?.[0]}`}
+			title={`${offering.name}\nCheck this out! ${
+				offering.images?.[0] ? offering.images?.[0] : offering.name
+			}`}
 			separator=" - "
 			className="flex items-center gap-2 p-2 w-max"
 		>
