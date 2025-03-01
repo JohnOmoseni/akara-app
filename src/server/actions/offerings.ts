@@ -13,7 +13,7 @@ export const offeringsApiSlice = api.injectEndpoints({
 
 		getOfferingById: builder.query({
 			query: ({ offering_id }: { offering_id: string }) =>
-				`/user/offerings/${offering_id}`,
+				`/offerings/${offering_id}`,
 			keepUnusedDataFor: 0,
 			transformResponse: (responseData: any) => {
 				return responseData?.data;
