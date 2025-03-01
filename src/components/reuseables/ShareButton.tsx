@@ -91,10 +91,6 @@ const ShareButton = ({ offering }: { offering: any }) => {
 		<>
 			{/* OpenGraph Meta Tags */}
 			<Helmet>
-				<meta
-					name="author"
-					content={`Akara ${offering_name ? `| ${offering_name}` : ""} `}
-				/>
 				<meta property="og:title" content={shareTitle} />
 				<meta property="og:description" content={description} />
 				<meta property="og:image" content={previewImage} />
@@ -105,7 +101,10 @@ const ShareButton = ({ offering }: { offering: any }) => {
 				/>
 				<meta property="og:url" content={shareUrl} />
 				<meta property="og:type" content="website" />
-				<meta property="og:site_name" content="Akara" />
+				<meta
+					property="og:site_name"
+					content={`Akara ${offering_name ? `| ${offering_name}` : ""} `}
+				/>
 
 				<meta name="twitter:card" content={previewImage} />
 				<meta name="twitter:title" content={shareTitle} />
