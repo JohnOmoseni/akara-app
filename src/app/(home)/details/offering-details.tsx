@@ -69,7 +69,7 @@ function OfferingDetails() {
 			{
 				icon: Info,
 				label: "Description",
-				value: data?.description || "",
+				value: data?.description || <span className="italic ">unknown</span>,
 				tag: "description",
 			},
 			{

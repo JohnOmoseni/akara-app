@@ -51,7 +51,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 				{
 					icon: Info,
 					label: "Description",
-					value: item?.description || "",
+					value: item?.description || <span className="italic ">unknown</span>,
 					tag: "description",
 				},
 				{

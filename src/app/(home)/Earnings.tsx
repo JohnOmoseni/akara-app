@@ -35,7 +35,9 @@ function Earnings({ earningsData }: { earningsData: any }) {
 					{
 						icon: Info,
 						label: "Description",
-						value: offering?.description || "",
+						value: offering?.description || (
+							<span className="italic ">unknown</span>
+						),
 					},
 					{
 						icon: Location,

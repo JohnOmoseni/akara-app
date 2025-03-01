@@ -22,52 +22,56 @@ import AllTransactions from "./app/transactions/page";
 import TermsOfUse from "./app/termsOfUse/page";
 import OfferingDetails from "./app/(home)/details/offering-details";
 
+import { HelmetProvider } from "react-helmet-async";
+
 const AppRouter = () => {
 	return (
 		<>
-			<ErrorBoundary>
-				<Routes>
-					<Route element={<LayoutProvider />}>
-						<Route path="*" element={<NotFound />} />
-						<Route path="/terms-of-use" element={<TermsOfUse />} />
+			<HelmetProvider>
+				<ErrorBoundary>
+					<Routes>
+						<Route element={<LayoutProvider />}>
+							<Route path="*" element={<NotFound />} />
+							<Route path="/terms-of-use" element={<TermsOfUse />} />
 
-						<Route element={<DashboardLayout />}>
-							<Route path="/offerings/:id" element={<OfferingDetails />} />
-						</Route>
+							<Route element={<DashboardLayout />}>
+								<Route path="/offerings/:id" element={<OfferingDetails />} />
+							</Route>
 
-						<Route
-							element={
-								<AuthProtectedRoute>
-									<AuthLayout />
-								</AuthProtectedRoute>
-							}
-						>
-							<Route path="/signin" element={<SignIn />} />
-							<Route path="/signup" element={<SignUp />} />
-							<Route path="/verify-otp" element={<VerifyOTP />} />
-							<Route path="/recover-password" element={<ForgotPassword />} />
 							<Route
-								path="/verify-password-pin"
-								element={<VerifyPasswordPin />}
-							/>
-							<Route path="/reset-password" element={<ResetPassword />} />
-						</Route>
+								element={
+									<AuthProtectedRoute>
+										<AuthLayout />
+									</AuthProtectedRoute>
+								}
+							>
+								<Route path="/signin" element={<SignIn />} />
+								<Route path="/signup" element={<SignUp />} />
+								<Route path="/verify-otp" element={<VerifyOTP />} />
+								<Route path="/recover-password" element={<ForgotPassword />} />
+								<Route
+									path="/verify-password-pin"
+									element={<VerifyPasswordPin />}
+								/>
+								<Route path="/reset-password" element={<ResetPassword />} />
+							</Route>
 
-						<Route
-							element={
-								<ProtectedRoute>
-									<DashboardLayout />
-								</ProtectedRoute>
-							}
-						>
-							<Route index element={<Home />} />
-							<Route path="/notifications" element={<Notifications />} />
-							<Route path="/all-transactions" element={<AllTransactions />} />
-							<Route path="/profile" element={<Profile />} />
+							<Route
+								element={
+									<ProtectedRoute>
+										<DashboardLayout />
+									</ProtectedRoute>
+								}
+							>
+								<Route index element={<Home />} />
+								<Route path="/notifications" element={<Notifications />} />
+								<Route path="/all-transactions" element={<AllTransactions />} />
+								<Route path="/profile" element={<Profile />} />
+							</Route>
 						</Route>
-					</Route>
-				</Routes>
-			</ErrorBoundary>
+					</Routes>
+				</ErrorBoundary>
+			</HelmetProvider>
 		</>
 	);
 };
