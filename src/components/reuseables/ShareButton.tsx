@@ -22,7 +22,7 @@ import { encodeId } from "@/lib/utils";
 const ShareButton = ({ offering }: { offering: any }) => {
 	const offering_name = `${offering.name}`;
 
-	const description = `Join me as a co-owner of this property so you can earn passive income & more, while also helping solve Nigeria's affordable housing scarcity. Click to learn more.`;
+	const description = `Join me as a co-owner of this property so you can earn passive income & more, while also helping solve Nigeria's affordable housing scarcity. Click to learn more`;
 
 	const shareTitle = `Become a co-owner of ${
 		offering_name ? offering_name : "this property"
