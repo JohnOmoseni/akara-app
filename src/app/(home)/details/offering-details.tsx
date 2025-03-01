@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { cn, decodeId } from "@/lib/utils";
 import {
 	BuyIcon,
 	Download,
@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useGetOfferingByIdQuery } from "@/server/actions/offerings";
 import { BuyOffering } from "../buy-modal";
 import { ConfirmAction } from "@/app/_sections/confirm-action";
+import { NumberLike } from "hashids/util";
 import SectionWrapper from "@/layouts/SectionWrapper";
 import FallbackLoader from "@/components/fallback/FallbackLoader";
 import EmptyListWithIcon from "@/app/_sections/empty-list";
@@ -31,11 +32,14 @@ import StatusModal from "@/app/_sections/status-modal";
 import Button from "@/components/reuseables/CustomButton";
 
 function OfferingDetails() {
-	const { id: offering_id } = useParams();
+	const { id: hashed_id } = useParams();
+	const [offeringId, setOfferingId] = useState<NumberLike | null | undefined>(
+		undefined
+	);
 	const [activeImageIndex, setActiveImageIndex] = useState(0);
 	const { data, isFetching, isError, error } = useGetOfferingByIdQuery(
-		{ offering_id: offering_id! },
-		{ skip: !offering_id }
+		{ offering_id: offeringId! as number },
+		{ skip: !offeringId }
 	);
 
 	useEffect(() => {
@@ -45,7 +49,20 @@ function OfferingDetails() {
 		}
 	}, [isError]);
 
-	if (isFetching) {
+	useLayoutEffect(() => {
+		if (hashed_id) {
+			const decoded = decodeId(hashed_id);
+			if (decoded) {
+				setOfferingId(decoded);
+				console.log("Decoded Offering ID:", decoded);
+			} else {
+				setOfferingId(null);
+				console.error("Invalid offering ID");
+			}
+		}
+	}, [hashed_id]);
+
+	if (isFetching || hashed_id === undefined) {
 		return (
 			<SectionWrapper customHeaderComponent={<></>}>
 				<div className="loader">

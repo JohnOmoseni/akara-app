@@ -17,27 +17,28 @@ import {
 } from "react-icons/fa";
 import { PopoverComponent } from "../ui/components/PopoverComponent";
 import { Helmet } from "react-helmet-async";
+import { encodeId } from "@/lib/utils";
 
 const ShareButton = ({ offering }: { offering: any }) => {
-	const offering_name = `${offering.name} ${
-		offering.area ? "(" + offering.area + ")" : ""
-	} `;
+	const offering_name = `${offering.name}`;
 
-	const description = `Join me as a co-owner of this property so you can earn rental income and grow your wealth, while also helping solve the affordable housing crisis affecting everyone. Click the link to learn more.`;
+	const description = `Join me as a co-owner of this property so you can earn passive income & more, while also helping solve Nigeria's affordable housing scarcity. Click to learn more.`;
 
-	const shareTitle = `Be a co-owner of ${
+	const shareTitle = `Become a co-owner of ${
 		offering_name ? offering_name : "this property"
 	} for as little as ₦1,000.`;
 
+	const hashedId = encodeId(offering?.id);
+
 	const shareUrl = `${
 		import.meta.env.VITE_SITE_URL || window.location.origin
-	}/offerings/${offering?.id || ""}`;
+	}/offerings/${hashedId}`;
 
 	// @ts-ignore
 	const previewImage =
 		offering?.images?.length > 0
 			? offering?.images?.[0]
-			: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=300&h=300&auto=format&fit=crop";
+			: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9";
 
 	// Social Share Config
 	const socialPlatforms = [
@@ -90,7 +91,10 @@ const ShareButton = ({ offering }: { offering: any }) => {
 		<>
 			{/* OpenGraph Meta Tags */}
 			<Helmet>
-				<title>{`Akara | ${offering_name}`}</title>
+				<meta
+					name="author"
+					content={`Akara ${offering_name ? `| ${offering_name}` : ""} `}
+				/>
 				<meta property="og:title" content={shareTitle} />
 				<meta property="og:description" content={description} />
 				<meta property="og:image" content={previewImage} />

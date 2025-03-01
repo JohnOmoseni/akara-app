@@ -29,6 +29,7 @@
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "framer-motion": "^11.15.0",
+    "hashids": "^2.3.0",
     "input-otp": "^1.4.1",
     "libphonenumber-js": "^1.11.17",
     "lucide-react": "^0.469.0",

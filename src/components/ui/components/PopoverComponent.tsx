@@ -29,7 +29,7 @@ export const PopoverComponent = forwardRef<HTMLDivElement, Props>(
 				</PopoverTrigger>
 				<PopoverContent
 					ref={contentRef}
-					className={cn("popover", containerStyles)}
+					className={cn("popover mr-3", containerStyles)}
 				>
 					<ul className="flex-column gap-3.5">
 						{list &&
