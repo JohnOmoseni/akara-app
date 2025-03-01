@@ -23,20 +23,21 @@ const ShareButton = ({ offering }: { offering: any }) => {
 		offering.area ? "(" + offering.area + ")" : ""
 	} `;
 
-	const description = `Join me as a co-owner of this property so you can earn rental income and grow your wealth, while also helping solve the affordable housing crisis affecting everyone. Click the link to learn more`;
+	const description = `Join me as a co-owner of this property so you can earn rental income and grow your wealth, while also helping solve the affordable housing crisis affecting everyone. Click the link to learn more.`;
 
 	const shareTitle = `Be a co-owner of ${
 		offering_name ? offering_name : "this property"
-	} for as litle as ₦1,000.`;
+	} for as little as ₦1,000.`;
 
 	const shareUrl = `${
 		import.meta.env.VITE_SITE_URL || window.location.origin
 	}/offerings/${offering?.id || ""}`;
 
 	// @ts-ignore
-	const previewImage = offering?.images?.[0]
-		? offering?.images?.[0]
-		: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=300&auto=format&fit=crop";
+	const previewImage =
+		offering?.images?.length > 0
+			? offering?.images?.[0]
+			: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=300&h=300&auto=format&fit=crop";
 
 	// Social Share Config
 	const socialPlatforms = [
@@ -53,7 +54,7 @@ const ShareButton = ({ offering }: { offering: any }) => {
 			props: {
 				url: shareUrl,
 				hashtag: "#AffordableHousing",
-				title: `${shareTitle} \n \n${description}`,
+				title: `${shareTitle}\n\n${description}`,
 			},
 		},
 		{
@@ -62,7 +63,7 @@ const ShareButton = ({ offering }: { offering: any }) => {
 			label: "WhatsApp",
 			props: {
 				url: shareUrl,
-				title: `*${shareTitle}* \n \n${description}`,
+				title: `*${shareTitle}*\n\n${description}`,
 				separator: " - ",
 			},
 		},
@@ -76,7 +77,7 @@ const ShareButton = ({ offering }: { offering: any }) => {
 			component: TelegramShareButton,
 			icon: <FaTelegram className="text-blue-500" />,
 			label: "Telegram",
-			props: { url: shareUrl, title: `${shareTitle} \n \n${description}` },
+			props: { url: shareUrl, title: `${shareTitle}\n\n${description}` },
 		},
 		{
 			component: EmailShareButton,
@@ -89,36 +90,25 @@ const ShareButton = ({ offering }: { offering: any }) => {
 		<>
 			{/* OpenGraph Meta Tags */}
 			<Helmet>
+				<title>{`Akara | ${offering_name}`}</title>
 				<meta property="og:title" content={shareTitle} />
 				<meta property="og:description" content={description} />
+				<meta property="og:image" content={previewImage} />
 				<meta
-					property="og:image"
-					content={
-						offering.images?.[0] ||
-						"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=300&auto=format&fit=crop"
-					}
+					property="og:image:secure_url"
+					itemProp="image"
+					content={previewImage}
 				/>
 				<meta property="og:url" content={shareUrl} />
 				<meta property="og:type" content="website" />
 				<meta property="og:site_name" content="Akara" />
 
-				<meta
-					name="twitter:card"
-					content={
-						offering.images?.[0] ||
-						"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=300&auto=format&fit=crop"
-					}
-				/>
+				<meta name="twitter:card" content={previewImage} />
 				<meta name="twitter:title" content={shareTitle} />
 				<meta name="twitter:description" content={description} />
-				<meta
-					name="twitter:image"
-					content={
-						offering.images?.[0] ||
-						"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=300&auto=format&fit=crop"
-					}
-				/>
+				<meta name="twitter:image" content={previewImage} />
 			</Helmet>
+
 			<PopoverComponent
 				trigger={
 					<div className="row-flex-start gap-2 px-1 py-2 transition">

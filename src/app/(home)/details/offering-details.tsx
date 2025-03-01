@@ -29,7 +29,6 @@ import OfferingDocument from "../OfferingDocument";
 import ShareButton from "@/components/reuseables/ShareButton";
 import StatusModal from "@/app/_sections/status-modal";
 import Button from "@/components/reuseables/CustomButton";
-import { DatabaseIcon } from "lucide-react";
 
 function OfferingDetails() {
 	const { id: offering_id } = useParams();
