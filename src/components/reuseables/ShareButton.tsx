@@ -20,7 +20,7 @@ import { Helmet } from "react-helmet-async";
 
 const ShareButton = ({ offering }: { offering: any }) => {
 	const shareTitle = `Check out this offering: ${offering.name}`;
-	const shareUrl = `${window.location.origin}/offering/${offering.id}`;
+	const shareUrl = `${window.location.origin}/offerings/${offering.id}`;
 
 	const list = [
 		<FacebookShareButton
