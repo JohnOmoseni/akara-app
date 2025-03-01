@@ -27,8 +27,8 @@ export const Transactions = ({
 				desc:
 					description || type
 						? `₦${amount} ${
-								type === "credit" ? "credited" : "debited"
-						  } into your wallet`
+								type === "credit" ? "credited into" : "debited from"
+						  }  your wallet`
 						: "",
 				date: formatDate(created_at, "D MMM, YYYY"),
 				time: formatDate(created_at, "h:mm A"),
