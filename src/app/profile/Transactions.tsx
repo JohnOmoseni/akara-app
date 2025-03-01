@@ -9,8 +9,15 @@ import { useAppDispatch } from "@/types";
 import EmptyListWithIcon from "../_sections/empty-list";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import TransactionPdf from "../transactions/TransactionPdf";
+import FallbackLoader from "@/components/fallback/FallbackLoader";
 
-export const Transactions = ({ data }: { data: any }) => {
+export const Transactions = ({
+	data,
+	isFetchingTransactions,
+}: {
+	data: any;
+	isFetchingTransactions: boolean;
+}) => {
 	const dispatch = useAppDispatch();
 	const transactions = useMemo(
 		() =>
@@ -18,10 +25,11 @@ export const Transactions = ({ data }: { data: any }) => {
 				id,
 				amount: amount ? `₦${amount}` : "₦0",
 				desc:
-					description ||
-					`₦${amount} ${
-						type === "credit" ? "credited" : "debited"
-					} into your wallet`,
+					description || type
+						? `₦${amount} ${
+								type === "credit" ? "credited" : "debited"
+						  } into your wallet`
+						: "",
 				date: formatDate(created_at, "D MMM, YYYY"),
 				time: formatDate(created_at, "h:mm A"),
 				type: type || null,
@@ -30,11 +38,11 @@ export const Transactions = ({ data }: { data: any }) => {
 	);
 
 	return (
-		<div className="flex-column gap-4">
+		<div className="flex-column gap-4 relative">
 			<div className="row-flex-btwn gap-4">
 				<h3 className="font-semibold">Transaction History</h3>
 
-				{transactions?.length > 0 && (
+				{transactions?.length > 0 && !isFetchingTransactions && (
 					<Link
 						to="/all-transactions"
 						onClick={() => {
@@ -47,7 +55,11 @@ export const Transactions = ({ data }: { data: any }) => {
 				)}
 			</div>
 
-			{transactions?.length > 0 ? (
+			{isFetchingTransactions ? (
+				<div className="h-[240px] md:h-[300px] ">
+					<FallbackLoader loading />
+				</div>
+			) : transactions?.length > 0 ? (
 				<>
 					<ul className="flex-column gap-5">
 						{transactions?.slice(0, 3)?.map((tx: any) => {
@@ -67,9 +79,9 @@ export const Transactions = ({ data }: { data: any }) => {
 											{truncateText(tx?.desc)}
 										</p>
 
-										<p className="text-xs  text-grey row-flex-start gap-2 tracking-wide">
+										<p className="text-xs text-grey row-flex-start gap-1.5 tracking-wide">
 											{tx?.date}
-											<span className="size-2 bg-grey-100 rounded-full clip-circle" />
+											<span className="size-2 bg-gray-400 rounded-full clip-circle" />
 											{tx?.time}
 										</p>
 									</div>

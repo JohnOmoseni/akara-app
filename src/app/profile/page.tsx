@@ -26,7 +26,8 @@ function Profile() {
 		isLoading: isLoadingProfile,
 		refetch: refetchProfile,
 	} = useGetProfileDetailsQuery({});
-	const { data: transactions } = useGetAllTransactionsQuery({});
+	const { data: transactions, isLoading: isFetchingTransactions } =
+		useGetAllTransactionsQuery({});
 	const { data: allBanks } = useGetAllBanksQuery({});
 	const [searchParams, setSearchParams] = useSearchParams();
 	const paymentRef = searchParams.get("paymentReference");
@@ -125,7 +126,10 @@ function Profile() {
 						setStatusOpenModal={setStatusOpenModal}
 						balance={profileInfo?.wallet?.balance || 0}
 					>
-						<Transactions data={transactions} />
+						<Transactions
+							data={transactions}
+							isFetchingTransactions={isFetchingTransactions}
+						/>
 					</Balance>
 				</div>
 
