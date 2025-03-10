@@ -42,8 +42,6 @@ function Main() {
 		);
 	}
 
-	console.log("TEST", earnings, offerings);
-
 	return (
 		<SectionWrapper>
 			<Tabs defaultValue={type} className="">

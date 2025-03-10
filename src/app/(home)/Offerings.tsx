@@ -42,64 +42,67 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 
 	// Client-side pagination logic
 	const offerings: ProcessedOffering[] = useMemo(() => {
-		const allListings = paginatedData.map((item: any) => ({
-			id: item?.id,
-			name: item?.name || "",
-			area: item?.location ? item?.location?.split("\n", 2)[1] : "",
-			price_per_unit: formatNumber(item?.price_per_unit),
-			images: item?.image?.map((img: any) => img?.image_path) || [],
-			asideInfo: [
-				{
-					icon: Info,
-					label: "Description",
-					value: item?.description || <span className="italic ">unknown</span>,
-					tag: "description",
-				},
-				{
-					icon: Location,
-					label: "Location",
-					value: item?.location ? `${item.location}` : "N/A",
-					tag: "location",
-				},
-				{
-					icon: Scale,
-					label: "Valuation",
-					value: formatNumber(item?.valuation) || "N/A",
-					tag: "valuation",
-				},
-				{
-					icon: Rental,
-					label: "Net Annual Rental Income (Projection)",
-					value:
-						formatNumber(item?.projected_net_annual_rental_income) || "N/A",
-					tag: "annual_rental_income",
-				},
-				{
-					icon: LineChart,
-					label: "Net Annual Appreciation (Projection)",
-					value: formatNumber(item?.projected_annual_appreciation) || "N/A",
-					tag: "annual_appreciation",
-				},
-				{
-					icon: PieChart,
-					label: "Co-ownership units available",
-					value: item?.units || "N/A",
-					tag: "co_ownership_units",
-				},
-				{
-					icon: PriceTag,
-					label: "Price per unit",
-					value: formatNumber(item?.price_per_unit) || "N/A",
-					tag: "price_per_unit",
-				},
-				{
-					icon: HouseKey,
-					label: "Current Occupancy Status",
-					value: item?.occupancy_stage || "N/A",
-					tag: "occupancy_status",
-				},
-			],
-		}));
+		const allListings =
+			paginatedData.map((item: any) => ({
+				id: item?.id,
+				name: item?.name || "",
+				area: item?.location ? item?.location : "N/A",
+				price_per_unit: formatNumber(item?.price_per_unit),
+				images: item?.image?.map((img: any) => img?.image_path) || [],
+				asideInfo: [
+					{
+						icon: Info,
+						label: "Description",
+						value: item?.description || (
+							<span className="italic ">unknown</span>
+						),
+						tag: "description",
+					},
+					{
+						icon: Location,
+						label: "Location",
+						value: item?.location ? `${item.location}` : "N/A",
+						tag: "location",
+					},
+					{
+						icon: Scale,
+						label: "Valuation",
+						value: formatNumber(item?.valuation) || "N/A",
+						tag: "valuation",
+					},
+					{
+						icon: Rental,
+						label: "Net Annual Rental Income (Projection)",
+						value:
+							formatNumber(item?.projected_net_annual_rental_income) || "N/A",
+						tag: "annual_rental_income",
+					},
+					{
+						icon: LineChart,
+						label: "Net Annual Appreciation (Projection)",
+						value: formatNumber(item?.projected_annual_appreciation) || "N/A",
+						tag: "annual_appreciation",
+					},
+					{
+						icon: PieChart,
+						label: "Co-ownership units available",
+						value: item?.units || "N/A",
+						tag: "co_ownership_units",
+					},
+					{
+						icon: PriceTag,
+						label: "Price per unit",
+						value: formatNumber(item?.price_per_unit) || "N/A",
+						tag: "price_per_unit",
+					},
+					{
+						icon: HouseKey,
+						label: "Current Occupancy Status",
+						value: item?.occupancy_stage || "N/A",
+						tag: "occupancy_status",
+					},
+				],
+			})) || [];
 
 		return allListings;
 	}, [paginatedData, page]);
@@ -108,7 +111,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 		<div className="max-w-7xl relative flex-column gap-6 md:gap-7">
 			{offerings?.length > 0 ? (
 				<>
-					{offerings.map((offering, idx) => (
+					{offerings?.map((offering, idx) => (
 						<div
 							key={offering.name + idx}
 							className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[65%_minmax(min-content,35%)] !items-start gap-8 !p-1 sm:!p-3"
@@ -135,11 +138,11 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 										<div className="flex-column flex-1 gap-1">
 											<p className="text-white text-2xl sm:text-3xl capitalize">
 												{offering.name
-													? truncateText(offering.name)
+													? truncateText(offering?.name)
 													: "Unknown"}
 											</p>
 											<p className="text-white text-base sm:text-xl opacity-80">
-												{truncateText(offering.area)}
+												{truncateText(offering?.area)}
 											</p>
 										</div>
 
@@ -328,9 +331,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 			a.click();
 			document.body.removeChild(a);
 			URL.revokeObjectURL(url);
-		} catch (error) {
-			console.log("Error downloading CSV:", error);
-		}
+		} catch (error) {}
 	};
 
 	return (
@@ -341,7 +342,7 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 						0,
 						screenSize < 640 ? (expanded ? info.length : 3) : info?.length
 					)
-					.map((item: any, index: number) => (
+					?.map((item: any, index: number) => (
 						<li
 							key={index}
 							className="w-full grid grid-cols-[max-content_1fr] gap-2"

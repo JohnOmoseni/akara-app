@@ -76,13 +76,9 @@ function OfferingDetails() {
 	const offering: ProcessedOffering = {
 		id: data?.id,
 		name: data?.name || "",
-		area: data?.location ? data?.location?.split("\n", 2)[1] : "",
+		area: data?.location ? data?.location : "N/A",
 		price_per_unit: formatNumber(data?.price_per_unit),
-		images: [
-			"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
-			"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-			"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-		],
+		images: data?.image?.map((img: any) => img?.image_path) || [],
 		asideInfo: [
 			{
 				icon: Info,

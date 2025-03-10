@@ -106,5 +106,6 @@ export function convertToNumber(str: string) {
 }
 
 export const truncateText = (str: string, length: number = 50): string => {
+	if (!str) return "";
 	return str.length > length ? `${str.substring(0, length - 2)}...` : str;
 };

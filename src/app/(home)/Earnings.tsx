@@ -18,20 +18,15 @@ function Earnings({ earningsData }: { earningsData: any }) {
 
 	// Client-side pagination logic
 	const earnings: ProcessedOffering[] = useMemo(() => {
-		const allListings = paginatedData.map((item: any) => {
+		const allListings = paginatedData?.map((item: any) => {
 			const offering = item?.offering;
 
 			return {
 				id: offering?.id,
 				name: offering?.name || "",
-				area: offering?.location ? offering?.location?.split("\n", 2)[1] : "",
+				area: item?.location ? item?.location : "N/A",
 				price_per_unit: formatNumber(item?.price_per_unit),
-				// images: offering?.image?.map((img: any) => img?.image_path) || [],
-				images: [
-					"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
-					"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
-					"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
-				],
+				images: offering?.image?.map((img: any) => img?.image_path) || [],
 				asideInfo: [
 					{
 						icon: Info,
