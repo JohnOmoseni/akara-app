@@ -48,7 +48,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 				name: item?.name || "",
 				area: item?.location ? item?.location : "N/A",
 				price_per_unit: formatNumber(item?.price_per_unit),
-				images: item?.image?.map((img: any) => img?.image_path) || [],
+				images: item?.images?.map((img: any) => img?.image_path) || [],
 				asideInfo: [
 					{
 						icon: Info,
@@ -117,7 +117,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 							className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[65%_minmax(min-content,35%)] !items-start gap-8 !p-1 sm:!p-3"
 						>
 							<section className="flex-column w-full gap-6">
-								<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md overflow-hidden">
+								<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] bg-slate-100 rounded-md overflow-hidden">
 									<img
 										src={
 											activeImage.activeImageIndex === idx

@@ -78,7 +78,7 @@ function OfferingDetails() {
 		name: data?.name || "",
 		area: data?.location ? data?.location : "N/A",
 		price_per_unit: formatNumber(data?.price_per_unit),
-		images: data?.image?.map((img: any) => img?.image_path) || [],
+		images: data?.images?.map((img: any) => img?.image_path) || [],
 		asideInfo: [
 			{
 				icon: Info,
@@ -137,7 +137,7 @@ function OfferingDetails() {
 				<>
 					<div className="card w-full overflow-hidden grid grid-cols-1 sm:grid-cols-[60%_minmax(min-content,40%)] lg:grid-cols-[65%_minmax(min-content,35%)] !items-start gap-8 !p-1 sm:!p-3">
 						<section className="flex-column w-full gap-6">
-							<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md overflow-hidden">
+							<div className="relative w-full h-[max(350px,40vh)] sm:h-[500px] rounded-md bg-slate-100 overflow-hidden">
 								<img
 									src={offering?.images[activeImageIndex]}
 									alt=""
