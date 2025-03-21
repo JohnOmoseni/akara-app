@@ -10,25 +10,15 @@ import { useFormik } from "formik";
 import { InferType } from "yup";
 import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
-// import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 function SignUp() {
 	const { handleRegister, isLoadingAuth } = useAuth();
-	// const { executeRecaptcha } = useGoogleReCaptcha();
 
 	const onSubmit = async (values: InferType<typeof SignUpSchema>) => {
-		// if (!executeRecaptcha) {
-		// 	toast.info("reCAPTCHA is not ready. Please try again.");
-		// 	return;
-		// }
-
-		// Trigger reCAPTCHA
-		// const recaptchaToken = await executeRecaptcha("signup");
 		const data = {
 			name: values.fullname,
 			email: values.email,
 			password: values.password,
-			// recaptcha: recaptchaToken,
 		};
 
 		await handleRegister(data);
