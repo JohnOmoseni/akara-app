@@ -59,7 +59,7 @@ const EmptyListWithIcon = ({
 	color,
 }: EmptyListProps) => {
 	return (
-		<div className="flex-column gap-6 md:gap-8 items-center justify-center empty-list min-h-[200px]">
+		<div className="flex-column gap-6 md:gap-8 items-center justify-center empty-list min-h-[320px]">
 			{iconVariant !== "hide-icon" && (
 				<NoSearch className={cn(iconVariants({ iconVariant, iconSize }))} />
 			)}

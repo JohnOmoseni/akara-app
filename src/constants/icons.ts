@@ -61,9 +61,10 @@ export { default as PieChart } from "@/assets/svgs/pie-chart.svg?react";
 export { default as LineChart } from "@/assets/svgs/chart-line.svg?react";
 export { default as Location } from "@/assets/svgs/location.svg?react";
 
-import profile_pic from "/images/profile-pic.jpg";
+import profile_pic from "/images/profile-pic.png";
 import confetti from "/images/confetti.png";
 import house_1 from "/images/house_1.jpg";
+import image_404 from "/images/404.png";
 
 export {
 	Menu,
@@ -90,4 +91,5 @@ export {
 	Lock,
 	profile_pic,
 	house_1,
+	image_404,
 };
