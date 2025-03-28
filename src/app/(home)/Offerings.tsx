@@ -30,6 +30,7 @@ import useInfinitePagination from "@/hooks/useInfinitePagination";
 import EmptyListWithIcon from "../_sections/empty-list";
 import OfferingDocument from "./OfferingDocument";
 import ShareButton from "@/components/reuseables/ShareButton";
+import { toast } from "sonner";
 
 function Offerings({ offeringsData }: { offeringsData: any }) {
 	const [activeImage, setActiveImage] = useState({
@@ -48,6 +49,7 @@ function Offerings({ offeringsData }: { offeringsData: any }) {
 				name: item?.name || "",
 				area: item?.location ? item?.location : "N/A",
 				price_per_unit: formatNumber(item?.price_per_unit),
+				listing_report: item?.deep_dive_report,
 				images: item?.images?.map((img: any) => img?.image_path) || [],
 				asideInfo: [
 					{
@@ -297,41 +299,30 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 		}
 	};
 
-	// @ts-ignore
-	const downloadCSV = (data: any, filename?: string) => {
-		const headers = [
-			"offering_name",
-			"offering_description",
-			"offering_location",
-			"offering_valuation",
-			"offering_rental_income",
-			"offering_annual_appreciation",
-			"offering_co-ownership_unit",
-			"offering_price_per_unit",
-			"offering_occupancy_status",
-		];
-
+	const handleDownloadPdf = () => {
 		try {
-			const csvRows = [headers.join(",")];
+			const url = offering?.listing_report;
+			if (url) {
+				const link = document.createElement("a");
+				link.href = url;
+				link.target = "_blank";
+				link.download = url?.split("/").pop();
 
-			const row = [
-				data.name,
-				...data?.asideInfo?.map((item: any) => item?.value),
-			];
-			csvRows.push(row.join(","));
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
 
-			const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
-			const url = URL.createObjectURL(blob);
-
-			const a = document.createElement("a");
-			a.href = url;
-			a.download =
-				filename || `${data?.name ? `${data?.name}-data` : "data"}.csv`;
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(url);
-		} catch (error) {}
+				toast.success("Offering report downloaded successfully");
+			} else {
+				toast.error("No download URL found.");
+			}
+		} catch (error: any) {
+			toast.error(
+				error?.response?.data?.message ||
+					error.message ||
+					"Download error occurred."
+			);
+		}
 	};
 
 	return (
@@ -378,21 +369,32 @@ const Aside = ({ info, offering }: { info: AsideInfo[]; offering?: any }) => {
 
 			<div className="flex-column gap-x-4 gap-y-2">
 				<div className="grid grid-cols-[1fr_max-content] gap-3">
-					<PDFDownloadLink
-						document={<OfferingDocument offering={offering} />}
-						className="w-full flex-1 download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
-						fileName="earnings_report.pdf"
-					>
-						{({ loading }) => {
-							return (
-								<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
-									<Download className="size-6 stroke-variant -mt-1" />
+					{offering?.listing_report ? (
+						<Button
+							title="Download PDF"
+							icon={Download}
+							iconStyles="size-6 stroke-variant -mt-1"
+							onClick={handleDownloadPdf}
+							className="w-full"
+							variant={"outline"}
+						/>
+					) : (
+						<PDFDownloadLink
+							document={<OfferingDocument offering={offering} />}
+							className="w-full flex-1 download-button border row-flex border-border-100 py-2.5 rounded-md shadow-sm filter transition duration-150 active:translate-y-0.5 active:brightness-90"
+							fileName="earnings_report.pdf"
+						>
+							{({ loading }) => {
+								return (
+									<div className="row-flex gap-1 text-foreground leading-4 font-semibold">
+										<Download className="size-6 stroke-variant -mt-1" />
 
-									{loading ? "Generating PDF..." : "	Download PDF"}
-								</div>
-							);
-						}}
-					</PDFDownloadLink>
+										{loading ? "Generating PDF..." : "	Download PDF"}
+									</div>
+								);
+							}}
+						</PDFDownloadLink>
+					)}
 
 					<ShareButton offering={offering} />
 				</div>

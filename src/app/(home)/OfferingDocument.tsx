@@ -32,7 +32,7 @@ const OfferingDocument = ({ offering }: { offering: any }) => {
 				<View style={styles.section}>
 					<Text style={styles.title}>{data.name}</Text>
 					<Text style={styles.description}>{data.description}</Text>
-					<Text>Amount Earned: ${data.price_per_unit}</Text>
+					<Text>Amount Earned: ₦{data.price_per_unit}</Text>
 					<Text>Location: {data.location}</Text>
 					{/* {data?.images?.length > 0 && (
 					<Image src={data?.images?.[0]} style={styles.image} />
