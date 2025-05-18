@@ -12,6 +12,7 @@ import { NavigateFunction } from "react-router-dom";
 import { Alert } from "@/constants/icons";
 import { useCallback } from "react";
 import { axiosBaseUrl } from "@/server/axios";
+import { extractErrorMessage } from "@/lib/errorUtils";
 
 type AuthContextType = {
 	user?: User | null;
@@ -177,18 +178,14 @@ export default function AuthProvider({
 			const errorMessage = error?.response?.data?.error;
 			let message = "Something went wrong";
 
+			message = extractErrorMessage(error);
+
 			if (
 				errorMessage?.includes(
 					"Email not verified. Please verify your email before logging in."
 				)
 			) {
 				navigate("/verify-otp", { state: { email: email, resendOtp: true } });
-			} else if (
-				errorMessage?.includes(
-					"Invalid credentials. Please check your email and password"
-				)
-			) {
-				message = " ";
 			}
 
 			setToken(null);
@@ -197,7 +194,7 @@ export default function AuthProvider({
 				<div className="grid grid-cols-[max-content_1fr] items-center gap-2">
 					<Alert className="size-5 text-red-500 self-start" />
 					<div className="flex-column gap-0.5">
-						<h3>{errorMessage || message}</h3> <p className="">{message}</p>
+						<h3>{errorMessage || message}</h3>
 					</div>
 				</div>
 			);
@@ -233,8 +230,18 @@ export default function AuthProvider({
 			toast.success(message || "Registration successful!");
 			navigate("/verify-otp", { state: { email: res?.user?.email } });
 		} catch (error: any) {
-			const errorMessage = error?.message;
-			toast.error(errorMessage || "Registration failed. Please try again.");
+			let message = "Registration failed. Please try again.";
+
+			message = extractErrorMessage(error);
+
+			toast.error(
+				<div className="grid grid-cols-[max-content_1fr] items-center gap-2">
+					<Alert className="size-5 text-red-500 self-start" />
+					<div className="flex-column gap-0.5">
+						<h3>{message}</h3>
+					</div>
+				</div>
+			);
 		} finally {
 			setIsLoadingAuth(false);
 		}
